@@ -9,6 +9,7 @@
 #include "GeneralEnums.h"
 #include "Timer.h"
 #include "Color.h"
+#include "Camera.h"
 
 #include "Noise.h"
 #include "NoiseSimplex.h"

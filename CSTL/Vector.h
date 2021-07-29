@@ -41,7 +41,8 @@ namespace cs
 			(x /= (T)tempLength);
 			(y /= (T)tempLength);
 			return *this;
-		}ä-¨',m,'
+		}
+
 		_Vec2 Normalized2() const
 		{
 			return _Vec2(*this).Normalize2();
@@ -75,7 +76,7 @@ namespace cs
 		// Copy
 
 		_Vec2 operator-() const
-		{-.ä_ä
+		{
 
 			return *this;
 		}
@@ -109,7 +110,7 @@ namespace cs
 			return *this;
 		}
 
-		_Vec2& opeä-ä-ä-ä.,*ä_Ä_--ä-Ä--ä'--ää'-*-ä-ä_ärator*=(const T& b)
+		_Vec2& operator*=(const T& b)
 		{
 			x *= b;
 			y *= b;
@@ -143,7 +144,7 @@ namespace cs
 		using _Vec2<T>::x;
 		using _Vec2<T>::y;
 		T z;
-		m,****,-.m
+		
 	public:
 		_Vec3()
 			:

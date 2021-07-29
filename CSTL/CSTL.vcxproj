@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="CSTL.cpp" />
     <ClCompile Include="Debug.cpp" />
@@ -32,6 +33,7 @@
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="CSTL.h" />
     <ClInclude Include="CSTLMacros.h" />
@@ -51,6 +53,7 @@
     <ClInclude Include="WindowsExt.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Directories.txt" />
     <Text Include="Exclude.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -144,9 +147,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /exclude:$(ProjectDir)Exclude.txt "$(ProjectDir)*.h" "C:\dev\library\CSTL\include\CSTL\" 
-xcopy /y "$(ProjectDir)Header\*.h" "C:\dev\library\CSTL\include\" 
-xcopy /y "$(OutDir)*.lib" "C:\dev\library\CSTL\lib\" </Command>
+      <Command>xcopy /y /exclude:$(ProjectDir)Exclude.txt "$(ProjectDir)*.h" "$(SolutionDir)library\CSTL\include\CSTL\" 
+xcopy /y "$(ProjectDir)Header\*.h" "$(SolutionDir)library\CSTL\include\" 
+xcopy /y "$(OutDir)*.lib" "$(SolutionDir)library\CSTL\lib\" </Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
@@ -172,9 +175,9 @@ xcopy /y "$(OutDir)*.lib" "C:\dev\library\CSTL\lib\" </Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /exclude:$(ProjectDir)Exclude.txt "$(ProjectDir)*.h" "C:\dev\library\CSTL\include\CSTL\" 
-xcopy /y "$(ProjectDir)Header\*.h" "C:\dev\library\CSTL\include\" 
-xcopy /y "$(OutDir)*.lib" "C:\dev\library\CSTL\lib\" </Command>
+      <Command>xcopy /y /exclude:$(ProjectDir)Exclude.txt "$(ProjectDir)*.h" "$(SolutionDir)library\CSTL\include\CSTL\" 
+xcopy /y "$(ProjectDir)Header\*.h" "$(SolutionDir)library\CSTL\include\" 
+xcopy /y "$(OutDir)*.lib" "$(SolutionDir)library\CSTL\lib\" </Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
@@ -196,9 +199,9 @@ xcopy /y "$(OutDir)*.lib" "C:\dev\library\CSTL\lib\" </Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /exclude:$(ProjectDir)Exclude.txt "$(ProjectDir)*.h" "C:\dev\library\CSTL\include\CSTL\" 
-xcopy /y "$(ProjectDir)Header\*.h" "C:\dev\library\CSTL\include\" 
-xcopy /y "$(OutDir)*.lib" "C:\dev\library\CSTL\lib\" </Command>
+      <Command>xcopy /y /exclude:$(ProjectDir)Exclude.txt "$(ProjectDir)*.h" "$(SolutionDir)library\CSTL\include\CSTL\" 
+xcopy /y "$(ProjectDir)Header\*.h" "$(SolutionDir)library\CSTL\include\" 
+xcopy /y "$(OutDir)*.lib" "$(SolutionDir)library\CSTL\lib\" </Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
@@ -224,9 +227,9 @@ xcopy /y "$(OutDir)*.lib" "C:\dev\library\CSTL\lib\" </Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /exclude:$(ProjectDir)Exclude.txt "$(ProjectDir)*.h" "C:\dev\library\CSTL\include\CSTL\" 
-xcopy /y "$(ProjectDir)Header\*.h" "C:\dev\library\CSTL\include\" 
-xcopy /y "$(OutDir)*.lib" "C:\dev\library\CSTL\lib\" </Command>
+      <Command>xcopy /y /exclude:$(ProjectDir)Exclude.txt "$(ProjectDir)*.h" "$(SolutionDir)library\CSTL\include\CSTL\" 
+xcopy /y "$(ProjectDir)Header\*.h" "$(SolutionDir)library\CSTL\include\" 
+xcopy /y "$(OutDir)*.lib" "$(SolutionDir)library\CSTL\lib\" </Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
