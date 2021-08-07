@@ -1,0 +1,27 @@
+If CHSL folder is in solution directory:
+
+[ C/C++ > General > Additional Include Directories ]:	
+	$(SolutionDir)CHSL\include
+
+[ Linker > General > Additional Library Directories ]:	
+	$(SolutionDir)CHSL\lib
+
+[ Linker > Input > Additional Dependencies ]: 
+	CHSL$(PlatformArchitecture).lib				(Release)
+	CHSL$(PlatformArchitecture)-d.lib			(Debug)
+
+
+
+
+
+If CHSL folder is on the drive:
+
+[ C/C++ > General > Additional Include Directories ]:	
+	D:\dev\library\CHSL\include
+
+[ Linker > General > Additional Library Directories ]:	
+	D:\dev\library\CHSL\lib
+
+[ Linker > Input > Additional Dependencies ]: 
+	CHSL$(PlatformArchitecture).lib				(Release)
+	CHSL$(PlatformArchitecture)-d.lib			(Debug)
