@@ -14,21 +14,17 @@ namespace cs
 	public:
 		Indexer()
 		{
-			//m_array = Member[C];
-
 			for (int i = 0; i < C; ++i)
 			{
 				m_array[i].used = false;
-				m_array[i].f = (i + 1) % C;
-				m_array[i].b = (i - 1 + C) % C;
+				m_array[i].fIndex = (i + 1) % C;
+				m_array[i].bIndex = (i - 1 + C) % C;
 			}
 
 			m_count = 0;
 			m_head = 0;
-			m_max = 0;
 
-			//m_first = 0;
-			//m_last = 0;
+			m_max = 0;
 		}
 
 		///// <summary>
@@ -62,10 +58,6 @@ namespace cs
 
 			m_count = lVal.m_count;
 			m_head = lVal.m_head;
-			m_max = lVal.m_max;
-
-			//m_first = lVal.m_first;
-			//m_last = lVal.m_last;
 		}
 
 		Indexer(Indexer&& rVal)
@@ -76,15 +68,11 @@ namespace cs
 
 			m_count = rVal.m_count;
 			m_head = rVal.m_head;
-			m_max = rVal.m_max;
-
-			//m_first = rVal.m_first;
-			//m_last = rVal.m_last;
 		}
 
 		~Indexer()
 		{
-			/*delete[] m_array;*/
+			// delete[] m_array;
 		}
 
 
@@ -102,42 +90,29 @@ namespace cs
 
 			Member& current = m_array[m_head];
 
+			if (m_head >= m_max)
+			{
+				m_max = m_head;
+			}
+
 			// Maximizing array special case
 			if (m_count == C)
 			{
 				// Will create an unstable state, which is resolved in Remove
 				current.value = value;
 				current.used = true;
-				m_max = C;
-
-				return m_head;
+				return (int)m_head;
 			}
-
-			// Regular procedure
-
-			//if (m_head < m_first)
-			//{
-			//	m_first = m_head;
-			//}
-			//if (m_head > m_last)
-			//{
-			//	m_last = m_head;
-			//}
 
 			current.value = value;
 			current.used = true;
-			m_array[current.f].b = current.b;
-			m_array[current.b].f = current.f;
+			m_array[current.fIndex].bIndex = current.bIndex;
+			m_array[current.bIndex].fIndex = current.fIndex;
 
 			size_t usedIndex = m_head;
-			m_head = current.f;
+			m_head = current.fIndex;
 
-			if (m_head > m_max)
-			{
-				m_max = m_head;
-			}
-
-			return usedIndex;
+			return (int)usedIndex;
 		}
 
 
@@ -167,60 +142,46 @@ namespace cs
 
 			// Normal procedure
 
-			//if (index == m_first)
-			//{
-			//	m_first = current.f;
-			//}
-			//if (index == m_last)
-			//{
-			//	int current;
-
-			//	do
-			//	{
-			//	}
-			//	while(i)
-			//}
-
-			if (m_array[current.b].used)
+			if (m_array[current.bIndex].used)
 			{
 				size_t pUnused;
-				for (int i = (current.b - 1 + C) % C; m_array[(i + 1) % C].used; i = (i - 1 + C) % C)
+				for (int i = (current.bIndex - 1 + C) % C; m_array[(i + 1) % C].used; i = (i - 1 + C) % C)
 				{
 					pUnused = i;
 				}
 
-				if (pUnused < current.b)
+				if (pUnused < current.bIndex)
 				{
 					for (int i = index; i > pUnused; --i)
 					{
-						m_array[i].b = pUnused;
+						m_array[i].bIndex = pUnused;
 					}
 				}
 				else
 				{
 					for (int i = index; i != pUnused; i = (i - 1 + C) % C)
 					{
-						m_array[i].b = pUnused;
+						m_array[i].bIndex = pUnused;
 					}
 				}
 			}
 			else
 			{
-				m_array[current.b].f = index;
+				m_array[current.bIndex].fIndex = index;
 			}
 
 			for (int i = (index + 1) % C; m_array[(i - 1 + C) % C].used; i = (i + 1) % C)
 			{
-				current.f = i;
-				m_array[i].b = index;
+				current.fIndex = i;
+				m_array[i].bIndex = index;
 			}
+
+			current.used = false;
 
 			if (index < m_head)
 			{
 				m_head = index;
 			}
-
-			current.used = false;
 		}
 
 
@@ -248,11 +209,11 @@ namespace cs
 
 		void Clear()
 		{
-			for (int i = 0; i < C; ++i)
+			for (size_t i = 0; i < C; ++i)
 			{
 				m_array[i].used = false;
-				m_array[i].f = mod(i + 1, C);
-				m_array[i].b = mod(i - 1 + C, C);
+				m_array[i].fIndex = mod(i + 1, C);
+				m_array[i].bIndex = mod(i - 1 + C, C);
 			}
 
 			m_count = 0; 
@@ -287,14 +248,14 @@ namespace cs
 
 				if (current.used)
 				{
-					current.b = latestEmpty;
-					current.f = mod(i + 1, C);
+					current.bIndex = latestEmpty;
+					current.fIndex = mod(i + 1, C);
 				}
 				else
 				{
-					m_array[latestEmpty].f = i;
+					m_array[latestEmpty].fIndex = i;
 
-					current.b = latestEmpty;
+					current.bIndex = latestEmpty;
 
 					latestEmpty = i;
 				}
@@ -306,20 +267,20 @@ namespace cs
 
 				if (current.used)
 				{
-					current.b = latestEmpty;
-					current.f = i + 1;
+					current.bIndex = latestEmpty;
+					current.fIndex = i + 1;
 				}
 				else
 				{
-					m_array[latestEmpty].f = i;
+					m_array[latestEmpty].fIndex = i;
 
-					current.b = latestEmpty;
+					current.bIndex = latestEmpty;
 
 					latestEmpty = i;
 				}
 			}
 
-			m_array[firstEmpty].b = latestEmpty;
+			m_array[firstEmpty].bIndex = latestEmpty;
 		}
 
 
@@ -332,39 +293,51 @@ namespace cs
 
 			Iterator& operator++() 
 			{ 
-				for (++current; current < indexer->m_max; ++current)
+				current++;
+
+				for (; current <= indexer->m_max; ++current)
 				{
 					if (indexer->m_array[current].used)
 					{
-						return *this;
+						break;
 					}
 				}
 
 				return *this;
 			}
-			T& operator*() { return indexer->m_array[current].value; }
-			bool operator!=(const Iterator& lVal) { return current != lVal.current; }
+
+			T& operator*() 
+			{ 
+				return indexer->m_array[current].value; 
+			}
+
+			bool operator!=(const Iterator& lVal) 
+			{ 
+				return current != lVal.current; 
+			}
 		};
 
 		Iterator begin() 
-		{
-			if (m_count == 0 || m_count == C)
+		{ 
+			if (m_count == 0)
 			{
-				return { this, 0 };
+				return { this, m_max + 1 };
 			}
 
-			size_t first = 0;
-			while (!m_array[first].used)
+			for (size_t i = 0; i < m_max; ++i)
 			{
-				++first;
+				if (m_array[i].used)
+				{
+					return { this, i };
+				}
 			}
 
-			return { this, first };
+			return { this, m_max + 1 };
 		}
 
 		Iterator end() 
 		{ 
-			return { this, m_max };
+			return { this, m_max + 1 }; 
 		}
 
 
@@ -374,8 +347,8 @@ namespace cs
 		{
 			T value;
 			bool used		: 1;
-			size_t f	: CBits;
-			size_t b	: CBits;
+			size_t fIndex	: CBits;
+			size_t bIndex	: CBits;
 		};
 
 
@@ -384,7 +357,5 @@ namespace cs
 		size_t m_count;
 		size_t m_head;
 		size_t m_max;
-		//size_t m_first;
-		//size_t m_last;
 	};
 }

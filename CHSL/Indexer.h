@@ -12,41 +12,39 @@ namespace cs
 	class Indexer
 	{
 	public:
-		//Indexer()
-		//	:
-		//	m_array()
-		//{
-		//	m_array = new Member[C];
-
-		//	for (int i = 0; i < C; ++i)
-		//	{
-		//		m_array[i].used = false;
-		//		m_array[i].fIndex = (i + 1) % C;
-		//		m_array[i].bIndex = (i - 1 + C) % C;
-		//	}
-
-		//	m_count = 0;
-		//	m_head = 0;
-		//}
-
-		/// <summary>
-		/// Init with default constructor values for each member before usage. 
-		/// </summary>
-		template <typename... P>
-		Indexer(P&&... args)
+		Indexer()
 		{
-			m_array = (Member*)malloc(sizeof(Member) * C);
-
-			for (size_t i = 0; i < C; ++i)
+			for (int i = 0; i < C; ++i)
 			{
-				m_array[i] = { T(std::forward(args)), false, (i + 1) % C, (i - 1 + C) % C };
+				m_array[i].used = false;
+				m_array[i].fIndex = (i + 1) % C;
+				m_array[i].bIndex = (i - 1 + C) % C;
 			}
 
 			m_count = 0;
 			m_head = 0;
-			m_first = 0;
-			m_last = 0;
+
+			m_max = 0;
 		}
+
+		///// <summary>
+		///// Init with default constructor values for each member before usage. 
+		///// </summary>
+		//template <typename... P>
+		//Indexer(P&&... args)
+		//{
+		//	m_array = (Member*)malloc(sizeof(Member) * C);
+
+		//	for (size_t i = 0; i < C; ++i)
+		//	{
+		//		m_array[i] = { T(std::forward(args)), false, (i + 1) % C, (i - 1 + C) % C };
+		//	}
+
+		//	m_count = 0;
+		//	m_head = 0;
+		//	m_first = 0;
+		//	m_last = 0;
+		//}
 
 		Indexer(const Indexer& lVal)
 		{
@@ -60,8 +58,6 @@ namespace cs
 
 			m_count = lVal.m_count;
 			m_head = lVal.m_head;
-			m_first = lVal.m_first;
-			m_last = lVal.m_last;
 		}
 
 		Indexer(Indexer&& rVal)
@@ -72,13 +68,11 @@ namespace cs
 
 			m_count = rVal.m_count;
 			m_head = rVal.m_head;
-			m_first = rVal.m_first;
-			m_last = rVal.m_last;
 		}
 
 		~Indexer()
 		{
-			delete[] m_array;
+			// delete[] m_array;
 		}
 
 
@@ -96,24 +90,18 @@ namespace cs
 
 			Member& current = m_array[m_head];
 
+			if (m_head >= m_max)
+			{
+				m_max = m_head;
+			}
+
 			// Maximizing array special case
 			if (m_count == C)
 			{
 				// Will create an unstable state, which is resolved in Remove
 				current.value = value;
 				current.used = true;
-				return m_head;
-			}
-
-			// Regular procedure
-
-			if (m_head < m_first)
-			{
-				m_first = m_head;
-			}
-			if (m_head > m_last)
-			{
-				m_last = m_head;
+				return (int)m_head;
 			}
 
 			current.value = value;
@@ -124,7 +112,7 @@ namespace cs
 			size_t usedIndex = m_head;
 			m_head = current.fIndex;
 
-			return usedIndex;
+			return (int)usedIndex;
 		}
 
 
@@ -132,14 +120,14 @@ namespace cs
 		// Remove member by index
 		void Remove(int index)
 		{
-			if (m_count == 0 || index < 0 || index >= C || m_array[m_head].used == false)
+			if (m_count == 0 || index < 0 || index >= C || !m_array[index].used)
 			{
 				return;
 			}
 
 			m_count--;
 
-			Member& current = m_array[m_head];
+			Member& current = m_array[index];
 
 			// Special case if array full
 			if (m_count == C - 1)
@@ -153,15 +141,6 @@ namespace cs
 			}
 
 			// Normal procedure
-
-			if (index == m_first)
-			{
-				m_first = current.fIndex;
-			}
-			if (index == m_last)
-			{
-				m_last = current.bIndex;
-			}
 
 			if (m_array[current.bIndex].used)
 			{
@@ -198,6 +177,11 @@ namespace cs
 			}
 
 			current.used = false;
+
+			if (index < m_head)
+			{
+				m_head = index;
+			}
 		}
 
 
@@ -225,7 +209,7 @@ namespace cs
 
 		void Clear()
 		{
-			for (int i = 0; i < C; ++i)
+			for (size_t i = 0; i < C; ++i)
 			{
 				m_array[i].used = false;
 				m_array[i].fIndex = mod(i + 1, C);
@@ -234,6 +218,7 @@ namespace cs
 
 			m_count = 0; 
 			m_head = 0;
+			m_max = 0;
 		}
 
 		void Optimize()
@@ -257,7 +242,7 @@ namespace cs
 
 			size_t latestEmpty = firstEmpty;
 
-			for (int i = firstEmpty + 1; i < C; ++i)
+			for (size_t i = firstEmpty + 1; i < C; ++i)
 			{
 				Member& current = m_array[i];
 
@@ -276,7 +261,7 @@ namespace cs
 				}
 			}
 
-			for (int i = 0; i < firstEmpty; ++i)
+			for (size_t i = 0; i < firstEmpty; ++i)
 			{
 				Member& current = m_array[i];
 
@@ -299,20 +284,61 @@ namespace cs
 		}
 
 
-	private:
+	public:
 		// For iterating
 		struct Iterator
 		{
 			Indexer* indexer;
 			size_t current;
 
-			Iterator& operator++() { current = indexer->m_array[current].fIndex; }
-			T& operator*() { indexer->m_array[current]; }
-			bool operator!=(const Iterator& lVal) { return current != lVal.current; }
+			Iterator& operator++() 
+			{ 
+				current++;
+
+				for (; current <= indexer->m_max; ++current)
+				{
+					if (indexer->m_array[current].used)
+					{
+						break;
+					}
+				}
+
+				return *this;
+			}
+
+			T& operator*() 
+			{ 
+				return indexer->m_array[current].value; 
+			}
+
+			bool operator!=(const Iterator& lVal) 
+			{ 
+				return current != lVal.current; 
+			}
 		};
 
-		Iterator begin() { return { this, m_first }; }
-		Iterator end() { return { this, m_last }; }
+		Iterator begin() 
+		{ 
+			if (m_count == 0)
+			{
+				return { this, m_max + 1 };
+			}
+
+			for (size_t i = 0; i < m_max; ++i)
+			{
+				if (m_array[i].used)
+				{
+					return { this, i };
+				}
+			}
+
+			return { this, m_max + 1 };
+		}
+
+		Iterator end() 
+		{ 
+			return { this, m_max + 1 }; 
+		}
 
 
 
@@ -327,10 +353,9 @@ namespace cs
 
 
 
-		Member* m_array;
+		Member m_array[C];
 		size_t m_count;
 		size_t m_head;
-		size_t m_first;
-		size_t m_last;
+		size_t m_max;
 	};
 }

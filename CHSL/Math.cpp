@@ -7,6 +7,16 @@ int cs::mod(int val, int ceil)
 	return val >= ceil ? val % ceil : val;
 }
 
+uint cs::mod(uint val, uint ceil)
+{
+	return val >= ceil ? val % ceil : val;
+}
+
+size_t cs::mod(size_t val, size_t ceil)
+{
+	return val >= ceil ? val % ceil : val;
+}
+
 int cs::floor(float val)
 {
 	return val > 0 ? ((int)val) : ((int)val - 1);

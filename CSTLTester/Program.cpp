@@ -53,8 +53,9 @@ int main()
 		indexer.Remove(index);
 	}
 
-	for (int j : indexer)
+	for (int &j : indexer)
 	{
+		j += 20;
 		std::cout << j << '\n';
 	}
 
