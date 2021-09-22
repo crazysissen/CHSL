@@ -6,9 +6,23 @@
 namespace cs
 {
 
-    template <typename T, bool UniqueKeys = false>
+    template <typename T, bool UniqueKeys = true>
     class RBTree
     {
+    public:
+        enum class Color { RED, BLACK };
+
+        struct Node
+        {
+            Node* parent = nullptr;
+            Node* leftChild = nullptr;
+            Node* rightChild = nullptr;
+            Color colour = Color::RED;
+            T element = T();
+        };
+
+
+
     public:
         RBTree();
         ~RBTree();
@@ -35,19 +49,9 @@ namespace cs
 
         void Clear();
 
+        Node* GetRoot();
+        Node* GetNil();
 
-
-    public:
-        enum class Color { RED, BLACK };
-
-        struct Node
-        {
-            Node* parent = nullptr;
-            Node* leftChild = nullptr;
-            Node* rightChild = nullptr;
-            Color colour = Color::RED;
-            T element = T();
-        };
 
         //Node* FindNode(T key);
 
@@ -136,7 +140,7 @@ namespace cs
 
         bool leftChild = false;
 
-        while (current != nilNode && current->element != element)
+        while (current != nilNode && (!UniqueKeys || current->element != element))
         {
             previous = current;
 
@@ -350,6 +354,18 @@ namespace cs
 
             root = nilNode;
         }
+    }
+
+    template<typename T, bool UniqueKeys>
+    typename RBTree<T, UniqueKeys>::Node* RBTree<T, UniqueKeys>::GetRoot()
+    {
+        return root;
+    }
+
+    template<typename T, bool UniqueKeys>
+    typename RBTree<T, UniqueKeys>::Node* RBTree<T, UniqueKeys>::GetNil()
+    {
+        return nilNode;
     }
 
     template <typename T, bool UniqueKeys>

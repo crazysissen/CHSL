@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include "CHSLTypedef.h"
 #include "Math.h"
 
