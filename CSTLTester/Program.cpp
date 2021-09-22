@@ -1,27 +1,29 @@
 #include <CHSL.h>
 
 #include <iostream>
+#include <CHSL/RBTree.h>
+#include <CHSL/ShuffleMap.h>
 
-class Test
-{
-public:
-	Test(int& ref)
-	{
-		a = (T*)malloc(sizeof(T) * 10);
-		for (int i = 0; i < 10; ++i)
-		{
-			a[i] = { ref };
-		}
-	}
-
-private:
-	struct T
-	{
-		int r;
-	};
-
-	T* a;
-};
+//class Test
+//{
+//public:
+//	Test(int& ref)
+//	{
+//		a = (T*)malloc(sizeof(T) * 10);
+//		for (int i = 0; i < 10; ++i)
+//		{
+//			a[i] = { ref };
+//		}
+//	}
+//
+//private:
+//	struct T
+//	{
+//		int r;
+//	};
+//
+//	T* a;
+//};
 
 int GetR(int max)
 {
@@ -32,33 +34,16 @@ int GetR(int max)
 
 int main()
 {
-	cs::Color c(1.0f, 0.5f, 1.0f);
+	cs::ShuffleMap<float, int> map;
 
-	cs::Random r;
-	cs::Indexer<int, 32> indexer;
-	std::vector<int> indices;
+	map.Add(0.5f, 1);
+	map.Add(0.6f, 2);
+	map.Add(0.4f, 3);
+	map.Add(0.45f, 4);
+	map.Add(0.6f, 5);
+	map.Add(0.6f, 6);
+	map.Add(0.7f, 7);
 
-	for (int i = 0; i < 20; ++i)
-	{
-		indices.push_back(indexer.Add(i));
-	}
 
-	std::random_shuffle(indices.begin(), indices.end(), GetR);
-
-	for (int i = 0; i < 16; ++i)
-	{
-		int index = indices.back();
-		indices.pop_back();
-
-		indexer.Remove(index);
-	}
-
-	for (int &j : indexer)
-	{
-		j += 20;
-		std::cout << j << '\n';
-	}
-
-	
 	return 0;
 }

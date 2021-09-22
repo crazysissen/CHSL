@@ -86,7 +86,7 @@ float cs::NoiseWorley::Gen1D(float x)
 		{
 			Point3 localCoord = Point3(coord.x + localX, 0, 0) - currentCenter;
 
-			savedPositions[i] = cellLocalPositions[cs::wrap(localCoord.x, 0, xs - 1)] + (Vec3)localCoord;
+			savedPositions[i] = cellLocalPositions[cs::iwrap(localCoord.x, 0, xs - 1)] + (Vec3)localCoord;
 
 			++i;
 		}
@@ -118,8 +118,8 @@ float cs::NoiseWorley::Gen2D(float x, float y)
 				Point3 localCoord = Point3(coord.x + localX, coord.y + localY, 0) - currentCenter;
 
 				savedPositions[i] = cellLocalPositions[
-					cs::wrap(localCoord.x, 0, xs - 1) +
-					cs::wrap(localCoord.y, 0, ys - 1) * xs] + 
+					cs::iwrap(localCoord.x, 0, xs - 1) +
+					cs::iwrap(localCoord.y, 0, ys - 1) * xs] + 
 					(Vec3)localCoord;
 
 				++i;
@@ -138,9 +138,9 @@ float cs::NoiseWorley::Gen3D(float x, float y, float z)
 	}
 
 	Point3 coord(
-		(x < 0 || x >= xs) ? cs::wrap((int)x, 0, xs - 1) : (int)x,
-		(y < 0 || y >= ys) ? cs::wrap((int)y, 0, ys - 1) : (int)y,
-		(z < 0 || z >= zs) ? cs::wrap((int)z, 0, zs - 1) : (int)z);
+		(x < 0 || x >= xs) ? cs::iwrap((int)x, 0, xs - 1) : (int)x,
+		(y < 0 || y >= ys) ? cs::iwrap((int)y, 0, ys - 1) : (int)y,
+		(z < 0 || z >= zs) ? cs::iwrap((int)z, 0, zs - 1) : (int)z);
 
 	int r = GRID_CLUSTER_RADIUS / 2, i(0);
 
@@ -160,11 +160,11 @@ float cs::NoiseWorley::Gen3D(float x, float y, float z)
 
 					savedPositions[i] = cellLocalPositions[
 						(lx < 0 || lx >= xs ?
-							cs::wrap(lx, 0, xs - 1) : lx) +
+							cs::iwrap(lx, 0, xs - 1) : lx) +
 						(ly < 0 || ly >= ys ?
-							cs::wrap(ly, 0, ys - 1) : ly) * xs +
+							cs::iwrap(ly, 0, ys - 1) : ly) * xs +
 						(lz < 0 || lz >= zs ?
-							cs::wrap(lz, 0, zs - 1) : lz) * xs * ys]/* +
+							cs::iwrap(lz, 0, zs - 1) : lz) * xs * ys]/* +
 						(Vec3)localCoord*/;
 
 					++i;

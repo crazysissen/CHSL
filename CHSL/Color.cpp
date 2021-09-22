@@ -46,9 +46,9 @@ void cs::Color::Mutate(float ammount, cs::Random& random, bool monochrome)
 		b += random.Getf(-ammount, ammount);
 	}
 
-	r = cs::clamp(r, 0, 1);
-	g = cs::clamp(g, 0, 1);
-	b = cs::clamp(b, 0, 1);
+	r = cs::fclamp(r, 0, 1);
+	g = cs::fclamp(g, 0, 1);
+	b = cs::fclamp(b, 0, 1);
 }
 
 cs::Color::Bytes cs::Color::GetBytes()

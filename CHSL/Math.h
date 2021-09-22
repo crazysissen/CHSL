@@ -4,17 +4,20 @@
 
 namespace cs
 {
+	
+	constexpr float c_pi = 3.14159265f;
 
-	int mod(int val, int ceil);
-	uint mod(uint val, uint ceil);
-	size_t mod(size_t val, size_t ceil);
+	int imod(int val, int ceil);
+	size_t stmod(size_t val, size_t ceil);
 
 	int floor(float val);
+	int ceil(float val);
 
-	float clamp(float val, float min, float max);
+	float fclamp(float val, float min, float max);
+	int iclamp(int val, int min, int max);
 
-	int wrap(int val, int min, int max);
+	int iwrap(int val, int min, int max);
+	float fwrap(float val, float min, float max);
 
-	float wrapf(float val, float min, float max);
 
 }

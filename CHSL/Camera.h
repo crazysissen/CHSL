@@ -36,9 +36,9 @@ namespace cs
 			return distance * GetScaleFactor();
 		}
 
-		T_vector WorldToScreen(T_vector position) const
+		T_vector WorldToScreen(T_vector position, float parallaxFactor = 1.0f) const
 		{
-			return (position - m_position) * GetScaleFactor() + m_resolution * 0.5f;
+			return (position - m_position * parallaxFactor) * GetScaleFactor() + m_resolution * 0.5f;
 		}
 
 

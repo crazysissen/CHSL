@@ -11,6 +11,10 @@
 #include "Color.h"
 #include "Camera.h"
 #include "Indexer.h"
+#include "Easing.h"
+#include "StateTracker.h"
+#include "RBTree.h"
+#include "ShuffleMap.h"
 
 #include "Noise.h"
 #include "NoiseSimplex.h"

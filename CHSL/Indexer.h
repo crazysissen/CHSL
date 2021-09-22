@@ -145,21 +145,21 @@ namespace cs
 			if (m_array[current.bIndex].used)
 			{
 				size_t pUnused;
-				for (int i = (current.bIndex - 1 + C) % C; m_array[(i + 1) % C].used; i = (i - 1 + C) % C)
+				for (size_t i = cs::stmod(current.bIndex - 1 + C, C); m_array[cs::stmod(i + 1, C)].used; i = cs::stmod(i - 1 + C, C))
 				{
 					pUnused = i;
 				}
 
 				if (pUnused < current.bIndex)
 				{
-					for (int i = index; i > pUnused; --i)
+					for (size_t i = index; i > pUnused; --i)
 					{
 						m_array[i].bIndex = pUnused;
 					}
 				}
 				else
 				{
-					for (int i = index; i != pUnused; i = (i - 1 + C) % C)
+					for (size_t i = index; i != pUnused; i = cs::stmod(i - 1 + C, C))
 					{
 						m_array[i].bIndex = pUnused;
 					}
@@ -170,7 +170,7 @@ namespace cs
 				m_array[current.bIndex].fIndex = index;
 			}
 
-			for (int i = (index + 1) % C; m_array[(i - 1 + C) % C].used; i = (i + 1) % C)
+			for (size_t i = cs::stmod(index + 1, C); m_array[cs::stmod(i - 1 + C, C)].used; i = cs::stmod(i + 1, C))
 			{
 				current.fIndex = i;
 				m_array[i].bIndex = index;
@@ -212,8 +212,8 @@ namespace cs
 			for (size_t i = 0; i < C; ++i)
 			{
 				m_array[i].used = false;
-				m_array[i].fIndex = mod(i + 1, C);
-				m_array[i].bIndex = mod(i - 1 + C, C);
+				m_array[i].fIndex = stmod(i + 1, C);
+				m_array[i].bIndex = stmod(i - 1 + C, C);
 			}
 
 			m_count = 0; 
@@ -249,7 +249,7 @@ namespace cs
 				if (current.used)
 				{
 					current.bIndex = latestEmpty;
-					current.fIndex = mod(i + 1, C);
+					current.fIndex = stmod(i + 1, C);
 				}
 				else
 				{
@@ -324,7 +324,7 @@ namespace cs
 				return { this, m_max + 1 };
 			}
 
-			for (size_t i = 0; i < m_max; ++i)
+			for (size_t i = 0; i <= m_max; ++i)
 			{
 				if (m_array[i].used)
 				{
