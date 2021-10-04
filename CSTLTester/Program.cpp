@@ -36,7 +36,7 @@ int main()
 {
 	cs::ShuffleMap<float, int> map;
 
-	map.Add(0.5f, 1);
+	uint id = map.Add(0.5f, 1);
 	map.Add(0.6f, 2);
 	map.Add(0.4f, 3);
 	map.Add(0.45f, 4);
@@ -44,6 +44,9 @@ int main()
 	map.Add(0.6f, 6);
 	map.Add(0.7f, 7);
 
+	map.Shuffle(0.5f, id, 0.5f);
+
+	map.Delete(0.5f, id);
 
 	return 0;
 }
