@@ -15,7 +15,7 @@ namespace cs
 		T_val val;
 		uint identifier;
 
-		bool operator==(const ShuffleMapStruct& lVal) const { return key == lVal.key; }
+		bool operator==(const ShuffleMapStruct& lVal) const { return val == lVal.val; }
 		bool operator!=(const ShuffleMapStruct& lVal) const { return key != lVal.key; }
 		bool operator>(const ShuffleMapStruct& lVal) const { return key > lVal.key; }
 		bool operator<(const ShuffleMapStruct& lVal) const { return key < lVal.key; }
@@ -46,7 +46,7 @@ namespace cs
 		std::vector<T_val> InOrder();
 
 	private:
-		void BranchInOrder(typename RBTree<ShuffleMapStruct<T_key, T_val>, true>::Node* node, std::vector<T_val>& order);
+		void BranchInOrder(typename RBTree<ShuffleMapStruct<T_key, T_val>, false>::Node* node, std::vector<T_val>& order);
 
 	private:
 		RBTree<ShuffleMapStruct<T_key, T_val>, false> m_tree;
@@ -122,11 +122,11 @@ namespace cs
 	template<typename T_key, typename T_val>
 	void cs::ShuffleMap<T_key, T_val>::Shuffle(T_key key, uint id, T_key newKey)
 	{
-		typedef typename RBTree<ShuffleMapStruct<T_key, T_val>, true>::Node* nptr;
+		typedef typename RBTree<ShuffleMapStruct<T_key, T_val>, false>::Node* nptr;
 
-		nptr current = m_tree.root;
+		nptr current = m_tree.GetRoot();
 
-		while (!(current == m_tree.nilNode) && current->element.identifier != id)
+		while (!(current == m_tree.GetNil()) && current->element.identifier != id)
 		{
 			if (key > current->element.key)
 			{
@@ -138,7 +138,7 @@ namespace cs
 			}
 		}
 
-		if (current == m_tree.nilNode)
+		if (current == m_tree.GetNil())
 		{
 			// Couldn't find node
 			return;
@@ -162,58 +162,58 @@ namespace cs
 		};
 
 		bool switching = true;
+		nptr target = nullptr;
 
 		do
 		{
+			target = nullptr;
+
 			if (current->parent->rightChild == current)
 			{
 				// Is right child
 
-				if (current->element > current->rightChild->element)
+				if (current->rightChild != m_tree.GetNil() && current->element > current->rightChild->element)
 				{
-					swap(current, current->rightChild);
-					continue;
+					target = current->rightChild;
 				}
-
-				if (current->parent != m_tree.nilNode && current->element < current->parent->element)
+				else if (current->parent != m_tree.GetNil() && current->element < current->parent->element)
 				{
-					swap(current, current->parent);
-					continue;
+					target = current->parent;
 				}
-
-				if (current->element < current->leftChild->element)
+				else if (current->leftChild != m_tree.GetNil() && current->element < current->leftChild->element)
 				{
-					swap(current, current->leftChild);
-					continue;
+					target = current->leftChild;
 				}
-
-				switching = false;
 			}
 			else
 			{
 				// Is left child
 
-				if (current->element < current->leftChild->element)
+				if (current->leftChild != m_tree.GetNil() && current->element < current->leftChild->element)
 				{
-					swap(current, current->leftChild);
-					continue;
+					target = current->leftChild;
 				}
-
-				if (current->parent != m_tree.nilNode && current->element > current->parent->element)
+				else if (current->parent != m_tree.GetNil() && current->element > current->parent->element)
 				{
-					swap(current, current->parent);
-					continue;
+					target = current->parent;
 				}
-
-				if (current->element > current->rightChild->element)
+				else if (current->rightChild != m_tree.GetNil() && current->element > current->rightChild->element)
 				{
-					swap(current, current->rightChild);
-					continue;
+					target = current->rightChild;
 				}
+			}
 
+			if (target == nullptr)
+			{
 				switching = false;
 			}
-		}
+			else
+			{
+				swap(current, target);
+				current = target;
+			}
+
+		} 
 		while (switching);
 	}
 
@@ -233,7 +233,7 @@ namespace cs
 
 
 	template<typename T_key, typename T_val>
-	void ShuffleMap<T_key, T_val>::BranchInOrder(typename RBTree<ShuffleMapStruct<T_key, T_val>, true>::Node* node, std::vector<T_val>& order)
+	void ShuffleMap<T_key, T_val>::BranchInOrder(typename RBTree<ShuffleMapStruct<T_key, T_val>, false>::Node* node, std::vector<T_val>& order)
 	{
 		if (node->leftChild != m_tree.nilNode)
 		{

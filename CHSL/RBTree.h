@@ -16,6 +16,20 @@ namespace cs
         friend class ShuffleMap;
 
     public:
+        enum class Color { RED, BLACK };
+
+        struct Node
+        {
+            Node* parent = nullptr;
+            Node* leftChild = nullptr;
+            Node* rightChild = nullptr;
+            Color colour = Color::RED;
+            T element = T();
+        };
+
+
+
+    public:
         RBTree();
         ~RBTree();
 
@@ -46,14 +60,6 @@ namespace cs
     public:
         enum class Color { RED, BLACK };
 
-        struct Node
-        {
-            Node* parent = nullptr;
-            Node* leftChild = nullptr;
-            Node* rightChild = nullptr;
-            Color colour = Color::RED;
-            T element = T();
-        };
 
         //Node* FindNode(T key);
 
@@ -142,7 +148,7 @@ namespace cs
 
         bool leftChild = false;
 
-        while (current != nilNode && (current->element != element || !UniqueKeys))
+        while (current != nilNode && (!UniqueKeys || current->element != element))
         {
             previous = current;
 
