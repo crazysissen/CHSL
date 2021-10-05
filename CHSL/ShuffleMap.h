@@ -124,9 +124,9 @@ namespace cs
 	{
 		typedef typename RBTree<ShuffleMapStruct<T_key, T_val>, false>::Node* nptr;
 
-		nptr current = m_tree.GetRoot();
+		nptr current = m_tree.root;
 
-		while (!(current == m_tree.GetNil()) && current->element.identifier != id)
+		while (!(current == m_tree.nilNode) && current->element.identifier != id)
 		{
 			if (key > current->element.key)
 			{
@@ -138,7 +138,7 @@ namespace cs
 			}
 		}
 
-		if (current == m_tree.GetNil())
+		if (current == m_tree.nilNode)
 		{
 			// Couldn't find node
 			return;
@@ -172,15 +172,15 @@ namespace cs
 			{
 				// Is right child
 
-				if (current->rightChild != m_tree.GetNil() && current->element > current->rightChild->element)
+				if (current->rightChild != m_tree.nilNode && current->element > current->rightChild->element)
 				{
 					target = current->rightChild;
 				}
-				else if (current->parent != m_tree.GetNil() && current->element < current->parent->element)
+				else if (current->parent != m_tree.nilNode && current->element < current->parent->element)
 				{
 					target = current->parent;
 				}
-				else if (current->leftChild != m_tree.GetNil() && current->element < current->leftChild->element)
+				else if (current->leftChild != m_tree.nilNode && current->element < current->leftChild->element)
 				{
 					target = current->leftChild;
 				}
@@ -189,15 +189,15 @@ namespace cs
 			{
 				// Is left child
 
-				if (current->leftChild != m_tree.GetNil() && current->element < current->leftChild->element)
+				if (current->leftChild != m_tree.nilNode && current->element < current->leftChild->element)
 				{
 					target = current->leftChild;
 				}
-				else if (current->parent != m_tree.GetNil() && current->element > current->parent->element)
+				else if (current->parent != m_tree.nilNode && current->element > current->parent->element)
 				{
 					target = current->parent;
 				}
-				else if (current->rightChild != m_tree.GetNil() && current->element > current->rightChild->element)
+				else if (current->rightChild != m_tree.nilNode && current->element > current->rightChild->element)
 				{
 					target = current->rightChild;
 				}

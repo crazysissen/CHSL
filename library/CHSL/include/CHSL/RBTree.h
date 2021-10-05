@@ -6,9 +6,15 @@
 namespace cs
 {
 
-    template <typename T, bool UniqueKeys = true>
+    template<typename T_key, typename T_val>
+    class ShuffleMap;
+
+    template <typename T, bool UniqueKeys = false>
     class RBTree
     {
+        template<typename T_key, typename T_val>
+        friend class ShuffleMap;
+
     public:
         enum class Color { RED, BLACK };
 
@@ -49,8 +55,10 @@ namespace cs
 
         void Clear();
 
-        Node* GetRoot();
-        Node* GetNil();
+
+
+    //public:
+    //    enum class Color { RED, BLACK };
 
 
         //Node* FindNode(T key);
@@ -198,8 +206,14 @@ namespace cs
         {
             bool larger = element > z->element;
 
-            z = z->rightChild * larger +
-                z->leftChild * !larger;
+            if (larger)
+            {
+                z = z->rightChild;
+            }
+            else
+            {
+                z = z->leftChild;
+            }
         }
 
         if (z == nilNode)
@@ -354,18 +368,6 @@ namespace cs
 
             root = nilNode;
         }
-    }
-
-    template<typename T, bool UniqueKeys>
-    typename RBTree<T, UniqueKeys>::Node* RBTree<T, UniqueKeys>::GetRoot()
-    {
-        return root;
-    }
-
-    template<typename T, bool UniqueKeys>
-    typename RBTree<T, UniqueKeys>::Node* RBTree<T, UniqueKeys>::GetNil()
-    {
-        return nilNode;
     }
 
     template <typename T, bool UniqueKeys>

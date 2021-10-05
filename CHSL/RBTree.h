@@ -57,8 +57,8 @@ namespace cs
 
 
 
-    public:
-        enum class Color { RED, BLACK };
+    //public:
+    //    enum class Color { RED, BLACK };
 
 
         //Node* FindNode(T key);
