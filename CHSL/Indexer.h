@@ -188,6 +188,20 @@ namespace cs
 
 
 
+		// Check if index exists
+
+		bool Exists(int index) const
+		{
+			if (index >= C || index < 0)
+			{
+				return false;
+			}
+
+			return m_array[index].used;
+		}
+
+
+
 		// Get member by index
 
 		const T& Get(int index) const
