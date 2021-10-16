@@ -15,17 +15,17 @@ namespace cs
 		T_val val;
 		uint identifier;
 
-		bool operator==(const ShuffleMapStruct& lVal) const { return identifier == lVal.identifier; }
+		bool operator==(const ShuffleMapStruct& lVal) const { return val == lVal.val; }
 		bool operator!=(const ShuffleMapStruct& lVal) const { return key != lVal.key; }
 		bool operator>(const ShuffleMapStruct& lVal) const { return key > lVal.key; }
 		bool operator<(const ShuffleMapStruct& lVal) const { return key < lVal.key; }
 	};
 
+
+
 	template<typename T_key, typename T_val>
 	class ShuffleMap
 	{
-		friend class RBTree<ShuffleMapStruct<T_key, T_val>, false>;
-
 	public:
 		ShuffleMap();
 		~ShuffleMap();
@@ -104,7 +104,7 @@ namespace cs
 	void ShuffleMap<T_key, T_val>::Delete(T_key key, uint id)
 	{
 		char bytes[sizeof(ShuffleMapStruct<T_key, T_val>)];
-		ShuffleMapStruct<T_key, T_val>& byteRef = *((ShuffleMapStruct<T_key, T_val>*)(&bytes));
+		ShuffleMapStruct<T_key, T_val>& byteRef = *(ShuffleMapStruct<T_key, T_val>*) & bytes;
 
 		byteRef.key = key;
 		byteRef.identifier = id;
@@ -124,9 +124,9 @@ namespace cs
 	{
 		typedef typename RBTree<ShuffleMapStruct<T_key, T_val>, false>::Node* nptr;
 
-		nptr current = m_tree.GetRoot();
+		nptr current = m_tree.root;
 
-		while (!(current == m_tree.GetNil()) && current->element.identifier != id)
+		while (!(current == m_tree.nilNode) && current->element.identifier != id)
 		{
 			if (key > current->element.key)
 			{
@@ -138,7 +138,7 @@ namespace cs
 			}
 		}
 
-		if (current == m_tree.GetNil())
+		if (current == m_tree.nilNode)
 		{
 			// Couldn't find node
 			return;
@@ -172,15 +172,15 @@ namespace cs
 			{
 				// Is right child
 
-				if (current->rightChild != m_tree.GetNil() && current->element > current->rightChild->element)
+				if (current->rightChild != m_tree.nilNode && current->element > current->rightChild->element)
 				{
 					target = current->rightChild;
 				}
-				else if (current->parent != m_tree.GetNil() && current->element < current->parent->element)
+				else if (current->parent != m_tree.nilNode && current->element < current->parent->element)
 				{
 					target = current->parent;
 				}
-				else if (current->leftChild != m_tree.GetNil() && current->element < current->leftChild->element)
+				else if (current->leftChild != m_tree.nilNode && current->element < current->leftChild->element)
 				{
 					target = current->leftChild;
 				}
@@ -189,15 +189,15 @@ namespace cs
 			{
 				// Is left child
 
-				if (current->leftChild != m_tree.GetNil() && current->element < current->leftChild->element)
+				if (current->leftChild != m_tree.nilNode && current->element < current->leftChild->element)
 				{
 					target = current->leftChild;
 				}
-				else if (current->parent != m_tree.GetNil() && current->element > current->parent->element)
+				else if (current->parent != m_tree.nilNode && current->element > current->parent->element)
 				{
 					target = current->parent;
 				}
-				else if (current->rightChild != m_tree.GetNil() && current->element > current->rightChild->element)
+				else if (current->rightChild != m_tree.nilNode && current->element > current->rightChild->element)
 				{
 					target = current->rightChild;
 				}
@@ -222,9 +222,9 @@ namespace cs
 	{
 		std::vector<T_val> order;
 
-		if (m_tree.GetRoot() != m_tree.GetNil())
+		if (m_tree.root != m_tree.nilNode)
 		{
-			BranchInOrder(m_tree.GetRoot(), order); // Recursively fill the vector
+			BranchInOrder(m_tree.root, order); // Recursively fill the vector
 		}
 
 		return order;
@@ -235,14 +235,14 @@ namespace cs
 	template<typename T_key, typename T_val>
 	void ShuffleMap<T_key, T_val>::BranchInOrder(typename RBTree<ShuffleMapStruct<T_key, T_val>, false>::Node* node, std::vector<T_val>& order)
 	{
-		if (node->leftChild != m_tree.GetNil())
+		if (node->leftChild != m_tree.nilNode)
 		{
 			BranchInOrder(node->leftChild, order);
 		}
 
 		order.push_back(node->element.val);
 
-		if (node->rightChild != m_tree.GetNil())
+		if (node->rightChild != m_tree.nilNode)
 		{
 			BranchInOrder(node->rightChild, order);
 		}
