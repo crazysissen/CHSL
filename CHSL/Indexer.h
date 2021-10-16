@@ -197,11 +197,26 @@ namespace cs
 				throw std::out_of_range("Tried to get Indexer member out of range.");
 			}
 
-			return m_array[index];
+			return m_array[index].value;
 		}
 
 		const T& operator[](int index) const
 		{ 
+			return Get(index);
+		}
+
+		T& Get(int index)
+		{
+			if (index >= C || index < 0)
+			{
+				throw std::out_of_range("Tried to get Indexer member out of range.");
+			}
+
+			return m_array[index].value;
+		}
+
+		T& operator[](int index)
+		{
 			return Get(index);
 		}
 
