@@ -15,7 +15,7 @@ namespace cs
 		T_val val;
 		uint identifier;
 
-		bool operator==(const ShuffleMapStruct& lVal) const { return val == lVal.val; }
+		bool operator==(const ShuffleMapStruct& lVal) const { return identifier == lVal.identifier; }
 		bool operator!=(const ShuffleMapStruct& lVal) const { return key != lVal.key; }
 		bool operator>(const ShuffleMapStruct& lVal) const { return key > lVal.key; }
 		bool operator<(const ShuffleMapStruct& lVal) const { return key < lVal.key; }
@@ -104,7 +104,7 @@ namespace cs
 	void ShuffleMap<T_key, T_val>::Delete(T_key key, uint id)
 	{
 		char bytes[sizeof(ShuffleMapStruct<T_key, T_val>)];
-		ShuffleMapStruct<T_key, T_val>& byteRef = *(static_cast<ShuffleMapStruct<T_key, T_val>*>(&bytes));
+		ShuffleMapStruct<T_key, T_val>& byteRef = *((ShuffleMapStruct<T_key, T_val>*)(&bytes));
 
 		byteRef.key = key;
 		byteRef.identifier = id;

@@ -34,7 +34,7 @@ namespace cs
         RBTree& operator=(const RBTree& lVal) = delete;
 
         /// Searches while the element != an element in the tree
-        bool Add(const T& element);     
+        bool Add(const T& element);
         /// Searches until the element == an element in the tree
         bool Delete(const T& element);
         /// Searches while the element != an element in the tree
@@ -63,6 +63,8 @@ namespace cs
         void BranchDelete(Node* node);
         void BranchInOrder(Node* node, std::vector<T>& order);
         int BranchGetDepth(Node* node);
+        Node* BranchFind(Node* source, const T& target);
+        Node* BranchFindNEQ(Node* source, const T& target);
 
         void AddRepair(Node* newNode);
         void DeleteRepair(Node* target);
@@ -192,15 +194,8 @@ namespace cs
     template <typename T, bool UniqueKeys>
     bool RBTree<T, UniqueKeys>::Delete(const T& element)
     {
-        Node* z = root;
+        Node* z = BranchFind(root, element);
 
-        while (!(z == nilNode) && !(z->element == element))
-        {
-            bool larger = element > z->element;
-
-            z = z->rightChild * larger +
-                z->leftChild * !larger;
-        }
 
         if (z == nilNode)
         {
@@ -267,21 +262,7 @@ namespace cs
     template <typename T, bool UniqueKeys>
     bool RBTree<T, UniqueKeys>::Find(const T& element)
     {
-        Node* current = root;
-
-        while (current != nilNode && current->element != element)
-        {
-            if (element > current->element)
-            {
-                current = current->rightChild;
-            }
-            else
-            {
-                current = current->leftChild;
-            }
-        }
-
-        return current != nilNode;
+        return BranchFindNEQ(root, element) != nilNode;
     }
 
     template <typename T, bool UniqueKeys>
@@ -548,6 +529,102 @@ namespace cs
         int rDepth = BranchGetDepth(node->rightChild);
 
         return 1 + (lDepth > rDepth ? lDepth : rDepth);
+    }
+
+    template<typename T, bool UniqueKeys>
+    typename RBTree<T, UniqueKeys>::Node* RBTree<T, UniqueKeys>::BranchFind(Node* source, const T& target)
+    {
+        if (source == nilNode)
+        {
+            return nilNode;
+        }
+
+        if (source->element == target)
+        {
+            return source;
+        }
+
+        if (target > source->element)
+        {
+            return BranchFind(source->rightChild, target);
+        }
+        else if (target < source->element)
+        {
+            return BranchFind(source->leftChild, target);
+        }
+        else if (!UniqueKeys)
+        {
+            Node* r = nilNode;
+            Node* l = nilNode;
+
+            if (!(target != source->rightChild->element))
+            {
+                r = BranchFind(source->rightChild, target);
+                if (r != nilNode)
+                {
+                    return r;
+                }
+            }
+
+            if (!(target != source->leftChild->element))
+            {
+                l = BranchFind(source->leftChild, target);
+                if (l != nilNode)
+                {
+                    return l;
+                }
+            }
+        }
+
+        return nilNode;
+    }
+
+    template<typename T, bool UniqueKeys>
+    typename RBTree<T, UniqueKeys>::Node* RBTree<T, UniqueKeys>::BranchFindNEQ(Node* source, const T& target)
+    {
+        if (source == nilNode)
+        {
+            return nilNode;
+        }
+
+        if (!(source->element != target))
+        {
+            return source;
+        }
+
+        if (target > source->element)
+        {
+            return BranchFind(source->rightChild, target);
+        }
+        else if (target < source->element)
+        {
+            return BranchFind(source->leftChild, target);
+        }
+        else if (!UniqueKeys)
+        {
+            Node* r = nilNode;
+            Node* l = nilNode;
+
+            if (!(target != source->rightChild->element))
+            {
+                r = BranchFind(source->rightChild, target);
+                if (r != nilNode)
+                {
+                    return r;
+                }
+            }
+
+            if (!(target != source->leftChild->element))
+            {
+                l = BranchFind(source->leftChild, target);
+                if (l != nilNode)
+                {
+                    return l;
+                }
+            }
+        }
+
+        return nilNode;
     }
 
     template <typename T, bool UniqueKeys>

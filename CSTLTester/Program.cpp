@@ -1,29 +1,12 @@
 #include <CHSL.h>
 
 #include <iostream>
+#include <chrono>
+#include <map>
 #include <CHSL/ShuffleMap.h>
 #include <CHSL/RBTree.h>
 
-//class Test
-//{
-//public:
-//	Test(int& ref)
-//	{
-//		a = (T*)malloc(sizeof(T) * 10);
-//		for (int i = 0; i < 10; ++i)
-//		{
-//			a[i] = { ref };
-//		}
-//	}
-//
-//private:
-//	struct T
-//	{
-//		int r;
-//	};
-//
-//	T* a;
-//};
+
 
 int GetR(int max)
 {
@@ -32,21 +15,90 @@ int GetR(int max)
 	return r.Get(max);
 }
 
+float GetRF()
+{
+	static cs::Random r;
+
+	return r.Getf();
+}
+
 int main()
 {
-	cs::ShuffleMap<float, int> map;
+	constexpr float variability = 0.2f;
+	constexpr float rootValue = 0.5f;
+	constexpr int elements = 200000;
+	constexpr int switches = 100000;
 
-	map.Add(0.5f, 1);
-	map.Add(0.6f, 2);
-	map.Add(0.4f, 3);
-	map.Add(0.45f, 4);
-	int id2 = map.Add(0.6f, 5);
-	int id = map.Add(0.6f, 6);
-	map.Add(0.7f, 7);
+	
 
-	map.Shuffle(0.6f, id, 0.75f);
+	cs::Random r(0);
 
-	map.Delete(0.6f, id2);
+	float* switchValues = new float[switches];
+	for (int i = 0; i < switches; i++)
+	{
+		switchValues[i] = rootValue + r.Getf(-variability, variability);
+	}
+
+
+
+	// First test
+
+	cs::ShuffleMap<float, int> sMap;
+	int id = sMap.Add(rootValue, 0);
+	cs::Random r1(1337);
+	cs::Timer t1;
+
+	for (int i = 0; i < elements; ++i)
+	{
+		sMap.Add(r1.Getf(), 0);
+	}
+
+	float timeAddSMap = t1.Lap();
+	float previousValue = rootValue;
+
+	for (int i = 0; i < switches; i++)
+	{
+		sMap.Shuffle(previousValue, id, switchValues[i]);
+		previousValue = switchValues[i];
+	}
+
+	float timeShuffleSMap = t1.Lap();
+
+
+
+	// Second test
+
+	std::multimap<float, int> mMap;
+	mMap.insert({ rootValue, 0 });
+	cs::Random r2(1337);
+	cs::Timer t2;
+
+	for (int i = 0; i < elements; ++i)
+	{
+		mMap.insert({ r2.Getf(), 0 });
+	}
+
+	float timeAddMMap = t2.Lap();
+	previousValue = rootValue;
+
+	for (int i = 0; i < switches; i++)
+	{
+		mMap.erase(previousValue);
+		mMap.insert({ switchValues[i], 0 });
+	}
+
+	float timeShuffleMMap = t2.Lap();
+
+
+
+	std::cout << "Time Add SMap: " << timeAddSMap << "\n";
+	std::cout << "Time Shuffle SMap: " << timeShuffleSMap << "\n\n";
+	std::cout << "Time Add MMap: " << timeAddMMap << "\n";
+	std::cout << "Time Shuffle MMap: " << timeShuffleMMap << "\n";
+
+	std::cin.get();
+
+
 
 	return 0;
 }
