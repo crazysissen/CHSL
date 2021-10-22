@@ -221,6 +221,25 @@ namespace cs
 
 
 
+		// Get member by index non-const
+
+		T& Get(int index)
+		{
+			if (index >= C || index < 0)
+			{
+				throw std::out_of_range("Tried to get Indexer member out of range.");
+			}
+
+			return m_array[index];
+		}
+
+		T& operator[](int index)
+		{
+			return Get(index);
+		}
+
+
+
 		// Misc
 
 		void Clear()

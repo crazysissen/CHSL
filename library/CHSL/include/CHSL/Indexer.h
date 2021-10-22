@@ -188,6 +188,20 @@ namespace cs
 
 
 
+		// Check if index exists
+
+		bool Exists(int index) const
+		{
+			if (index >= C || index < 0)
+			{
+				return false;
+			}
+
+			return m_array[index].used;
+		}
+
+
+
 		// Get member by index
 
 		const T& Get(int index) const
@@ -202,6 +216,25 @@ namespace cs
 
 		const T& operator[](int index) const
 		{ 
+			return Get(index);
+		}
+
+
+
+		// Get member by index non-const
+
+		T& Get(int index)
+		{
+			if (index >= C || index < 0)
+			{
+				throw std::out_of_range("Tried to get Indexer member out of range.");
+			}
+
+			return m_array[index];
+		}
+
+		T& operator[](int index)
+		{
 			return Get(index);
 		}
 
