@@ -148,4 +148,7 @@
     <Text Include="Exclude.txt" />
     <Text Include="Directories.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\CHSLTester\CSTLTester.vcxproj" />
+  </ItemGroup>
 </Project>
