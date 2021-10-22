@@ -24,7 +24,6 @@
     <ProjectGuid>{769f693a-6c82-4b7a-9cb3-7b7c8c83fe85}</ProjectGuid>
     <RootNamespace>CSTLTester</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>CHSLTester</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
