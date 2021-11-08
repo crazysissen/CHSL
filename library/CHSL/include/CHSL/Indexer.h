@@ -188,6 +188,20 @@ namespace cs
 
 
 
+		// Check if index exists
+
+		bool Exists(int index) const
+		{
+			if (index >= C || index < 0)
+			{
+				return false;
+			}
+
+			return m_array[index].used;
+		}
+
+
+
 		// Get member by index
 
 		const T& Get(int index) const
@@ -201,9 +215,13 @@ namespace cs
 		}
 
 		const T& operator[](int index) const
-		{ 
+		{
 			return Get(index);
 		}
+
+
+
+		// Get member by index non-const
 
 		T& Get(int index)
 		{
@@ -233,7 +251,7 @@ namespace cs
 				m_array[i].bIndex = stmod(i - 1 + C, C);
 			}
 
-			m_count = 0; 
+			m_count = 0;
 			m_head = 0;
 			m_max = 0;
 		}
@@ -308,8 +326,8 @@ namespace cs
 			Indexer* indexer;
 			size_t current;
 
-			Iterator& operator++() 
-			{ 
+			Iterator& operator++()
+			{
 				current++;
 
 				for (; current <= indexer->m_max; ++current)
@@ -323,19 +341,19 @@ namespace cs
 				return *this;
 			}
 
-			T& operator*() 
-			{ 
-				return indexer->m_array[current].value; 
+			T& operator*()
+			{
+				return indexer->m_array[current].value;
 			}
 
-			bool operator!=(const Iterator& lVal) 
-			{ 
-				return current != lVal.current; 
+			bool operator!=(const Iterator& lVal)
+			{
+				return current != lVal.current;
 			}
 		};
 
-		Iterator begin() 
-		{ 
+		Iterator begin()
+		{
 			if (m_count == 0)
 			{
 				return { this, m_max + 1 };
@@ -352,9 +370,9 @@ namespace cs
 			return { this, m_max + 1 };
 		}
 
-		Iterator end() 
-		{ 
-			return { this, m_max + 1 }; 
+		Iterator end()
+		{
+			return { this, m_max + 1 };
 		}
 
 
@@ -363,9 +381,9 @@ namespace cs
 		struct Member
 		{
 			T value;
-			bool used		: 1;
-			size_t fIndex	: CBits;
-			size_t bIndex	: CBits;
+			bool used : 1;
+			size_t fIndex : CBits;
+			size_t bIndex : CBits;
 		};
 
 

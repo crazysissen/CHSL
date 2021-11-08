@@ -51,6 +51,25 @@ namespace cs
 			return _Vec2(*this).Normalize2();
 		}
 
+		bool Parallel2(const _Vec2& other) const
+		{ 
+			if (other.x != 0)
+			{
+				return other.y * (x / other.x) == y;
+			}
+			else if (other.y != 0)
+			{
+				return x == 0 && y != 0;
+			}
+
+			return x == 0 && y == 0;
+		}
+
+		T Dot2(const _Vec2& other) const
+		{
+			return x * other.x + y * other.y;
+		}
+
 #ifdef CHSL_DX
 		DirectX::XMVECTOR GetXM2(float z = 0.0f, float w = 0.0f)
 		{
@@ -76,13 +95,40 @@ namespace cs
 			return _Vec2<T2>((T2)x, (T2)y);
 		}
 
+
+
 		// Copy
 
 		_Vec2 operator-() const
 		{
-
-			return *this;
+			return _Vec2(-x, -y);
 		}
+
+		_Vec2 operator+(const _Vec2& b) const
+		{
+			return _Vec2(x + b.x, y + b.y);
+		}
+		_Vec2 operator-(const _Vec2& b) const
+		{
+			return _Vec2(x - b.x, y - b.y);
+		}
+		_Vec2 operator*(const _Vec2& b) const
+		{
+			return _Vec2(x * b.x, y * b.y);
+		}
+
+		_Vec2 operator*(const T& b) const
+		{
+			return _Vec2(x * b, y * b);
+		}
+		_Vec2 operator/(const T& b) const
+		{
+			return _Vec2(x / b, y / b);
+		}
+
+
+
+		// Assignment
 
 		_Vec2& operator+=(const _Vec2& b)
 		{
@@ -127,6 +173,8 @@ namespace cs
 
 			return *this;
 		}
+
+
 
 		// Evaluation
 
@@ -197,6 +245,42 @@ namespace cs
 		_Vec3 Normalized3() const
 		{
 			return _Vec3(*this).Normalize3();
+		}
+
+		bool Parallel3(const _Vec3& other) const
+		{
+			if (other.x != 0)
+			{
+				T scaling = x / other.x;
+
+				return other.y * scaling == y && other.z * scaling == z;
+			}
+			else if (other.y != 0)
+			{
+				T scaling = y / other.y;
+
+				return x == 0 && other.z * scaling == z;
+			}
+			else if (other.z != 0)
+			{
+				return x == 0 && y == 0 && z != 0;
+			}
+
+			return x == 0 && y == 0 && z == 0;
+		}
+
+		_Vec3 Cross(const _Vec3& other) const
+		{
+			return _Vec3(
+				y * other.z - z * other.y,
+				z * other.x - x * other.z,
+				x * other.y - y * other.x
+			);
+		}
+
+		T Dot3(const _Vec3& other) const
+		{
+			return x * other.x + y * other.y + z * other.z;
 		}
 
 #ifdef CHSL_DX
@@ -368,7 +452,7 @@ namespace cs
 
 }
 
-#ifdef CHSL_VEC
+#ifdef CHSL_LINEAR
 
 using cs::Point;
 using cs::Vec2;

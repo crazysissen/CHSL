@@ -1,6 +1,7 @@
 #pragma once
 
 #include <exception>
+#include <string>
 #include "CHSLTypedef.h"
 
 #ifdef CHSL_DX
