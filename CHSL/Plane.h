@@ -1,12 +1,13 @@
 #pragma once
 
+#include "IRaycastTarget.h"
 #include "Vector.h"
 #include "Line.h"
 
 namespace cs
 {
 
-	class Plane
+	class Plane : public IRaycastTarget
 	{
 	public:
 		Plane(Vec3 origin, Vec3 normal);
@@ -15,17 +16,35 @@ namespace cs
 
 		Plane& operator=(const Plane&);
 
-		bool Contains(Vec3 vector) const;
-		bool Contains(Line3 line) const;
-		bool Parallel(Plane plane) const;
-		bool Parallel(Line3 line) const;
-		bool Perpendicular(Line3 line) const;
+		bool operator==(const Plane&) const;
+		bool operator!=(const Plane&) const;
 
-		Vec3 Intersection(Line3 line) const;
+		const Vec3& GetOrigin() const;
+		const Vec3& GetNormal() const;
+
+		void SetOrigin(const Vec3& origin);
+		void SetNormal(const Vec3& normal);
+
+		bool Equivalent(const Plane& plane) const;
+		bool Contains(const Vec3& vector) const;
+		bool Contains(const Line3& line) const;
+		bool Parallel(const Line3& line) const;
+		bool Parallel(const Plane& plane) const;
+		bool Perpendicular(const Line3& line) const;
+
+		bool Intersection(const Line3& line, float& t) const;
+		bool Intersection(const Line3& line, Vec3& out) const;
+		bool Intersection(const Plane& plane, Line3& out) const;
+
+		virtual bool Raycast(const Line3& line, float& out) const;
+
+	private:
+		void UpdateD();
 
 	private: 
 		Vec3 m_origin;
 		Vec3 m_normal;
+		float m_d;
 	};
 
 }

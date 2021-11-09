@@ -31,14 +31,14 @@ namespace cs
 		bool Contains(const _Vec2<T>& vector) const;
 		
 		// Returns the intersection point
-		_Vec2<T> Intersection(const _Line2<T>& otherLine) const;
-		T IntersectionT(const _Line2<T>& otherLine) const;
+		bool Intersection(const _Line2<T>& otherLine, _Vec2<T>& out) const;
+		bool IntersectionT(const _Line2<T>& otherLine, T& out) const;
 
 		_Vec2<T> ClosestPoint(const _Vec2<T>& point) const;
 		T ClosestPointT(const _Vec2<T>& point) const;
 
-		_Vec2<T> GetOrigin() const;
-		_Vec2<T> GetDirection() const;
+		const _Vec2<T>& GetOrigin() const;
+		const _Vec2<T>& GetDirection() const;
 
 		void SetOrigin(const _Vec2<T>& origin);
 		void SetDirection(const _Vec2<T>& direction);
@@ -75,8 +75,8 @@ namespace cs
 		_Vec3<T> ClosestPoint(const _Vec3<T>& point) const;
 		T ClosestPointT(const _Vec3<T>& point) const;
 
-		_Vec3<T> GetOrigin() const;
-		_Vec3<T> GetDirection() const;
+		const _Vec3<T>& GetOrigin() const;
+		const _Vec3<T>& GetDirection() const;
 
 		void SetOrigin(const _Vec3<T>& origin);
 		void SetDirection(const _Vec3<T>& direction);
@@ -183,16 +183,33 @@ namespace cs
 	}
 
 	template<typename T>
-	_Vec2<T> _Line2<T>::Intersection(const _Line2<T>& otherLine) const
+	bool _Line2<T>::Intersection(const _Line2<T>& otherLine, _Vec2<T>& out) const
 	{
-		return (*this)(IntersectionT(otherLine));
+		T t;
+		bool intersect = IntersectionT(otherLine, t);
+
+		if (!intersect)
+		{
+			return false;
+		}
+
+		out = (*this)(t);
+
+		return true;
 	}
 
 	template<typename T>
-	T _Line2<T>::IntersectionT(const _Line2<T>& otherLine) const
+	bool _Line2<T>::IntersectionT(const _Line2<T>& otherLine, T& out) const
 	{
-		return (otherLine.m_direction.y * (otherLine.m_origin.x - m_origin.x) + m_origin.y - otherLine.m_origin.y)
+		if (Parallel(otherLine))
+		{
+			return false;
+		}
+
+		out = (otherLine.m_direction.y * (otherLine.m_origin.x - m_origin.x) + m_origin.y - otherLine.m_origin.y)
 			/ (m_direction.x * otherLine.m_direction.y - m_direction.y);
+
+		return true;
 	}
 
 	template<typename T>
@@ -209,13 +226,13 @@ namespace cs
 	}
 
 	template<typename T>
-	_Vec2<T> _Line2<T>::GetOrigin() const
+	const _Vec2<T>& _Line2<T>::GetOrigin() const
 	{
 		return m_origin;
 	}
 
 	template<typename T>
-	_Vec2<T> _Line2<T>::GetDirection() const
+	const _Vec2<T>& _Line2<T>::GetDirection() const
 	{
 		return m_direction;
 	}
@@ -347,13 +364,13 @@ namespace cs
 	}
 
 	template<typename T>
-	_Vec3<T> _Line3<T>::GetOrigin() const
+	const _Vec3<T>& _Line3<T>::GetOrigin() const
 	{
 		return m_origin;
 	}
 
 	template<typename T>
-	_Vec3<T> _Line3<T>::GetDirection() const
+	const _Vec3<T>& _Line3<T>::GetDirection() const
 	{
 		return m_direction;
 	}
