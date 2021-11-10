@@ -5,6 +5,11 @@
 namespace cs
 {
 
+	struct HitInfo
+	{
+
+	};
+
 	class IRaycastTarget
 	{
 	public:

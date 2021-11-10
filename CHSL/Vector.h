@@ -225,11 +225,11 @@ namespace cs
 		{
 		}
 
-		float Length3Sq()
+		float Length3Sq() const
 		{
 			return ((float)x) * x + ((float)y) * y + ((float)z) * z;
 		}
-		float Length3()
+		float Length3() const
 		{
 			return std::sqrtf(Length3Sq());
 		}
