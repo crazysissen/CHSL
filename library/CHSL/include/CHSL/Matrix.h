@@ -10,7 +10,7 @@ namespace cs
 {
 
 	// All matrices are row-major
-	// They transform column vectors
+	// They transform column vectors in a left-oriented space
 
 	template<typename T, int W, int H = W>
 	class Matrix
@@ -292,13 +292,16 @@ namespace cs
 	Matrix<T, W, H> Matrix<T, W, H>::operator*(const T& scalar) const
 	{
 		Matrix m;
+
 		for (int x = 0; x < W; x++)
 		{
 			for (int y = 0; y < H; y++)
 			{
-				m.m_data[x + y * W] *= scalar;
+				m.m_data[x + y * W] = m_data[x + y * W] * scalar;
 			}
 		}
+
+		return m;
 	}
 
 	//template<typename T, int W, int H>
@@ -317,6 +320,8 @@ namespace cs
 				m_data[x + y * W] += other.m_data[x + y * W];
 			}
 		}
+
+		return *this;
 	}
 
 	template<typename T, int W, int H>
@@ -329,6 +334,8 @@ namespace cs
 				m_data[x + y * W] -= other.m_data[x + y * W];
 			}
 		}
+
+		return *this;
 	}
 
 	template<typename T, int W, int H>
@@ -341,6 +348,8 @@ namespace cs
 				m_data[x + y * W] *= scalar;
 			}
 		}
+
+		return *this;
 	}
 
 	template<typename T, int W, int H>
@@ -508,6 +517,10 @@ namespace cs
 		};
 	}
 
+
+
+	// Matrix3
+
 	template<typename T>
 	Matrix3<T>::Matrix3()
 	{
@@ -542,13 +555,13 @@ namespace cs
 	}
 
 	template<typename T>
-	inline _Vec2<T> Matrix3<T>::operator*(const _Vec2<T>& vector) const
+	_Vec2<T> Matrix3<T>::operator*(const _Vec2<T>& vector) const
 	{
 		return Mat::transform(*this, vector);
 	}
 
 	template<typename T>
-	inline _Vec3<T> Matrix3<T>::operator*(const _Vec3<T>& vector) const
+	_Vec3<T> Matrix3<T>::operator*(const _Vec3<T>& vector) const
 	{
 		return Mat::transform(*this, vector);
 	}
@@ -562,7 +575,7 @@ namespace cs
 	template<typename T>
 	Matrix4<T> Matrix3<T>::operator*(const Matrix4<T>& matrix) const
 	{
-		return Matrix4(*this) * matrix;
+		return Matrix4<T>(*this) * matrix;
 	}
 
 	template<typename T>
@@ -674,7 +687,7 @@ namespace cs
 
 #ifdef CHSL_LINEAR
 
-using cs::Mat Mat
+namespace Mat = cs::Mat;
 
 using cs::Matrix;
 using cs::Matrix2;

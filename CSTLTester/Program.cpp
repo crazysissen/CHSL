@@ -1,3 +1,4 @@
+#define CHSL_LINEAR
 #include <CHSL.h>
 
 #include <iostream>
@@ -24,7 +25,14 @@ float GetRF()
 
 int main()
 {
-	
+	Mat3 a =
+	{
+		3, 0, 2,
+		2, 0, -2,
+		0, 1, 1
+	};
+
+	Mat3 i = a.Inverse();
 
 	return 0;
 }

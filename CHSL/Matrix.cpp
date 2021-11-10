@@ -8,8 +8,8 @@ cs::Mat2 cs::Mat::rotation2(float r)
 
 	return 
 	{
-		c, -s,
-		s, c
+		c, s,
+		-s, c
 	};
 }
 
@@ -84,8 +84,8 @@ cs::Mat3 cs::Mat::rotation3X(float r)
 	return
 	{
 		1, 0, 0,
-		0, c, -s,
-		0, s, c
+		0, c, s,
+		0, -s, c
 	};
 }
 
@@ -96,9 +96,9 @@ cs::Mat3 cs::Mat::rotation3Y(float r)
 
 	return
 	{
-		c, 0, s,
+		c, 0, -s,
 		0, 1, 0,
-		-s, 0, c
+		s, 0, c
 	};
 }
 
@@ -109,8 +109,8 @@ cs::Mat3 cs::Mat::rotation3Z(float r)
 
 	return
 	{
-		c, -s, 0,
-		s, c,
+		c, s, 0,
+		-s, c, 0,
 		0, 0, 1
 	};
 }
