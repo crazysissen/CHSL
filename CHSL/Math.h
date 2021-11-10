@@ -19,5 +19,7 @@ namespace cs
 	int iwrap(int val, int min, int max);
 	float fwrap(float val, float min, float max);
 
+	int iabs(int val);
+
 
 }

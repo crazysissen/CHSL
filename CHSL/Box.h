@@ -19,6 +19,9 @@ namespace cs
 		Vec3 m_x;
 		Vec3 m_y;
 		Vec3 m_z;
+		float m_w;
+		float m_h;
+		float m_d;
 	};
 
 }
