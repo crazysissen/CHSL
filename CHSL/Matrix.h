@@ -297,7 +297,7 @@ namespace cs
 		{
 			for (int y = 0; y < H; y++)
 			{
-				m.m_data[x + y * W] *= scalar;
+				m.m_data[x + y * W] = m_data[x + y * W] * scalar;
 			}
 		}
 
