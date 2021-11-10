@@ -24,10 +24,7 @@ float GetRF()
 
 int main()
 {
-	cs::Line2 a({ 0, 0 }, { 1, 1 });
-	cs::Line2 b({ -1, -1 }, { 3, 3 });
-
-	bool e = a.Equivalent(b);
+	
 
 	return 0;
 }

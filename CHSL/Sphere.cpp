@@ -19,6 +19,8 @@ cs::Sphere& cs::Sphere::operator=(const Sphere& lVal)
 {
     m_origin = lVal.m_origin;
     m_radius = lVal.m_radius;
+
+    return *this;
 }
 
 bool cs::Sphere::operator==(const Sphere& lVal) const

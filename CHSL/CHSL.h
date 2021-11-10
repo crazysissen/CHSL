@@ -5,6 +5,7 @@
 
 #include "Vector.h"
 #include "Line.h"
+#include "Matrix.h"
 #include "Sphere.h"
 #include "IRaycastTarget.h"
 

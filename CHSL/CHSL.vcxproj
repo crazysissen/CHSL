@@ -27,6 +27,7 @@
     <ClCompile Include="Easing.cpp" />
     <ClCompile Include="Indexer.cpp" />
     <ClCompile Include="Line.cpp" />
+    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="ShuffleMap.cpp" />
     <ClCompile Include="Math.cpp" />
@@ -62,6 +63,7 @@
     <ClInclude Include="Indexer.h" />
     <ClInclude Include="IRaycastTarget.h" />
     <ClInclude Include="Line.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="ShuffleMap.h" />
     <ClInclude Include="Math.h" />

@@ -16,7 +16,7 @@ cs::NoiseWorley::NoiseWorley(unsigned int seed, unsigned int xSize)
 {
 	cs::Random r(seed);
 
-	for (int x = 0; x < xSize; ++x)
+	for (uint x = 0; x < xSize; ++x)
 	{
 		cellLocalPositions[x] = { x + r.Getf(), 0, 0 };
 	}
@@ -35,9 +35,9 @@ cs::NoiseWorley::NoiseWorley(unsigned int seed, unsigned int xSize, unsigned int
 {
 	cs::Random r(seed);
 
-	for (int y = 0; y < ySize; ++y)
+	for (uint y = 0; y < ySize; ++y)
 	{
-		for (int x = 0; x < xSize; ++x)
+		for (uint x = 0; x < xSize; ++x)
 		{
 			cellLocalPositions[x + y * xSize] = { x + r.Getf(), y + r.Getf(), 0 };
 		}
@@ -57,11 +57,11 @@ cs::NoiseWorley::NoiseWorley(unsigned int seed, unsigned int xSize, unsigned int
 {
 	cs::Random r(seed);
 
-	for (int z = 0; z < zSize; ++z)
+	for (uint z = 0; z < zSize; ++z)
 	{
-		for (int y = 0; y < ySize; ++y)
+		for (uint y = 0; y < ySize; ++y)
 		{
-			for (int x = 0; x < xSize; ++x)
+			for (uint x = 0; x < xSize; ++x)
 			{
 				cellLocalPositions[x + y * xSize + z * xSize * ySize] = { x + r.Getf(), y + r.Getf(), z + r.Getf() };
 			}
@@ -159,11 +159,11 @@ float cs::NoiseWorley::Gen3D(float x, float y, float z)
 					int lx = x + localX, ly = y + localY, lz = z + localZ;
 
 					savedPositions[i] = cellLocalPositions[
-						(lx < 0 || lx >= xs ?
+						(lx < 0 || lx >= (int)xs ?
 							cs::iwrap(lx, 0, xs - 1) : lx) +
-						(ly < 0 || ly >= ys ?
+						(ly < 0 || ly >= (int)ys ?
 							cs::iwrap(ly, 0, ys - 1) : ly) * xs +
-						(lz < 0 || lz >= zs ?
+						(lz < 0 || lz >= (int)zs ?
 							cs::iwrap(lz, 0, zs - 1) : lz) * xs * ys]/* +
 						(Vec3)localCoord*/;
 

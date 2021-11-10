@@ -1,6 +1,8 @@
 #include "core.h"
 #include "Plane.h"
 
+#include <fstream>
+
 cs::Plane::Plane(Vec3 origin, Vec3 normal)
     :
     m_origin(origin),

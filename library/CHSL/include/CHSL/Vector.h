@@ -249,24 +249,28 @@ namespace cs
 
 		bool Parallel3(const _Vec3& other) const
 		{
-			if (other.x != 0)
-			{
-				T scaling = x / other.x;
+			_Vec3 cross = Cross(other);
 
-				return other.y * scaling == y && other.z * scaling == z;
-			}
-			else if (other.y != 0)
-			{
-				T scaling = y / other.y;
+			return cross.x == 0 && cross.y == 0 && cross.z == 0;
 
-				return x == 0 && other.z * scaling == z;
-			}
-			else if (other.z != 0)
-			{
-				return x == 0 && y == 0 && z != 0;
-			}
+			//if (other.x != 0)
+			//{
+			//	T scaling = x / other.x;
 
-			return x == 0 && y == 0 && z == 0;
+			//	return other.y * scaling == y && other.z * scaling == z;
+			//}
+			//else if (other.y != 0)
+			//{
+			//	T scaling = y / other.y;
+
+			//	return x == 0 && other.z * scaling == z;
+			//}
+			//else if (other.z != 0)
+			//{
+			//	return x == 0 && y == 0 && z != 0;
+			//}
+
+			//return x == 0 && y == 0 && z == 0;
 		}
 
 		_Vec3 Cross(const _Vec3& other) const
