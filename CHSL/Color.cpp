@@ -55,10 +55,10 @@ cs::Color::Bytes cs::Color::GetBytes()
 {
 	return 
 	{ 
-		(byte)std::roundf(r * 256) % 256U, 
-		(byte)std::roundf(g * 256) % 256U, 
-		(byte)std::roundf(b * 256) % 256U,
-		byte(256U)
+		(byte)(fclamp(std::roundf(r * 255), 0, 255U)), 
+		(byte)(fclamp(std::roundf(g * 255), 0, 255U)), 
+		(byte)(fclamp(std::roundf(b * 255), 0, 255U)),
+		byte(255U)
 	};
 }
 
