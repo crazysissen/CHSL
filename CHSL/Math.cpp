@@ -72,3 +72,8 @@ float cs::fwrap(float val, float min, float max)
 
 	return min + fmod(range + fmod(val - min, range), range);
 }
+
+int cs::iabs(int val)
+{
+	return val < 0 ? -val : val;
+}

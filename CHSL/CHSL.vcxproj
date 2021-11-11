@@ -19,12 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Box.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="CHSL.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Easing.cpp" />
     <ClCompile Include="Indexer.cpp" />
+    <ClCompile Include="Line.cpp" />
+    <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="ShuffleMap.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Noise.cpp" />
@@ -38,12 +42,14 @@
     </ClCompile>
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="RBTree.cpp" />
+    <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="StateTimer.cpp" />
     <ClCompile Include="StateTracker.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Box.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="CHSL.h" />
@@ -55,6 +61,10 @@
     <ClInclude Include="GeneralEnums.h" />
     <ClInclude Include="Header\CHSL.h" />
     <ClInclude Include="Indexer.h" />
+    <ClInclude Include="IRaycastTarget.h" />
+    <ClInclude Include="Line.h" />
+    <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="ShuffleMap.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Noise.h" />
@@ -63,6 +73,7 @@
     <ClInclude Include="core.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="RBTree.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="StateTimer.h" />
     <ClInclude Include="StateTracker.h" />
     <ClInclude Include="Timer.h" />
@@ -85,26 +96,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -211,6 +222,7 @@ xcopy /y "$(OutDir)*.lib" "$(SolutionDir)library\CHSL\lib\" </Command>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>core.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
