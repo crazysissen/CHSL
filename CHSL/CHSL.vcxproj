@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -46,6 +46,7 @@
     <ClCompile Include="StateTimer.cpp" />
     <ClCompile Include="StateTracker.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -57,7 +58,6 @@
     <ClInclude Include="CHSLTypedef.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Easing.h" />
-    <ClInclude Include="framework.h" />
     <ClInclude Include="GeneralEnums.h" />
     <ClInclude Include="Header\CHSL.h" />
     <ClInclude Include="Indexer.h" />
@@ -77,6 +77,7 @@
     <ClInclude Include="StateTimer.h" />
     <ClInclude Include="StateTracker.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="WindowsExt.h" />
   </ItemGroup>

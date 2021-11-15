@@ -34,7 +34,7 @@ cs::Box::Box(Vec3 center, float width, float height, float depth, float rX, floa
 	m_z = r * m_z;
 }
 
-bool cs::Box::Raycast(const Line3& line, float& out) const
+bool cs::Box::Raycast(const Line3& line, HitInfo& out) const
 {
 	constexpr float epsilon = 1.0f / 65536;
 
@@ -43,8 +43,10 @@ bool cs::Box::Raycast(const Line3& line, float& out) const
 
 	// Collision check
 
-	float tMin = FLT_MIN;
+	float tMin = -FLT_MAX;
 	float tMax = FLT_MAX;
+	Vec3 nMin = { 0, 0, 0 };
+
 
 	Vec3 center = m_center - line.GetOrigin();
 
@@ -56,25 +58,30 @@ bool cs::Box::Raycast(const Line3& line, float& out) const
 		if (fabs(f) > epsilon)
 		{
 			float fInv = 1.0f / f;
-			bool swap = (h[i] > 0) == (fInv > 0);
+			bool swap = fInv > 0;
 
 			float t1 = 
 				!swap * (e + h[i]) * fInv +
-				swap *	(e - h[i]) * fInv;
+				swap  *	(e - h[i]) * fInv;
 
 			float t2 =
-				swap *	(e + h[i]) * fInv +
+				swap  *	(e + h[i]) * fInv +
 				!swap * (e - h[i]) * fInv;
 
-			tMin =
-				(t1 > tMin) *	t1 +
-				!(t1 > tMin) *	tMin;
+			if (t1 > tMin)
+			{
+				tMin = t1;
+				nMin = swap ?
+					*a[i] :
+					-*a[i];
+			}
 
-			tMax =
-				(t1 < tMin) *	t1 +
-				!(t1 < tMin) *	tMin;
+			if (t1 < tMax)
+			{
+				tMax = t2;
+			}
 
-			if (tMin > tMax || tMax < 0)
+			if (tMin > tMax || tMax < 0 || tMin < 0)
 			{
 				return false;
 			}
@@ -85,20 +92,23 @@ bool cs::Box::Raycast(const Line3& line, float& out) const
 		}
 	}
 
-	out =
-		(tMin > 0) *	tMin +
-		!(tMin > 0) *	tMax;
+	if (tMin > 0)
+	{
+		out.t = tMin;
+		out.normal = nMin;
+		return true;
+	}
 
-	return true;
+	return false;
 }
 
 bool cs::Box::Intersection(const Line3& line, Vec3& out) const
 {
-	float t;
+	HitInfo h;
 
-	if (Raycast(line, t))
+	if (Raycast(line, h))
 	{
-		out = line(t);
+		out = line(h.t);
 		return true;
 	}
 

@@ -174,13 +174,14 @@ bool cs::Plane::Intersection(const Plane& plane, Line3& out) const
     return true;
 }
 
-bool cs::Plane::Raycast(const Line3& line, float& out) const
+bool cs::Plane::Raycast(const Line3& line, HitInfo& out) const
 {
     float t;
 
-    if (Intersection(line, t) && t > 0)
+    if (Intersection(line, t) && t > 0 && line.GetDirection().Dot3(m_normal) < 0)
     {
-        out = t;
+        out.t = t;
+        out.normal = m_normal;
         return true;
     }
 
