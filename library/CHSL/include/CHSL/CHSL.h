@@ -7,6 +7,9 @@
 #include "Line.h"
 #include "Matrix.h"
 #include "Sphere.h"
+#include "Box.h"
+#include "Triangle.h"
+#include "Plane.h"
 #include "IRaycastTarget.h"
 
 #include "Random.h"

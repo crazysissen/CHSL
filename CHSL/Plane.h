@@ -36,7 +36,7 @@ namespace cs
 		bool Intersection(const Line3& line, Vec3& out) const;
 		bool Intersection(const Plane& plane, Line3& out) const;
 
-		virtual bool Raycast(const Line3& line, float& out) const;
+		bool Raycast(const Line3& line, HitInfo& out) const override;
 
 	private:
 		void UpdateD();

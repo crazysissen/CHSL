@@ -28,7 +28,7 @@ namespace cs
 		bool Intersection(const Line3& line, float& t, bool first = true, bool cullBack = true) const;
 		bool Intersection(const Line3& line, Vec3& out, bool first = true, bool cullBack = true) const;
 
-		virtual bool Raycast(const Line3& line, float& out) const override;
+		virtual bool Raycast(const Line3& line, HitInfo& out) const override;
 
 	private:
 		Vec3 m_origin;

@@ -101,13 +101,29 @@ bool cs::Sphere::Intersection(const Line3& line, Vec3& out, bool first, bool cul
     return true;
 }
 
-bool cs::Sphere::Raycast(const Line3& line, float& out) const
+bool cs::Sphere::Raycast(const Line3& line, HitInfo& out) const
 {
-    float t;
+    Vec3 relative = m_origin - line.GetOrigin();
 
-    if (Intersection(line, t, true, true))
+    float tClosest = relative.Dot3(line.GetDirection());
+
+    float lSq = relative.Length3Sq();
+    float rSq = m_radius * m_radius;
+    float mSq = lSq - tClosest * tClosest; // Closest distance squared
+
+    if ((tClosest < 0 && lSq > rSq) || mSq > rSq)
     {
-        out = t;
+        return false;
+    }
+
+    float q = std::sqrtf(rSq - mSq);
+
+    out.t = tClosest - q;
+
+    if (out.t > 0)
+    {
+        out.normal = (line(out.t) - m_origin).Normalized3();
+
         return true;
     }
 

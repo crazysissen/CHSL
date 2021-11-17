@@ -12,7 +12,7 @@ namespace cs
 		Box(Vec3 center, float width, float height, float depth);
 		Box(Vec3 center, float width, float height, float depth, float rX, float rY, float rZ);
 		
-		bool Raycast(const Line3& line, float& out) const override;
+		bool Raycast(const Line3& line, HitInfo& out) const override;
 		bool Intersection(const Line3& line, Vec3& out) const;
 
 	private:
