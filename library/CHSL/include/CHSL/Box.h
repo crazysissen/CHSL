@@ -16,7 +16,7 @@ namespace cs
 		bool Intersection(const Line3& line, Vec3& out) const;
 
 	private:
-		Vec3 m_center;
+		Vec3 m_origin;
 		Vec3 m_x;
 		Vec3 m_y;
 		Vec3 m_z;
