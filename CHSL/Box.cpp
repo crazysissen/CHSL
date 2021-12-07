@@ -6,12 +6,12 @@
 cs::Box::Box(Vec3 center, Vec3 xV, Vec3 yV, Vec3 zV)
 	:
 	m_origin(center),
-	m_x(xV.Normalized3()),
-	m_y(yV.Normalized3()),
-	m_z(zV.Normalized3()),
-	m_w(xV.Length3()),
-	m_h(yV.Length3()),
-	m_d(zV.Length3())
+	m_x(xV.Normalized()),
+	m_y(yV.Normalized()),
+	m_z(zV.Normalized()),
+	m_w(xV.Length()),
+	m_h(yV.Length()),
+	m_d(zV.Length())
 {
 }
 
@@ -56,7 +56,7 @@ bool cs::Box::Raycast(const Line3& line, HitInfo& out) const
 
 	for (int i = 0; i < 3; ++i)
 	{
-		float e = a[i]->Dot(center);
+		float e = a[i]->Dot(p);
 		float f = a[i]->Dot(line.GetDirection());
 
 		if (fabs(f) > epsilon)
