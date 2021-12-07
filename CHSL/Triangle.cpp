@@ -41,8 +41,8 @@ bool cs::Triangle::Raycast(const Line3& line, HitInfo& out) const
 		return false;
 	}
 
-	out.t = f * e2.Dot3(r);
-	out.normal = (e1.Cross(e2) * -1).Normalized3();
+	out.t = f * e2.Dot(r);
+	out.normal = (e1.Cross(e2) * -1).Normalized();
 	out.u = u;
 	out.v = v;
 
