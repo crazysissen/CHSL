@@ -52,8 +52,8 @@ bool cs::Box::Raycast(const Line3& line, HitInfo& out) const
 
 	for (int i = 0; i < 3; ++i)
 	{
-		float e = a[i]->Dot3(center);
-		float f = a[i]->Dot3(line.GetDirection());
+		float e = a[i]->Dot(center);
+		float f = a[i]->Dot(line.GetDirection());
 
 		if (fabs(f) > epsilon)
 		{

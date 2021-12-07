@@ -173,13 +173,13 @@ namespace cs
 	template<typename T>
 	bool _Line2<T>::Parallel(const _Line2<T>& other) const
 	{
-		return m_direction.Parallel2(other.m_direction);
+		return m_direction.Parallel(other.m_direction);
 	}
 
 	template<typename T>
 	bool _Line2<T>::Contains(const _Vec2<T>& vector) const
 	{
-		return m_direction.Parallel2(m_origin - vector);
+		return m_direction.Parallel(m_origin - vector);
 	}
 
 	template<typename T>
@@ -341,13 +341,13 @@ namespace cs
 	template<typename T>
 	bool _Line3<T>::Parallel(const _Line3<T>& other) const
 	{
-		return m_direction.Parallel3(other.m_direction);
+		return m_direction.Parallel(other.m_direction);
 	}
 
 	template<typename T>
 	bool _Line3<T>::Contains(const _Vec3<T>& vector) const
 	{
-		return m_direction.Parallel3(m_origin - vector);
+		return m_direction.Parallel(m_origin - vector);
 	}
 
 	template<typename T>

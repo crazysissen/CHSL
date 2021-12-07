@@ -55,16 +55,16 @@ void cs::Sphere::SetRadius(float radius)
 
 bool cs::Sphere::Contains(const Vec3& point) const
 {
-    return (point - m_origin).Length3Sq() < (m_radius * m_radius);
+    return (point - m_origin).LengthSq() < (m_radius * m_radius);
 }
 
 bool cs::Sphere::Intersection(const Line3& line, float& t, bool first, bool cullBack) const
 {
     Vec3 relative = m_origin - line.GetOrigin();
 
-    float tClosest = relative.Dot3(line.GetDirection());
+    float tClosest = relative.Dot(line.GetDirection());
 
-    float lSq = relative.Length3Sq();
+    float lSq = relative.LengthSq();
     float rSq = m_radius * m_radius;
     float mSq = lSq - tClosest * tClosest; // Closest distance squared
 
@@ -105,9 +105,9 @@ bool cs::Sphere::Raycast(const Line3& line, HitInfo& out) const
 {
     Vec3 relative = m_origin - line.GetOrigin();
 
-    float tClosest = relative.Dot3(line.GetDirection());
+    float tClosest = relative.Dot(line.GetDirection());
 
-    float lSq = relative.Length3Sq();
+    float lSq = relative.LengthSq();
     float rSq = m_radius * m_radius;
     float mSq = lSq - tClosest * tClosest; // Closest distance squared
 
@@ -122,7 +122,7 @@ bool cs::Sphere::Raycast(const Line3& line, HitInfo& out) const
 
     if (out.t > 0)
     {
-        out.normal = (line(out.t) - m_origin).Normalized3();
+        out.normal = (line(out.t) - m_origin).Normalized();
 
         return true;
     }

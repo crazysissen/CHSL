@@ -183,7 +183,7 @@ float cs::NoiseWorley::GetClosestCurrentDistance(int count, float x, float y, fl
 	for (int j = 0; j < count; ++j)
 	{
 		Vec3 diff(x - savedPositions[j].x, y - savedPositions[j].y, z - savedPositions[j].z);
-		float currentDistance = diff.Length3Sq();
+		float currentDistance = diff.LengthSq();
 		if (currentDistance < closestDistance)
 		{
 			closestDistance = currentDistance;

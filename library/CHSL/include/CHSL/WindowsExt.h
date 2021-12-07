@@ -38,4 +38,6 @@
 #define OEMRESOURCE
 #define STRICT
 
+#undef UNICODE
+
 #include <Windows.h>

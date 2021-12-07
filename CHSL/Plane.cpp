@@ -76,32 +76,32 @@ void cs::Plane::SetNormal(const Vec3& normal)
 
 bool cs::Plane::Equivalent(const Plane& plane) const
 {
-    return Contains(plane.m_origin) && m_origin.Parallel3(plane.m_normal);
+    return Contains(plane.m_origin) && m_origin.Parallel(plane.m_normal);
 }
 
 bool cs::Plane::Contains(const Vec3& vector) const
 {
-    return m_normal.Dot3(vector) - m_d == 0;
+    return m_normal.Dot(vector) - m_d == 0;
 }
 
 bool cs::Plane::Contains(const Line3& line) const
 {
-    return Contains(line.GetOrigin()) && m_normal.Dot3(line.GetDirection()) == 0;
+    return Contains(line.GetOrigin()) && m_normal.Dot(line.GetDirection()) == 0;
 }
 
 bool cs::Plane::Parallel(const Plane& plane) const
 {
-    return m_normal.Parallel3(plane.m_normal);
+    return m_normal.Parallel(plane.m_normal);
 }
 
 bool cs::Plane::Parallel(const Line3& line) const
 {
-    return m_normal.Dot3(line.GetDirection()) == 0;
+    return m_normal.Dot(line.GetDirection()) == 0;
 }
 
 bool cs::Plane::Perpendicular(const Line3& line) const
 {
-    return m_normal.Parallel3(line.GetDirection());
+    return m_normal.Parallel(line.GetDirection());
 }
 
 bool cs::Plane::Intersection(const Line3& line, float& t) const
@@ -111,7 +111,7 @@ bool cs::Plane::Intersection(const Line3& line, float& t) const
         return false;
     }
 
-    t = (-m_d - m_normal.Dot3(line.GetOrigin())) / (m_normal.Dot3(line.GetDirection()));
+    t = (-m_d - m_normal.Dot(line.GetOrigin())) / (m_normal.Dot(line.GetDirection()));
 
     return true;
 }
@@ -142,11 +142,11 @@ bool cs::Plane::Intersection(const Plane& plane, Line3& out) const
 
     direction = m_normal.Cross(plane.m_normal);
 
-    if (m_normal.Parallel3(Vec3(0, 0, 1)))
+    if (m_normal.Parallel(Vec3(0, 0, 1)))
     {
         float inv = 1.0f / m_normal.z;
 
-        if (plane.m_normal.Parallel3(Vec3(0, 1, 0)))
+        if (plane.m_normal.Parallel(Vec3(0, 1, 0)))
         {
             // The line intersects the yz plane
             origin.x = 0; 
@@ -178,7 +178,7 @@ bool cs::Plane::Raycast(const Line3& line, HitInfo& out) const
 {
     float t;
 
-    if (Intersection(line, t) && t > 0 && line.GetDirection().Dot3(m_normal) < 0)
+    if (Intersection(line, t) && t > 0 && line.GetDirection().Dot(m_normal) < 0)
     {
         out.t = t;
         out.normal = m_normal;
@@ -190,5 +190,5 @@ bool cs::Plane::Raycast(const Line3& line, HitInfo& out) const
 
 void cs::Plane::UpdateD()
 {
-    m_d = -m_origin.Dot3(m_normal);
+    m_d = -m_origin.Dot(m_normal);
 }

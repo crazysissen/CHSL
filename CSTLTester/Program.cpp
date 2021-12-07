@@ -34,5 +34,7 @@ int main()
 
 	Mat3 i = a.Inverse();
 
+	Vec3 b;
+
 	return 0;
 }
