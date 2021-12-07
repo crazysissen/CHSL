@@ -122,7 +122,7 @@ bool cs::Sphere::Raycast(const Line3& line, HitInfo& out) const
 
     if (out.t > 0)
     {
-        out.normal = (line(out.t) - m_origin).Normalized();
+        out.normal = (line(out.t) - m_origin) * (1.0f / m_radius);
 
         return true;
     }

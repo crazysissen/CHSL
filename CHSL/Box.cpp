@@ -5,16 +5,19 @@
 
 cs::Box::Box(Vec3 center, Vec3 xV, Vec3 yV, Vec3 zV)
 	:
-	m_center(center),
-	m_x(xV),
-	m_y(yV),
-	m_z(zV)
+	m_origin(center),
+	m_x(xV.Normalized3()),
+	m_y(yV.Normalized3()),
+	m_z(zV.Normalized3()),
+	m_w(xV.Length3()),
+	m_h(yV.Length3()),
+	m_d(zV.Length3())
 {
 }
 
 cs::Box::Box(Vec3 center, float width, float height, float depth)
 	:
-	m_center(center),
+	m_origin(center),
 	m_x(1, 0, 0),
 	m_y(0, 1, 0),
 	m_z(0, 0, 1),
@@ -36,19 +39,20 @@ cs::Box::Box(Vec3 center, float width, float height, float depth, float rX, floa
 
 bool cs::Box::Raycast(const Line3& line, HitInfo& out) const
 {
-	constexpr float epsilon = 1.0f / 65536;
+	constexpr float epsilon = 1.0 / 65536;
 
 	const Vec3* a[] = { &m_x, &m_y, &m_z }; // Side directions
-	const float h[] = { m_w, m_h, m_d }; // Halfsides
+	const float h[] = { m_w, m_h, m_d };		// Halfsides
 
 	// Collision check
 
 	float tMin = -FLT_MAX;
 	float tMax = FLT_MAX;
-	Vec3 nMin = { 0, 0, 0 };
 
+	Vec3 tMinNormal = { 0, 0, 0 };
+	Vec3 tMaxNormal = { 0, 0, 0 };
 
-	Vec3 center = m_center - line.GetOrigin();
+	Vec3 p = m_origin - line.GetOrigin();
 
 	for (int i = 0; i < 3; ++i)
 	{
@@ -58,30 +62,40 @@ bool cs::Box::Raycast(const Line3& line, HitInfo& out) const
 		if (fabs(f) > epsilon)
 		{
 			float fInv = 1.0f / f;
-			bool swap = fInv > 0;
 
-			float t1 = 
-				!swap * (e + h[i]) * fInv +
-				swap  *	(e - h[i]) * fInv;
+			float t1 =
+				(e + h[i]) * fInv;
 
 			float t2 =
-				swap  *	(e + h[i]) * fInv +
-				!swap * (e - h[i]) * fInv;
+				(e - h[i]) * fInv;
+
+			Vec3 n = *(a[i]);
+			Vec3 nr = n * -1;
+
+			if (t1 > t2)
+			{
+				float temp = t1;
+				t1 = t2;
+				t2 = temp;
+
+				Vec3 tempN = n;
+				n = nr;
+				nr = tempN;
+			}
 
 			if (t1 > tMin)
 			{
 				tMin = t1;
-				nMin = swap ?
-					*a[i] :
-					-*a[i];
+				tMinNormal = n;
 			}
 
-			if (t1 < tMax)
+			if (t2 < tMax)
 			{
 				tMax = t2;
+				tMaxNormal = nr;
 			}
 
-			if (tMin > tMax || tMax < 0 || tMin < 0)
+			if (tMin > tMax || tMax < 0)
 			{
 				return false;
 			}
@@ -95,11 +109,15 @@ bool cs::Box::Raycast(const Line3& line, HitInfo& out) const
 	if (tMin > 0)
 	{
 		out.t = tMin;
-		out.normal = nMin;
-		return true;
+		out.normal = tMinNormal;
+	}
+	else
+	{
+		out.t = tMax;
+		out.normal = tMaxNormal;
 	}
 
-	return false;
+	return true;
 }
 
 bool cs::Box::Intersection(const Line3& line, Vec3& out) const
