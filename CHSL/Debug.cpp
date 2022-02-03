@@ -15,7 +15,7 @@
 #include <memory>
 
 ullong next = 0u;
-Microsoft::WRL::ComPtr<IDXGIInfoQueue> pDxgiInfoQueue;
+Microsoft::WRL::ComPtr<IDXGIInfoQueue> g_dxgiInfoQueue;
 
 
 
@@ -53,37 +53,42 @@ void cs::dxgiInfo::init()
 		EXC_HRLAST();
 	}
 
-	EXC_COMCHECK(DxgiGetDebugInterface(__uuidof(IDXGIInfoQueue), &pDxgiInfoQueue));
+	EXC_COMCHECK(DxgiGetDebugInterface(__uuidof(IDXGIInfoQueue), &g_dxgiInfoQueue));
 }
 
 void cs::dxgiInfo::set()
 {
-	next = pDxgiInfoQueue->GetNumStoredMessages(DXGI_DEBUG_ALL);
+	next = g_dxgiInfoQueue->GetNumStoredMessages(DXGI_DEBUG_ALL);
 }
 
 std::vector<std::string> cs::dxgiInfo::getMessages()
 {
 	std::vector<std::string> messages;
-	const ullong end = pDxgiInfoQueue->GetNumStoredMessages(DXGI_DEBUG_ALL);
+	const ullong end = g_dxgiInfoQueue->GetNumStoredMessages(DXGI_DEBUG_ALL);
 
 	for (auto i = next; i < end; ++i)
 	{
 		SIZE_T messageLength = 0;
 
 		// get the size of message i in bytes
-		EXC_COMCHECK(pDxgiInfoQueue->GetMessageA(DXGI_DEBUG_ALL, i, nullptr, &messageLength));
+		EXC_COMCHECK(g_dxgiInfoQueue->GetMessageA(DXGI_DEBUG_ALL, i, nullptr, &messageLength));
 
 		// allocate memory for message
 		auto bytes = std::make_unique<byte[]>(messageLength);
 		auto pMessage = reinterpret_cast<DXGI_INFO_QUEUE_MESSAGE*>(bytes.get());
 
 		// get the message and push its description into the vector
-		EXC_COMCHECK(pDxgiInfoQueue->GetMessageA(DXGI_DEBUG_ALL, i, pMessage, &messageLength));
+		EXC_COMCHECK(g_dxgiInfoQueue->GetMessageA(DXGI_DEBUG_ALL, i, pMessage, &messageLength));
 
 		messages.emplace_back(pMessage->pDescription);
 	}
 
 	return messages;
+}
+
+void cs::dxgiInfo::deInit()
+{
+	g_dxgiInfoQueue.Reset();
 }
 
 
