@@ -174,8 +174,6 @@ cs::Vec3 cs::Mat::transform(const Mat3& m, const Vec3& v)
 		v.x * m(0, 1) + v.y * m(1, 1) + v.z * m(2, 1),
 		v.x * m(0, 2) + v.y * m(1, 2) + v.z * m(2, 2)
 	);
-
-	Matrix4<string> a;
 }
 
 cs::Vec3 cs::Mat::transform(const Mat4& m, const Vec3& v)
