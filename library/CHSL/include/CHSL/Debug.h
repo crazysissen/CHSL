@@ -15,6 +15,7 @@ namespace cs
 		void init();
 		void set();
 		std::vector<std::string> getMessages();
+		void deInit();
 
 	}
 }
