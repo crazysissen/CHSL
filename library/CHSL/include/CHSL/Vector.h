@@ -124,10 +124,10 @@ namespace cs
 		_Vec3 operator-() const;
 
 		_Vec3 operator+(const _Vec3& b) const;
-		_Vec3 operator-(const _Vec3& b) const;
-		_Vec3 operator&(const _Vec3& b) const;
-		_Vec3 operator^(const _Vec3& b) const;
-		T operator*(const _Vec3& b) const;
+		_Vec3 operator-(const _Vec3& b) const; 
+		_Vec3 operator&(const _Vec3& b) const;  // Componentwise multiplication
+		_Vec3 operator^(const _Vec3& b) const;  // Cross product
+		T operator*(const _Vec3& b) const;		// Dot product
 
 		_Vec3 operator*(const T& b) const; 
 		_Vec3 operator/(const T& b) const; 
@@ -150,6 +150,75 @@ namespace cs
 
 		bool operator==(const _Vec3& b) const;
 		bool operator!=(const _Vec3& b) const;
+	};
+
+
+
+
+
+	template<typename T>
+	class _Vec4
+	{
+	public:
+		T x;
+		T y;
+		T z;
+		T w;
+
+	public:
+		_Vec4();
+		_Vec4(T X, T Y, T Z, T W);
+		_Vec4(const _Vec4& copy);
+		_Vec4(const _Vec3<T>& downsample, T W = 1);
+
+		float LengthSq() const;
+		float Length() const;
+
+		_Vec4 Componentwise(const _Vec4& other) const;
+		T Dot(const _Vec4& other) const;
+
+#ifdef CHSL_DX
+		DirectX::XMVECTOR GetXM3();
+#endif
+
+
+		// Conversion
+
+		template<typename T2>
+		explicit operator _Vec4<T2>() const;
+
+		operator _Vec3<T>() const;
+
+
+		// Copy
+
+		_Vec4 operator-() const;
+
+		_Vec4 operator+(const _Vec4& b) const;
+		_Vec4 operator-(const _Vec4& b) const;
+		_Vec4 operator&(const _Vec4& b) const;
+		T operator*(const _Vec4& b) const;
+
+		_Vec4 operator*(const T& b) const;
+		_Vec4 operator/(const T& b) const;
+
+
+		// Assignment
+
+		_Vec4& operator=(const _Vec4& b);
+
+		_Vec4& operator+=(const _Vec4& b);
+		_Vec4& operator-=(const _Vec4& b);
+		_Vec4& operator&=(const _Vec4& b);
+
+		_Vec4& operator*=(const T& b);
+		_Vec4& operator/=(const T& b);
+
+
+		// Evaluation
+
+		bool operator==(const _Vec4& b) const;
+		bool operator!=(const _Vec4& b) const;
 	};
 
 
@@ -667,13 +736,229 @@ namespace cs
 
 
 
+	// ----------------------------------------------- Vec4 definition
+
+	template<typename T>
+	inline _Vec4<T>::_Vec4()
+		:
+		x(0),
+		y(0),
+		z(0),
+		w(0)
+	{
+	}
+
+	template<typename T>
+	inline _Vec4<T>::_Vec4(T X, T Y, T Z, T W)
+		:
+		x(X),
+		y(Y),
+		z(Z),
+		w(W)
+	{
+	}
+
+	template<typename T>
+	inline _Vec4<T>::_Vec4(const _Vec4& copy)
+		:
+		x(copy.x),
+		y(copy.y),
+		z(copy.z),
+		w(copy.w)
+	{
+	}
+
+	template<typename T>
+	inline _Vec4<T>::_Vec4(const _Vec3<T>& downsample, T W)
+		:
+		x(downsample.x),
+		y(downsample.y),
+		z(downsample.z),
+		w(W)
+	{
+	}
+
+	template<typename T>
+	inline float _Vec4<T>::LengthSq() const
+	{
+		return ((float)x) * x + ((float)y) * y + ((float)z) * z + ((float)w) * w;
+	}
+
+	template<typename T>
+	inline float _Vec4<T>::Length() const
+	{
+		return std::sqrtf(LengthSq());
+	}
+
+	template<typename T>
+	inline _Vec4<T> _Vec4<T>::Componentwise(const _Vec4& other) const
+	{
+		return _Vec4(x * other.x, y * other.y, z * other.z, w * other.w);
+	}
+
+	template<typename T>
+	inline T _Vec4<T>::Dot(const _Vec4& other) const
+	{
+		return x * other.x + y * other.y + z * other.z + w * other.w;
+	}
+
+#ifdef CHSL_DX
+
+	template<typename T>
+	inline DirectX::XMVECTOR _Vec4<T>::GetXM3()
+	{
+		return DirectX::XMVectorSet((float)x, (float)y, (float)z, (float)w);
+	}
+
+#endif
+
+	template<typename T>
+	template<typename T2>
+	inline _Vec4<T>::operator _Vec4<T2>() const
+	{
+		return _Vec4<T2>((T2)x, (T2)y, (T2)z, (T2)w);
+	}
+
+	template<typename T>
+	inline _Vec4<T>::operator _Vec3<T>() const
+	{
+		return _Vec3<T>(x, y, z);
+	}
+
+	template<typename T>
+	inline _Vec4<T> _Vec4<T>::operator-() const
+	{
+		return _Vec4(-x, -y, -z, -w);
+	}
+
+	template<typename T>
+	inline _Vec4<T> _Vec4<T>::operator+(const _Vec4& b) const
+	{
+		return _Vec4(x + b.x, y + b.y, z + b.z, w + b.w);
+	}
+	template<typename T>
+	inline _Vec4<T> _Vec4<T>::operator-(const _Vec4& b) const
+	{
+		return _Vec4(x - b.x, y - b.y, z - b.z, w - b.w);
+	}
+	template<typename T>
+	inline _Vec4<T> _Vec4<T>::operator&(const _Vec4& b) const
+	{
+		return _Vec4(x * b.x, y * b.y, z * b.z, w * b.w);
+	}
+	template<typename T>
+	T _Vec4<T>::operator*(const _Vec4& b) const
+	{
+		return
+			x * b.x +
+			y * b.y +
+			z * b.z +
+			w * b.w;
+	}
+
+
+	template<typename T>
+	inline _Vec4<T> _Vec4<T>::operator*(const T& b) const
+	{
+		return _Vec4(x * b, y * b, z * b, w * b);
+	}
+	template<typename T>
+	inline _Vec4<T> _Vec4<T>::operator/(const T& b) const
+	{
+		return _Vec4(x / b, y / b, z / b, w / b);
+	}
+
+	// Assignment
+
+	template<typename T>
+	inline _Vec4<T>& _Vec4<T>::operator=(const _Vec4& b)
+	{
+		x = b.x;
+		y = b.y;
+		z = b.z;
+		w = b.w;
+
+		return *this;
+	}
+
+	template<typename T>
+	inline _Vec4<T>& _Vec4<T>::operator+=(const _Vec4& b)
+	{
+		x += b.x;
+		y += b.y;
+		z += b.z;
+		w += b.w;
+
+		return *this;
+	}
+	template<typename T>
+	inline _Vec4<T>& _Vec4<T>::operator-=(const _Vec4& b)
+	{
+		x -= b.x;
+		y -= b.y;
+		z -= b.z;
+		w -= b.w;
+
+		return *this;
+	}
+	template<typename T>
+	inline _Vec4<T>& _Vec4<T>::operator&=(const _Vec4& b)
+	{
+		x *= b.x;
+		y *= b.y;
+		z *= b.z;
+		w *= b.w;
+
+		return *this;
+	}
+	template<typename T>
+	inline _Vec4<T>& _Vec4<T>::operator*=(const T& b)
+	{
+		x *= b;
+		y *= b;
+		z *= b;
+		w *= b;
+
+		return *this;
+	}
+	template<typename T>
+	inline _Vec4<T>& _Vec4<T>::operator/=(const T& b)
+	{
+		x /= b;
+		y /= b;
+		z /= b;
+		w /= b;
+
+		return *this;
+	}
+
+	// Evaluation
+
+	template<typename T>
+	inline bool _Vec4<T>::operator==(const _Vec4& b) const
+	{
+		return x == b.x && y == b.y && z == b.z && w == b.w;
+	}
+
+	template<typename T>
+	inline bool _Vec4<T>::operator!=(const _Vec4& b) const
+	{
+		return x != b.x || y != b.y || z != b.z || w != b.w;
+	}
+
+
+
+
+
 	// ------------------------------------------------- Postface
 
 	typedef _Vec2<int> Point;
+	typedef _Vec2<unsigned int> UPoint;
 	typedef _Vec2<float> Vec2;
 	typedef _Vec2<double> Vec2d;
 
 	typedef _Vec3<int> Point3;
+	typedef _Vec3<unsigned int> UPoint3;
 	typedef _Vec3<float> Vec3;
 	typedef _Vec3<double> Vec3d;
 

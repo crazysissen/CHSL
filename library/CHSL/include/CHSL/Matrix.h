@@ -108,6 +108,7 @@ namespace cs
 		Matrix4 operator*(const Matrix4& matrix) const;
 
 		_Vec3<T> operator*(const _Vec3<T>& vector) const;
+		_Vec4<T> operator*(const _Vec4<T>& vector) const;
 	};
 
 
@@ -169,7 +170,7 @@ namespace cs
 	// Definitions
 
 	template<typename T, int W, int H>
-	Matrix<T, W, H>::Matrix()
+	inline Matrix<T, W, H>::Matrix()
 		:
 		m_data()
 	{
@@ -194,7 +195,7 @@ namespace cs
 	}
 
 	template<typename T, int W, int H>
-	Matrix<T, W, H>::Matrix(std::initializer_list<T> content)
+	inline Matrix<T, W, H>::Matrix(std::initializer_list<T> content)
 		:
 		Matrix()
 	{
@@ -207,7 +208,7 @@ namespace cs
 	}
 
 	template<typename T, int W, int H>
-	Matrix<T, W, H>::Matrix(const Matrix& lVal)
+	inline Matrix<T, W, H>::Matrix(const Matrix& lVal)
 		:
 		Matrix()
 	{
@@ -218,19 +219,19 @@ namespace cs
 	}
 
 	template<typename T, int W, int H>
-	const T& Matrix<T, W, H>::operator()(int x, int y) const
+	inline const T& Matrix<T, W, H>::operator()(int x, int y) const
 	{
 		return m_data[x + y * W];
 	}
 
 	template<typename T, int W, int H>
-	T& Matrix<T, W, H>::operator()(int x, int y)
+	inline T& Matrix<T, W, H>::operator()(int x, int y)
 	{
 		return m_data[x + y * W];
 	}
 
 	template<typename T, int W, int H>
-	bool Matrix<T, W, H>::operator==(const Matrix& other) const
+	inline bool Matrix<T, W, H>::operator==(const Matrix& other) const
 	{
 		for (int i = 0; i < W * H; i++)
 		{
@@ -244,7 +245,7 @@ namespace cs
 	}
 
 	template<typename T, int W, int H>
-	bool Matrix<T, W, H>::operator!=(const Matrix& other) const
+	inline bool Matrix<T, W, H>::operator!=(const Matrix& other) const
 	{
 		return !(*this == other);
 	}
@@ -263,7 +264,7 @@ namespace cs
 	//}
 
 	template<typename T, int W, int H>
-	Matrix<T, W, H> Matrix<T, W, H>::operator+(const Matrix& other) const
+	inline Matrix<T, W, H> Matrix<T, W, H>::operator+(const Matrix& other) const
 	{
 		Matrix m;
 
@@ -276,7 +277,7 @@ namespace cs
 	}
 
 	template<typename T, int W, int H>
-	Matrix<T, W, H> Matrix<T, W, H>::operator-(const Matrix& other) const
+	inline Matrix<T, W, H> Matrix<T, W, H>::operator-(const Matrix& other) const
 	{
 		Matrix m;
 
@@ -289,7 +290,7 @@ namespace cs
 	}
 
 	template<typename T, int W, int H>
-	Matrix<T, W, H> Matrix<T, W, H>::operator*(const T& scalar) const
+	inline Matrix<T, W, H> Matrix<T, W, H>::operator*(const T& scalar) const
 	{
 		Matrix m;
 
@@ -311,7 +312,7 @@ namespace cs
 	//}
 
 	template<typename T, int W, int H>
-	Matrix<T, W, H>& Matrix<T, W, H>::operator+=(const Matrix& other)
+	inline Matrix<T, W, H>& Matrix<T, W, H>::operator+=(const Matrix& other)
 	{
 		for (int x = 0; x < W; x++)
 		{
@@ -325,7 +326,7 @@ namespace cs
 	}
 
 	template<typename T, int W, int H>
-	Matrix<T, W, H>& Matrix<T, W, H>::operator-=(const Matrix& other)
+	inline Matrix<T, W, H>& Matrix<T, W, H>::operator-=(const Matrix& other)
 	{
 		for (int x = 0; x < W; x++)
 		{
@@ -339,7 +340,7 @@ namespace cs
 	}
 
 	template<typename T, int W, int H>
-	Matrix<T, W, H>& Matrix<T, W, H>::operator*=(const T& scalar)
+	inline Matrix<T, W, H>& Matrix<T, W, H>::operator*=(const T& scalar)
 	{
 		for (int x = 0; x < W; x++)
 		{
@@ -353,13 +354,13 @@ namespace cs
 	}
 
 	template<typename T, int W, int H>
-	const T& Matrix<T, W, H>::Get(int x, int y) const
+	inline const T& Matrix<T, W, H>::Get(int x, int y) const
 	{
 		return m_data[x + y * W];
 	}
 
 	template<typename T, int W, int H>
-	T& Matrix<T, W, H>::Get(int x, int y)
+	inline T& Matrix<T, W, H>::Get(int x, int y)
 	{
 		return m_data[x + y * W];
 	}
@@ -381,13 +382,13 @@ namespace cs
 	}
 
 	template<typename T, int W, int H>
-	const T* Matrix<T, W, H>::Data() const
+	inline const T* Matrix<T, W, H>::Data() const
 	{
 		return m_data;
 	}
 
 	template<typename T, int W, int H>
-	T* Matrix<T, W, H>::Data()
+	inline T* Matrix<T, W, H>::Data()
 	{
 		return m_data;
 	}
@@ -432,7 +433,7 @@ namespace cs
 	}
 
 	template<typename T, int W, int H>
-	Matrix<T, W, H>& Matrix<T, W, H>::operator=(const Matrix& other)
+	inline Matrix<T, W, H>& Matrix<T, W, H>::operator=(const Matrix& other)
 	{
 		for (int i = 0; i < W * H; i++)
 		{
@@ -443,7 +444,7 @@ namespace cs
 	}
 
 	template<typename T, int W, int H>
-	Matrix<T, W, H>& Matrix<T, W, H>::operator*=(const Matrix<T, W, H>& other)
+	inline Matrix<T, W, H>& Matrix<T, W, H>::operator*=(const Matrix<T, W, H>& other)
 	{
 		return *this = (*this * other);
 	}
@@ -453,60 +454,63 @@ namespace cs
 	// Matrix2
 
 	template<typename T>
-	Matrix2<T>::Matrix2()
+	inline Matrix2<T>::Matrix2()
 		:
 		Matrix<T, 2>()
 	{
 	}
 
 	template<typename T>
-	Matrix2<T>::Matrix2(T a1, T a2, T b1, T b2)
+	inline Matrix2<T>::Matrix2(T a1, T a2, T b1, T b2)
 		:
 		Matrix<T, 2> { a1, a2, b1, b2 }
 	{
 	}
 
 	template<typename T>
-	Matrix2<T>::Matrix2(std::initializer_list<T> content)
+	inline Matrix2<T>::Matrix2(std::initializer_list<T> content)
 		:
 		Matrix<T, 2>(content)
 	{
 	}
 
 	template<typename T>
-	Matrix2<T>::Matrix2(const Matrix<T, 2>& lVal)
+	inline Matrix2<T>::Matrix2(const Matrix<T, 2>& lVal)
 		:
 		Matrix<T, 2>(lVal)
 	{
 	}
 
 	template<typename T>
-	Matrix2<T>::Matrix2(const Matrix2& lVal)
+	inline Matrix2<T>::Matrix2(const Matrix2& lVal)
 		:
 		Matrix<T, 2>(lVal)
 	{
 	}
 
 	template<typename T>
-	_Vec2<T> Matrix2<T>::operator*(const _Vec2<T>& vector) const
+	inline _Vec2<T> Matrix2<T>::operator*(const _Vec2<T>& v) const
 	{
-		return Mat::transform(*this, vector);
+		return _Vec2<T>(
+			v.x * (*this)(0, 0) + v.y * (*this)(1, 0) + (*this)(2, 0),
+			v.x * (*this)(0, 1) + v.y * (*this)(1, 1) + (*this)(2, 1)
+		);
 	}
 
 	template<typename T>
-	Matrix2<T> Matrix2<T>::operator*(const Matrix2& matrix) const
+	inline Matrix2<T> Matrix2<T>::operator*(const Matrix2& matrix) const
 	{
 		return (Matrix<T, 2>)(*this) * matrix;
 	}
 
 	template<typename T>
-	T Matrix2<T>::Determinant() const
+	inline T Matrix2<T>::Determinant() const
 	{
 		return (*this)(0, 0) * (*this)(1, 1) - (*this)(1, 0) * (*this)(0, 1);
 	}
 
 	template<typename T>
-	Matrix2<T> Matrix2<T>::Inverse() const
+	inline Matrix2<T> Matrix2<T>::Inverse() const
 	{
 		T d = ((T)1) / this->Determinant();
 
@@ -522,64 +526,71 @@ namespace cs
 	// Matrix3
 
 	template<typename T>
-	Matrix3<T>::Matrix3()
+	inline Matrix3<T>::Matrix3()
 	{
 	}
 
 	template<typename T>
-	Matrix3<T>::Matrix3(T a1, T a2, T a3, T b1, T b2, T b3, T c1, T c2, T c3)
+	inline Matrix3<T>::Matrix3(T a1, T a2, T a3, T b1, T b2, T b3, T c1, T c2, T c3)
 		:
-	Matrix<T, 3>{ a1, a2, a3, b1, b2, b3, c1, c2, c3 }
+		Matrix<T, 3>{ a1, a2, a3, b1, b2, b3, c1, c2, c3 }
 	{
 	}
 
 	template<typename T>
-	Matrix3<T>::Matrix3(std::initializer_list<T> content)
+	inline Matrix3<T>::Matrix3(std::initializer_list<T> content)
 		:
-	Matrix<T, 3>(content)
+		Matrix<T, 3>(content)
 	{
 	}
 
 	template<typename T>
-	Matrix3<T>::Matrix3(const Matrix<T, 3>& lVal)
+	inline Matrix3<T>::Matrix3(const Matrix<T, 3>& lVal)
 		:
-	Matrix<T, 3>(lVal)
+		Matrix<T, 3>(lVal)
 	{
 	}
 
 	template<typename T>
-	Matrix3<T>::Matrix3(const Matrix3& lVal)
+	inline Matrix3<T>::Matrix3(const Matrix3& lVal)
 		:
-	Matrix<T, 3>(lVal)
+		Matrix<T, 3>(lVal)
 	{
 	}
 
 	template<typename T>
-	_Vec2<T> Matrix3<T>::operator*(const _Vec2<T>& vector) const
+	inline _Vec2<T> Matrix3<T>::operator*(const _Vec2<T>& v) const
 	{
-		return Mat::transform(*this, vector);
+		return _Vec2<T>(
+			v.x * (*this)(0, 0) + v.y * (*this)(1, 0) + (*this)(2, 0),
+			v.x * (*this)(0, 1) + v.y * (*this)(1, 1) + (*this)(2, 1)
+		);
 	}
 
 	template<typename T>
-	_Vec3<T> Matrix3<T>::operator*(const _Vec3<T>& vector) const
+	inline _Vec3<T> Matrix3<T>::operator*(const _Vec3<T>& v) const
 	{
-		return Mat::transform(*this, vector);
+		return _Vec3<T>(
+			v.x * (*this)(0, 0) + v.y * (*this)(1, 0) + v.z * (*this)(2, 0),
+			v.x * (*this)(0, 1) + v.y * (*this)(1, 1) + v.z * (*this)(2, 1),
+			v.x * (*this)(0, 2) + v.y * (*this)(1, 2) + v.z * (*this)(2, 2)
+		);
 	}
 
 	template<typename T>
-	Matrix3<T> Matrix3<T>::operator*(const Matrix3& matrix) const
+	inline Matrix3<T> Matrix3<T>::operator*(const Matrix3& matrix) const
 	{
 		return (Matrix<T, 3>)(*this) * matrix;
 	}
 
 	template<typename T>
-	Matrix4<T> Matrix3<T>::operator*(const Matrix4<T>& matrix) const
+	inline Matrix4<T> Matrix3<T>::operator*(const Matrix4<T>& matrix) const
 	{
 		return Matrix4<T>(*this) * matrix;
 	}
 
 	template<typename T>
-	T Matrix3<T>::Determinant() const
+	inline T Matrix3<T>::Determinant() const
 	{
 		return
 			(*this)(0, 0) * (*this)(1, 1) * (*this)(2, 2) +
@@ -591,7 +602,7 @@ namespace cs
 	}
 
 	template<typename T>
-	Matrix3<T> Matrix3<T>::Inverse() const
+	inline Matrix3<T> Matrix3<T>::Inverse() const
 	{
 		Matrix3 m = *this;
 
@@ -620,33 +631,33 @@ namespace cs
 	}
 
 	template<typename T>
-	Matrix4<T>::Matrix4()
+	inline Matrix4<T>::Matrix4()
 	{
 	}
 
 	template<typename T>
-	Matrix4<T>::Matrix4(T a1, T a2, T a3, T a4, T b1, T b2, T b3, T b4, T c1, T c2, T c3, T c4, T d1, T d2, T d3, T d4)
+	inline Matrix4<T>::Matrix4(T a1, T a2, T a3, T a4, T b1, T b2, T b3, T b4, T c1, T c2, T c3, T c4, T d1, T d2, T d3, T d4)
 		:
-	Matrix<T, 4>{ a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4 }
+		Matrix<T, 4>{ a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4 }
 	{
 	}
 
 	template<typename T>
-	Matrix4<T>::Matrix4(std::initializer_list<T> content)
+	inline Matrix4<T>::Matrix4(std::initializer_list<T> content)
 		:
-	Matrix<T, 4>(content)
+		Matrix<T, 4>(content)
 	{
 	}
 
 	template<typename T>
-	Matrix4<T>::Matrix4(const Matrix<T, 4>& lVal)
+	inline Matrix4<T>::Matrix4(const Matrix<T, 4>& lVal)
 		:
-	Matrix<T, 4>(lVal)
+		Matrix<T, 4>(lVal)
 	{
 	}
 
 	template<typename T>
-	Matrix4<T>::Matrix4(const Matrix3<T>& lVal)
+	inline Matrix4<T>::Matrix4(const Matrix3<T>& lVal)
 		:
 		Matrix4
 		{
@@ -659,28 +670,43 @@ namespace cs
 	}
 
 	template<typename T>
-	Matrix4<T>::Matrix4(const Matrix4& lVal)
+	inline Matrix4<T>::Matrix4(const Matrix4& lVal)
 		:
 	Matrix<T, 4>(lVal)
 	{
 	}
 
 	template<typename T>
-	Matrix4<T> Matrix4<T>::operator*(const Matrix3<T>& matrix) const
+	inline Matrix4<T> Matrix4<T>::operator*(const Matrix3<T>& matrix) const
 	{
 		return *this * Matrix4(matrix);
 	}
 
 	template<typename T>
-	Matrix4<T> Matrix4<T>::operator*(const Matrix4& matrix) const
+	inline Matrix4<T> Matrix4<T>::operator*(const Matrix4& matrix) const
 	{
 		return (Matrix<T, 4>)(*this) * matrix;
 	}
 
 	template<typename T>
-	_Vec3<T> Matrix4<T>::operator*(const _Vec3<T>& vector) const
+	inline _Vec3<T> Matrix4<T>::operator*(const _Vec3<T>& v) const
 	{
-		return Mat::transform(*this, vector);
+		return Vec3(
+			v.x * (*this)(0, 0) + v.y * (*this)(1, 0) + v.z * (*this)(2, 0) + (*this)(3, 0),
+			v.x * (*this)(0, 1) + v.y * (*this)(1, 1) + v.z * (*this)(2, 1) + (*this)(3, 1),
+			v.x * (*this)(0, 2) + v.y * (*this)(1, 2) + v.z * (*this)(2, 2) + (*this)(3, 2)
+		);
+	}
+
+	template<typename T>
+	inline _Vec4<T> Matrix4<T>::operator*(const _Vec4<T>& v) const
+	{
+		return _Vec4<T>(
+			v.x * (*this)(0, 0) + v.y * (*this)(1, 0) + v.z * (*this)(2, 0) + v.w + (*this)(3, 0),
+			v.x * (*this)(0, 1) + v.y * (*this)(1, 1) + v.z * (*this)(2, 1) + v.w + (*this)(3, 1), 
+			v.x * (*this)(0, 2) + v.y * (*this)(1, 2) + v.z * (*this)(2, 2) + v.w + (*this)(3, 2),
+			v.x * (*this)(0, 3) + v.y * (*this)(1, 3) + v.z * (*this)(2, 3) + v.w + (*this)(3, 3)
+		);
 	}
 
 }

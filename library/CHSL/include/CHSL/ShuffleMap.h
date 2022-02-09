@@ -15,7 +15,7 @@ namespace cs
 		T_val val;
 		uint identifier;
 
-		bool operator==(const ShuffleMapStruct& lVal) const { return val == lVal.val; }
+		bool operator==(const ShuffleMapStruct& lVal) const { return identifier == lVal.identifier; }
 		bool operator!=(const ShuffleMapStruct& lVal) const { return key != lVal.key; }
 		bool operator>(const ShuffleMapStruct& lVal) const { return key > lVal.key; }
 		bool operator<(const ShuffleMapStruct& lVal) const { return key < lVal.key; }
