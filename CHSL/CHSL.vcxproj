@@ -29,6 +29,7 @@
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="ShuffleMap.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Noise.cpp" />
@@ -65,6 +66,7 @@
     <ClInclude Include="Line.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Plane.h" />
+    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="ShuffleMap.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Noise.h" />
