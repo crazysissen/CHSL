@@ -63,8 +63,10 @@
     <ClInclude Include="Indexer.h" />
     <ClInclude Include="IRaycastTarget.h" />
     <ClInclude Include="Line.h" />
+    <ClInclude Include="List.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Plane.h" />
+    <ClInclude Include="Queue.h" />
     <ClInclude Include="ShuffleMap.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Noise.h" />

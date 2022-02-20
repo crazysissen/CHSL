@@ -6,6 +6,7 @@
 #include <map>
 #include <CHSL/ShuffleMap.h>
 #include <CHSL/RBTree.h>
+#include <CHSL/List.h>
 
 
 
@@ -25,16 +26,14 @@ float GetRF()
 
 int main()
 {
-	Mat3 a =
+	cs::List<int> a;
+
+	a.Add(1);
+	a.Add(2);
+	a.Add(3);
+
+	for (int& i : a)
 	{
-		3, 0, 2,
-		2, 0, -2,
-		0, 1, 1
-	};
-
-	Mat3 i = a.Inverse();
-
-	Vec3 b;
-
-	return 0;
+		std::cout << i << '\n';
+	}
 }
