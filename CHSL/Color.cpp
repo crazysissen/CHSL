@@ -105,9 +105,9 @@ cs::Color::Bytes cs::ColorA::GetBytes()
 {
 	return
 	{
-		(byte)std::roundf(r * 256) % 256U,
-		(byte)std::roundf(g * 256) % 256U,
-		(byte)std::roundf(b * 256) % 256U,
-		(byte)std::roundf(a * 256) % 256U
+		(byte)(r * 256),
+		(byte)(g * 256),
+		(byte)(b * 256),
+		(byte)(a * 256)
 	};
 }

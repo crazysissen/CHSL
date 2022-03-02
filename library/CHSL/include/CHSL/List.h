@@ -32,27 +32,28 @@ namespace cs
 
         T& operator[](int index) const;
 
-        int size() const;
-        int capacity() const;
-        bool empty() const;
-        T& at(int index) const;
-        T& front() const;
-        T& back() const;
+        int Size() const;
+        int Capacity() const;
+        bool Empty() const;
+        T& At(int index) const;
+        T& Front() const;
+        T& Back() const;
 
-        void insert(int index, const T& value);
-        void erase(int index);
-        void push_back(const T& value);
-        void pop_back();
-        void clear();
+        void Insert(int index, const T& value);
+        void Remove(int index);
+        void Add(const T& value);
+        void Clear();
+        T Pop();
 
-        const T* data() const;
+        const T* Data() const;
 
         ListIterator<T> begin() const;
         ListIterator<T> end() const;
 
-        void boundArray();
-        void shrinkArray();
-        void growArray();
+    private:
+        void BoundArray();
+        void ShrinkArray();
+        void GrowArray();
 
     private:
         static constexpr int c_dCapacity = 8;
@@ -87,19 +88,19 @@ namespace cs
     }
 
     template<typename T>
-    inline List<T>::List(const List<T>& l_val)
+    inline List<T>::List(const List<T>& lVal)
         :
         m_elements(nullptr)
     {
-        *this = l_val;
+        *this = lVal;
     }
 
     template<typename T>
-    inline List<T>::List(List<T>&& r_val)
+    inline List<T>::List(List<T>&& rVal)
         :
         m_elements(nullptr)
     {
-        *this = std::move(r_val);
+        *this = static_cast<List<T>&&>(rVal);
     }
 
 
@@ -153,7 +154,7 @@ namespace cs
         m_elements = r_val.m_elements;
 
         r_val.m_elements = nullptr;
-        r_val.clear();
+        r_val.Clear();
 
         return *this;
     }
@@ -176,25 +177,25 @@ namespace cs
     // Information and accessors
 
     template<typename T>
-    inline int List<T>::size() const
+    inline int List<T>::Size() const
     {
         return m_size;
     }
 
     template<typename T>
-    inline int List<T>::capacity() const
+    inline int List<T>::Capacity() const
     {
         return m_capacity;
     }
 
     template<typename T>
-    inline bool List<T>::empty() const
+    inline bool List<T>::Empty() const
     {
         return m_size == 0;
     }
 
     template<typename T>
-    inline T& List<T>::at(int index) const
+    inline T& List<T>::At(int index) const
     {
         if (index < 0 || index >= m_size)
         {
@@ -205,7 +206,7 @@ namespace cs
     }
 
     template<typename T>
-    inline T& List<T>::front() const
+    inline T& List<T>::Front() const
     {
         if (m_size == 0)
         {
@@ -216,7 +217,7 @@ namespace cs
     }
 
     template<typename T>
-    inline T& List<T>::back() const
+    inline T& List<T>::Back() const
     {
         if (m_size == 0)
         {
@@ -227,7 +228,7 @@ namespace cs
     }
 
     template<typename T>
-    inline const T* List<T>::data() const
+    inline const T* List<T>::Data() const
     {
         return m_elements;
     }
@@ -251,9 +252,9 @@ namespace cs
     // Operations
 
     template<typename T>
-    inline void List<T>::insert(int index, const T& value)
+    inline void List<T>::Insert(int index, const T& value)
     {
-        boundArray();
+        BoundArray();
         if (index < 0 || index > m_size)
         {
             return;
@@ -270,7 +271,7 @@ namespace cs
     }
 
     template<typename T>
-    inline void List<T>::erase(int index)
+    inline void List<T>::Remove(int index)
     {
         if (index < 0 || index >= m_size)
         {
@@ -284,13 +285,13 @@ namespace cs
 
         m_size--;
 
-        //boundArray();
+        //BoundArray();
     }
 
     template<typename T>
-    inline void List<T>::push_back(const T& value)
+    inline void List<T>::Add(const T& value)
     {
-        boundArray();
+        BoundArray();
         m_elements[m_size] = value;
 
         m_size++;
@@ -298,7 +299,7 @@ namespace cs
     }
 
     template<typename T>
-    inline void List<T>::pop_back()
+    inline T List<T>::Pop()
     {
         if (m_size == 0)
         {
@@ -307,11 +308,13 @@ namespace cs
 
         m_size--;
 
-        //boundArray();
+        return m_elements[m_size];
+
+        //BoundArray();
     }
 
     template<typename T>
-    inline void List<T>::clear()
+    inline void List<T>::Clear()
     {
         m_size = 0;
         m_capacity = c_dCapacity;
@@ -331,22 +334,22 @@ namespace cs
     // Privates
 
     template<typename T>
-    inline void List<T>::boundArray()
+    inline void List<T>::BoundArray()
     {
         if (m_size == m_capacity)
         {
-            growArray();
+            GrowArray();
             return;
         }
 
         if (m_size < m_capacity / 2 && m_capacity > c_dCapacity)
         {
-            shrinkArray();
+            ShrinkArray();
         }
     }
 
     template<typename T>
-    inline void List<T>::shrinkArray()
+    inline void List<T>::ShrinkArray()
     {
         T* newElements = new T[m_capacity / 2];
         for (int i = 0; i < m_size; ++i)
@@ -360,7 +363,7 @@ namespace cs
     }
 
     template<typename T>
-    inline void List<T>::growArray()
+    inline void List<T>::GrowArray()
     {
         T* newElements = new T[m_capacity * 2];
         for (int i = 0; i < m_size; ++i)
