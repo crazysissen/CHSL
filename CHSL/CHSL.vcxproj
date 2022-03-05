@@ -66,6 +66,7 @@
     <ClInclude Include="Line.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Octree.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Queue.h" />
