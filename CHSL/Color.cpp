@@ -20,7 +20,13 @@ cs::Color::Color(float red, float green, float blue)
 {
 }
 
-cs::Color::Color(uint colorHex)
+cs::Color::Color(const Vec3& v)
+	:
+	Color(v.x, v.y, v.z)
+{
+}
+
+cs::Color::Color(unsigned int colorHex)
 	:
 	Color(
 		BYTE_MULTIPLIER * ((colorHex & 0xFF0000U) >> 16),
@@ -51,15 +57,30 @@ void cs::Color::Mutate(float ammount, cs::Random& random, bool monochrome)
 	b = cs::fclamp(b, 0, 1);
 }
 
-cs::Color::Bytes cs::Color::GetBytes()
+cs::Color::Bytes cs::Color::GetBytes() const
 {
 	return 
 	{ 
 		(byte)(fclamp(std::roundf(r * 255), 0, 255U)), 
 		(byte)(fclamp(std::roundf(g * 255), 0, 255U)), 
-		(byte)(fclamp(std::roundf(b * 255), 0, 255U)),
-		byte(255U)
+		(byte)(fclamp(std::roundf(b * 255), 0, 255U))
 	};
+}
+
+cs::ColorA::BytesA cs::Color::GetBytesA() const
+{
+	return
+	{
+		(byte)(fclamp(std::roundf(r * 255), 0, 255U)),
+		(byte)(fclamp(std::roundf(g * 255), 0, 255U)),
+		(byte)(fclamp(std::roundf(b * 255), 0, 255U)),
+		255U
+	};
+}
+
+cs::Color::operator cs::Vec3() const
+{
+	return Vec3(r, g, b);
 }
 
 cs::Color& cs::Color::operator*=(const float& colorMultiplier)
@@ -73,7 +94,9 @@ cs::Color& cs::Color::operator*=(const float& colorMultiplier)
 
 cs::ColorA::ColorA()
 	:
-	Color(0.0f, 0.0f, 0.0f),
+	r(0.0f),
+	g(0.0f),
+	b(0.0f),
 	a(0.0f)
 {
 }
@@ -84,14 +107,28 @@ cs::ColorA::ColorA(const Color& c)
 {
 }
 
+cs::ColorA::ColorA(const Vec3& v)
+	:
+	ColorA(v.x, v.y, v.z, 1.0f)
+{
+}
+
+cs::ColorA::ColorA(const Vec4& v)
+	:
+	ColorA(v.x, v.y, v.z, v.w)
+{
+}
+
 cs::ColorA::ColorA(float red, float green, float blue, float alpha)
 	:
-	Color(red, green, blue),
+	r(red),
+	g(green),
+	b(blue),
 	a(alpha)
 {
 }
 
-cs::ColorA::ColorA(uint colorHex)
+cs::ColorA::ColorA(unsigned int colorHex)
 	:
 	ColorA(
 		BYTE_MULTIPLIER * ((colorHex & 0xFF000000U) >> 24),
@@ -101,7 +138,17 @@ cs::ColorA::ColorA(uint colorHex)
 {
 }
 
-cs::Color::Bytes cs::ColorA::GetBytes()
+cs::ColorA::operator cs::Vec3() const
+{
+	return Vec3(r, g, b);
+}
+
+cs::ColorA::operator cs::Vec4() const
+{
+	return Vec4(r, g, b, a);
+}
+
+cs::ColorA::BytesA cs::ColorA::GetBytes() const
 {
 	return
 	{

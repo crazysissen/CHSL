@@ -3,7 +3,7 @@
 
 #include <limits>
 
-cs::Box::Box(Vec3 center, Vec3 xV, Vec3 yV, Vec3 zV)
+cs::BoxUnaligned::BoxUnaligned(Vec3 center, Vec3 xV, Vec3 yV, Vec3 zV)
 	:
 	m_origin(center),
 	m_x(xV.Normalized()),
@@ -15,7 +15,7 @@ cs::Box::Box(Vec3 center, Vec3 xV, Vec3 yV, Vec3 zV)
 {
 }
 
-cs::Box::Box(Vec3 center, float width, float height, float depth)
+cs::BoxUnaligned::BoxUnaligned(Vec3 center, float width, float height, float depth)
 	:
 	m_origin(center),
 	m_x(1, 0, 0),
@@ -27,9 +27,9 @@ cs::Box::Box(Vec3 center, float width, float height, float depth)
 {
 }
 
-cs::Box::Box(Vec3 center, float width, float height, float depth, float rX, float rY, float rZ)
+cs::BoxUnaligned::BoxUnaligned(Vec3 center, float width, float height, float depth, float rX, float rY, float rZ)
 	:
-	Box(center, width, height, depth)
+	BoxUnaligned(center, width, height, depth)
 {
 	Mat3 r = Mat::rotation3(rX, rY, rZ);
 	m_x = r * m_x;
@@ -37,7 +37,7 @@ cs::Box::Box(Vec3 center, float width, float height, float depth, float rX, floa
 	m_z = r * m_z;
 }
 
-bool cs::Box::Raycast(const Line3& line, HitInfo& out) const
+bool cs::BoxUnaligned::Raycast(const Line3& line, HitInfo& out) const
 {
 	constexpr float epsilon = 1.0 / 65536;
 
@@ -120,7 +120,7 @@ bool cs::Box::Raycast(const Line3& line, HitInfo& out) const
 	return true;
 }
 
-bool cs::Box::Intersection(const Line3& line, Vec3& out) const
+bool cs::BoxUnaligned::Intersection(const Line3& line, Vec3& out) const
 {
 	HitInfo h;
 

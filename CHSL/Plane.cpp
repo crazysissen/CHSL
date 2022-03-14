@@ -3,6 +3,14 @@
 
 #include <fstream>
 
+cs::Plane::Plane()
+    :
+    m_origin(0, 0, 0),
+    m_normal(1, 0, 0),
+    m_d(0)
+{
+}
+
 cs::Plane::Plane(Vec3 origin, Vec3 normal)
     :
     m_origin(origin),
@@ -72,6 +80,16 @@ void cs::Plane::SetNormal(const Vec3& normal)
     m_normal = normal;
 
     UpdateD();
+}
+
+bool cs::Plane::IsBelow(const Vec3& vector) const
+{
+    return m_normal * (vector - m_origin) > 0;
+}
+
+bool cs::Plane::IsAbove(const Vec3& vector) const
+{
+    return m_normal * (vector - m_origin) < 0;
 }
 
 bool cs::Plane::Equivalent(const Plane& plane) const

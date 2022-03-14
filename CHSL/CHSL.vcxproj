@@ -25,6 +25,7 @@
     <ClCompile Include="CHSL.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Easing.cpp" />
+    <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="Indexer.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="Matrix.cpp" />
@@ -59,6 +60,7 @@
     <ClInclude Include="CHSLTypedef.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Easing.h" />
+    <ClInclude Include="Frustum.h" />
     <ClInclude Include="GeneralEnums.h" />
     <ClInclude Include="Header\CHSL.h" />
     <ClInclude Include="Indexer.h" />
@@ -68,8 +70,10 @@
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Octree.h" />
     <ClInclude Include="Plane.h" />
+    <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Queue.h" />
+    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="ShuffleMap.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Noise.h" />
@@ -175,6 +179,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>core.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -202,6 +207,7 @@ xcopy /y "$(OutDir)*.pdb" "$(SolutionDir)library\CHSL\lib\" </Command>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>core.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -256,6 +262,7 @@ xcopy /y "$(OutDir)*.pdb" "$(SolutionDir)library\CHSL\lib\" </Command>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>core.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>

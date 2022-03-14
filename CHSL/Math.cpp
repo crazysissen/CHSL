@@ -61,16 +61,19 @@ int cs::iwrap(int val, int min, int max)
 	return min + (range + (val - min) % range) % range;
 }
 
-float cs::fwrap(float val, float min, float max)
+float cs::fwrap(float val, float max)
 {
-	if (val >= min && val <= max)
+	if (val >= 0 && val <= max)
 	{
 		return val;
 	}
 
-	float range = max - min;
+	return fmod(max + fmod(val, max), max);
+}
 
-	return min + fmod(range + fmod(val - min, range), range);
+float cs::fwrap(float val, float min, float max)
+{
+	return min + fwrap(val - min, max - min);
 }
 
 int cs::iabs(int val)
