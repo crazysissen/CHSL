@@ -39,6 +39,11 @@ cs::NoiseSimplex::NoiseSimplex(byte* permMatrix, bool copy) // Use memory addres
 	}
 }
 
+cs::NoiseSimplex::~NoiseSimplex()
+{
+	delete[] permutations;
+}
+
 void cs::NoiseSimplex::PerlinGenMatrix()
 {
 	cs::Random r;
@@ -59,7 +64,7 @@ void cs::NoiseSimplex::PerlinGenMatrix(byte* permMatrix, bool copy) // Replaces 
 		return;
 	}
 
-	delete(permutations);
+	delete[] permutations;
 	permutations = permMatrix;
 }
 
