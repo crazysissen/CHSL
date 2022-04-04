@@ -73,7 +73,7 @@ float cs::NoiseSimplex::Gen1D(float x)
 	int index = cs::floor(x); // REPLACED FLOOR WITH CAST
 	float localX = x - index;
 
-	// Factor 0.395 scales the range to precisely - 1-> 1
+	// Factor 0.395 scales the range to precisely - 1 -> 1
 	return 0.395f * (
 		std::powf(1.0f - localX * localX, 4) * Gradient(permutations[index & 0xff], localX) +
 		std::powf(1 - (localX * localX - 2 * localX + 1), 4) * Gradient(permutations[(index + 1) & 0xff], localX - 1));
@@ -251,11 +251,11 @@ float cs::NoiseSimplex::Gen3D(float x, float y, float z)
 
 float cs::NoiseSimplex::Gradient(byte permHash, float x)
 {
-	int hash = permHash & 15;
+	int hash = permHash & 0b1111;
 
 	return 
-		((1.0f + (hash & 7)) * x) 
-		* ((hash & 8) != 0 ? -1.0f : 1.0f);
+		(1.0f + (hash & 0b0111) * x) *
+		(1.0f - ((hash & 0b1000) != 0) * 2.0f);
 }
 
 float cs::NoiseSimplex::Gradient(byte permHash, float x, float y)
