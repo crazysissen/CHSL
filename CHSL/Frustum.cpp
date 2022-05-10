@@ -15,9 +15,9 @@ cs::Frustum::Frustum()
 {
 }
 
-cs::Frustum::Frustum(const cs::Plane& near, const cs::Plane& far, const cs::Plane& a, const cs::Plane& b, const cs::Plane& c, const cs::Plane& d)
+cs::Frustum::Frustum(const cs::Plane& nearPlane, const cs::Plane& farPlane, const cs::Plane& a, const cs::Plane& b, const cs::Plane& c, const cs::Plane& d)
 	:
-	sides{ near, far, a, b, c, d }
+	sides{ nearPlane, farPlane, a, b, c, d }
 {
 }
 
@@ -114,18 +114,18 @@ cs::ViewFrustum::ViewFrustum()
 {
 }
 
-cs::ViewFrustum::ViewFrustum(const cs::Vec3& position, const cs::Mat3& direction, float near, float far, float yAngle, float aspectRatio)
+cs::ViewFrustum::ViewFrustum(const cs::Vec3& position, const cs::Mat3& direction, float nearPlane, float farPlane, float yAngle, float aspectRatio)
 {
-	UpdateNearPlane(near);
-	UpdateFarPlane(far);
+	UpdateNearPlane(nearPlane);
+	UpdateFarPlane(farPlane);
 	UpdateViewAngle(yAngle, aspectRatio);
 	SetViewDirection(direction);
 	SetPosition(position);
 }
 
-cs::ViewFrustum::ViewFrustum(const cs::Vec3& position, const cs::Vec3& angles, float near, float far, float yAngle, float aspectRatio)
+cs::ViewFrustum::ViewFrustum(const cs::Vec3& position, const cs::Vec3& angles, float nearPlane, float farPlane, float yAngle, float aspectRatio)
 	:
-	ViewFrustum(position, Mat::rotation3(angles.x, angles.y, angles.z), near, far, yAngle, aspectRatio)
+	ViewFrustum(position, Mat::rotation3(angles.x, angles.y, angles.z), nearPlane, farPlane, yAngle, aspectRatio)
 {
 }
 
@@ -150,15 +150,15 @@ void cs::ViewFrustum::SetPosition(const cs::Vec3& position)
 	}
 }
 
-void cs::ViewFrustum::SetNearPlane(float near)
+void cs::ViewFrustum::SetNearPlane(float nearPlane)
 {
-	UpdateNearPlane(near);
+	UpdateNearPlane(nearPlane);
 	sides[0].SetOrigin(m_position + m_orientation * m_defaultOrigins[0]);
 }
 
-void cs::ViewFrustum::SetFarPlane(float far)
+void cs::ViewFrustum::SetFarPlane(float farPlane)
 {
-	UpdateFarPlane(far);
+	UpdateFarPlane(farPlane);
 	sides[1].SetOrigin(m_position + m_orientation * m_defaultOrigins[1]);
 }
 
@@ -166,15 +166,15 @@ void cs::ViewFrustum::SetViewDirection(const cs::Mat3& direction)
 {
 	m_orientation = direction;
 
-	sides[0].SetOrigin(m_orientation * m_defaultOrigins[0]);
+	sides[0].SetOrigin(m_position + m_orientation * m_defaultOrigins[0]);
 	sides[0].SetNormal(m_orientation * Vec3(0, 0, -1));
 
-	sides[1].SetOrigin(m_orientation * m_defaultOrigins[1]);
+	sides[1].SetOrigin(m_position + m_orientation * m_defaultOrigins[1]);
 	sides[1].SetNormal(m_orientation * Vec3(0, 0, 1));
 
 	for (int i = 0; i < 4; i++)
 	{
-		sides[i + 2].SetOrigin(m_orientation * m_defaultOrigins[i + 2]);
+		sides[i + 2].SetOrigin(m_position + m_orientation * m_defaultOrigins[i + 2]);
 		sides[i + 2].SetNormal(m_orientation * m_defaultSideDirections[i]);
 	}
 }
@@ -190,19 +190,19 @@ void cs::ViewFrustum::SetViewAngle(float yAngle, float aspectRatio)
 
 	for (int i = 0; i < 4; i++)
 	{
-		sides[i + 2].SetOrigin(m_orientation * m_defaultOrigins[i + 2]);
+		sides[i + 2].SetOrigin(m_position + m_orientation * m_defaultOrigins[i + 2]);
 		sides[i + 2].SetNormal(m_orientation * m_defaultSideDirections[i]);
 	}
 }
 
-void cs::ViewFrustum::UpdateNearPlane(float near)
+void cs::ViewFrustum::UpdateNearPlane(float nearPlane)
 {
-	m_defaultOrigins[0] = Vec3(0, 0, near);
+	m_defaultOrigins[0] = Vec3(0, 0, nearPlane);
 }
 
-void cs::ViewFrustum::UpdateFarPlane(float far)
+void cs::ViewFrustum::UpdateFarPlane(float farPlane)
 {
-	m_defaultOrigins[1] = Vec3(0, 0, far);
+	m_defaultOrigins[1] = Vec3(0, 0, farPlane);
 }
 
 void cs::ViewFrustum::UpdateViewDirection(const cs::Mat3& direction)
