@@ -73,7 +73,7 @@ cs::Vec2 cs::Mat::transform(const Mat3& m, const Vec2& v)
 
 cs::Mat3 cs::Mat::rotation3(float xR, float yR, float zR)
 {
-	return rotation3Z(zR) * rotation3X(xR) * rotation3Y(yR);
+	return rotation3Y(zR) * rotation3X(xR) * rotation3Z(yR);
 }
 
 cs::Mat3 cs::Mat::rotation3X(float r)
