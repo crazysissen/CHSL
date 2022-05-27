@@ -41,10 +41,21 @@ namespace cs
         T& Front() const;
         T& Back() const;
 
+        template<typename T_value>
+        int SearchBinary(T_value target, T_value predicate(const T&)); // Only works for sorted lists (per the predicate). Returns -1 when the target is not found.
+        template<typename T_value>
+        int SearchLinear(T_value target, T_value predicate(const T&)); // Returns -1 when the target is not found.
+
+        template<typename T_value>
+        T* GetBinary(T_value target, T_value predicate(const T&)); // Only works for sorted lists (per the predicate). Returns -1 when the target is not found.
+        template<typename T_value>
+        T* GetLinear(T_value target, T_value predicate(const T&)); // Only works for sorted lists (per the predicate). Returns -1 when the target is not found.
+
         void Insert(int index, const T& value);
         void Remove(int index);
+        void MassRemove(const int* indices, int indexCount);
         void Add(const T& value);
-        void Clear();
+        void Clear(bool shrink = true);
         T Pop();
 
         const T* Data() const;
@@ -230,15 +241,91 @@ namespace cs
     }
 
     template<typename T>
-    inline ListIterator<T> List<T>::begin() const
+    template<typename T_value>
+    int List<T>::SearchBinary(T_value target, T_value predicate(const T&))
     {
-        return ListIterator<T>(m_elements);
+        int low = 0;
+        int high = m_size - 1;
+
+        while (high > low)
+        {
+            int mid = (low + high) / 2;
+            T_value val = predicate(m_elements[mid]);
+
+            if (target == val)
+            {
+                return mid;
+            }
+            else if (target > val)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        } 
+
+        return -1;
     }
 
     template<typename T>
-    inline ListIterator<T> List<T>::end() const
+    template<typename T_value>
+    inline int List<T>::SearchLinear(T_value target, T_value predicate(const T&))
     {
-        return ListIterator<T>(m_elements + m_size);
+        for (int i = 0; i < m_size; i++)
+        {
+            if (predicate(m_elements[i]) == target)
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    template<typename T>
+    template<typename T_value>
+    inline T* List<T>::GetBinary(T_value target, T_value predicate(const T&))
+    {
+        int low = 0;
+        int high = m_size - 1;
+
+        while (high > low)
+        {
+            int mid = (low + high) / 2;
+            T_value val = predicate(m_elements[mid]);
+
+            if (target == val)
+            {
+                return &m_elements[mid];
+            }
+            else if (target > val)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        } 
+
+        return nullptr;
+    }
+
+    template<typename T>
+    template<typename T_value>
+    inline T* List<T>::GetLinear(T_value target, T_value predicate(const T&))
+    {
+        for (int i = 0; i < m_size; i++)
+        {
+            if (predicate(m_elements[i]) == target)
+            {
+                return &m_elements[i];
+            }
+        }
+
+        return nullptr;
     }
 
 
@@ -285,6 +372,27 @@ namespace cs
     }
 
     template<typename T>
+    inline void List<T>::MassRemove(const int* indices, int indexCount)
+    {
+        int currentIndex = 1;
+        int backCounter = 1;
+        for (int i = indices[0] + 1; i < m_size; i++)
+        {
+            if (currentIndex < indexCount && i == indices[currentIndex])
+            {
+                do { currentIndex++; } while (currentIndex < indexCount && i >= indices[currentIndex]);
+                backCounter++;
+            }
+            else
+            {
+                m_elements[i - backCounter] = m_elements[i];
+            }
+        }
+
+        m_size -= backCounter;
+    }
+
+    template<typename T>
     inline void List<T>::Add(const T& value)
     {
         BoundArray();
@@ -310,14 +418,34 @@ namespace cs
     }
 
     template<typename T>
-    inline void List<T>::Clear()
+    inline void List<T>::Clear(bool shrink)
     {
         m_size = 0;
-        m_capacity = c_dCapacity;
 
-        delete[] m_elements;
+        if (shrink)
+        {
+            m_capacity = c_dCapacity;
+            delete[] m_elements;
+            m_elements = new T[c_dCapacity];
+        }
+    }
 
-        m_elements = new T[c_dCapacity];
+
+
+
+
+    // Iterators
+
+    template<typename T>
+    inline ListIterator<T> List<T>::begin() const
+    {
+        return ListIterator<T>(m_elements);
+    }
+
+    template<typename T>
+    inline ListIterator<T> List<T>::end() const
+    {
+        return ListIterator<T>(m_elements + m_size);
     }
 
 
