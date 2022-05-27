@@ -34,13 +34,22 @@ bool BCSelector(const cs::Box& r, void* d)
 	return ((cs::Frustum*)d)->Contains(r);
 }
 
+int predicate(const int& a)
+{
+	return a;
+}
+
 int main()
 {
 	cs::List<int> l;
 
-	for (int i = 0; i < 8; i++)
-		l.Add(i);
+	for (int i = 0; i < 100; i++)
+		l.Add(i * 2);
 
-	int removes[] = { 2, 4, 5, 7 };
-	l.MassRemove(removes, 4);
+	auto pred = [](const int& a) -> int
+	{
+		return a;
+	};
+
+	int i = l.SearchBinary<int>(11, pred);
 }
