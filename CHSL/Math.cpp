@@ -2,7 +2,7 @@
 
 #include "Math.h"
 
-int cs::imod(int val, int ceil)
+constexpr int cs::imod(int val, int ceil)
 {
 	return val >= ceil ? val % ceil : val;
 }
@@ -12,22 +12,42 @@ int cs::imod(int val, int ceil)
 //	return val >= ceil ? val % ceil : val;
 //}
 
-size_t cs::stmod(size_t val, size_t ceil)
+constexpr size_t cs::imod(size_t val, size_t ceil)
 {
 	return val >= ceil ? val % ceil : val;
 }
 
-int cs::floor(float val)
+constexpr int cs::floor(float val)
 {
 	return val > 0 ? ((int)val) : ((int)val - 1);
 }
 
-int cs::ceil(float val)
+constexpr int cs::ceil(float val)
 {
 	return val > 0 ? ((int)val + 1) : ((int)val);
 }
 
-float cs::fclamp(float val, float min, float max)
+constexpr int cs::imax(int a, int b)
+{
+	return (a > b) ? a : b;
+}
+
+constexpr int cs::imin(int a, int b)
+{
+	return (a < b) ? a : b;
+}
+
+constexpr float cs::fmax(float a, float b)
+{
+	return (a > b) ? a : b;
+}
+
+constexpr float cs::fmin(float a, float b)
+{
+	return (a < b) ? a : b;
+}
+
+constexpr float cs::fclamp(float val, float min, float max)
 {
 	if (val > max)
 		return max;
@@ -38,7 +58,7 @@ float cs::fclamp(float val, float min, float max)
 	return val;
 }
 
-int cs::iclamp(int val, int min, int max)
+constexpr int cs::iclamp(int val, int min, int max)
 {
 	if (val > max)
 		return max;
@@ -49,7 +69,7 @@ int cs::iclamp(int val, int min, int max)
 	return val;
 }
 
-int cs::iwrap(int val, int min, int max)
+constexpr int cs::iwrap(int val, int min, int max)
 {
 	if (val >= min && val <= max)
 	{
@@ -61,7 +81,7 @@ int cs::iwrap(int val, int min, int max)
 	return min + (range + (val - min) % range) % range;
 }
 
-float cs::fwrap(float val, float max)
+constexpr float cs::fwrap(float val, float max)
 {
 	if (val >= 0 && val <= max)
 	{
@@ -71,12 +91,12 @@ float cs::fwrap(float val, float max)
 	return fmod(max + fmod(val, max), max);
 }
 
-float cs::fwrap(float val, float min, float max)
+constexpr float cs::fwrap(float val, float min, float max)
 {
 	return min + fwrap(val - min, max - min);
 }
 
-int cs::iabs(int val)
+constexpr int cs::iabs(int val)
 {
 	return val < 0 ? -val : val;
 }
