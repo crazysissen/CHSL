@@ -17,6 +17,7 @@ namespace cs
 	public:
 		Random();
 		Random(uint seed);
+		Random(byte* restoreDump);
 		~Random();
 
 		int Get(int max);			// random int 0-max (uninclusive)
@@ -36,8 +37,13 @@ namespace cs
 
 		byte* FillBytes(byte* target, uint ammount);	// fill array of bytes
 
+		int GetDumpSize();
+		void Dump(byte* dest);
+		void RestoreDump(byte* source);
+
 	private:
 		void InitRandom(uint seed);
+		static void StaticInitRandom();
 
 	};
 }

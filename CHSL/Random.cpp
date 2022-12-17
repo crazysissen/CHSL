@@ -25,6 +25,13 @@ cs::Random::Random(uint seed)
 	InitRandom(seed);
 }
 
+cs::Random::Random(byte* restoreDump)
+{
+	RestoreDump(restoreDump);
+
+	StaticInitRandom();
+}
+
 cs::Random::~Random()
 {
 	delete(engine);
@@ -32,10 +39,15 @@ cs::Random::~Random()
 
 void cs::Random::InitRandom(uint seed)
 {
-	static bool init = false;
-
 	engine = new RandomEngine();
 	engine->seed(seed);
+
+	StaticInitRandom();
+}
+
+void cs::Random::StaticInitRandom()
+{
+	static bool init = false;
 
 	if (!init)
 	{
@@ -107,5 +119,22 @@ byte* cs::Random::FillBytes(byte* target, uint ammount)
 	}
 
 	return target;
+}
+
+int cs::Random::GetDumpSize()
+{
+	return sizeof(RandomEngine);
+}
+
+void cs::Random::Dump(byte* dest)
+{
+	memcpy(dest, engine, GetDumpSize());
+}
+
+void cs::Random::RestoreDump(byte* source)
+{
+	delete engine;
+	engine = new RandomEngine();
+	memcpy(engine, source, (size_t)GetDumpSize());
 }
 
