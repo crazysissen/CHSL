@@ -39,8 +39,24 @@ int predicate(const int& a)
 	return a;
 }
 
+__declspec(noinline) int iwrap(int val, int min, int max)
+{
+	if (val >= min && val <= max)
+	{
+		return val;
+	}
+
+	int range = max - min;
+
+	return min + (range + (val - min) % range) % range;
+}
+
 int main()
 {
+	cs::Random r;
+	int a = iwrap(r.Get(10, 20), 5, 8);
+	std::cout << a;
+
 	cs::List<int> l;
 
 	for (int i = 0; i < 100; i++)

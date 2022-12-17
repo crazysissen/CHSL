@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Archive.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
@@ -52,6 +53,7 @@
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Archive.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
