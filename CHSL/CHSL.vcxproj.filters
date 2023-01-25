@@ -60,9 +60,6 @@
     <ClCompile Include="StateTracker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StateTimer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RBTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -158,9 +155,6 @@
     <ClInclude Include="StateTracker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StateTimer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RBTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -203,13 +197,7 @@
     <ClInclude Include="Quadtree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rectangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Frustum.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Predicate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Archive.h">

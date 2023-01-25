@@ -46,7 +46,6 @@
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="RBTree.cpp" />
     <ClCompile Include="Sphere.cpp" />
-    <ClCompile Include="StateTimer.cpp" />
     <ClCompile Include="StateTracker.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Triangle.cpp" />
@@ -72,11 +71,9 @@
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Octree.h" />
     <ClInclude Include="Plane.h" />
-    <ClInclude Include="Predicate.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Queue.h" />
-    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="ShuffleMap.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Noise.h" />
@@ -86,7 +83,6 @@
     <ClInclude Include="Random.h" />
     <ClInclude Include="RBTree.h" />
     <ClInclude Include="Sphere.h" />
-    <ClInclude Include="StateTimer.h" />
     <ClInclude Include="StateTracker.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Triangle.h" />

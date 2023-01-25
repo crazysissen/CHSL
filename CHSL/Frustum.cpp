@@ -39,7 +39,7 @@ bool cs::Frustum::Contains(const cs::Vec3& vector)
 	return !outside;
 }
 
-bool cs::Frustum::Contains(const cs::Box& box)
+bool cs::Frustum::Contains(const cs::Box3& box)
 {
 	for (int i = 0; i < 6; i++)
 	{
@@ -63,12 +63,12 @@ bool cs::Frustum::Contains(const cs::Box& box)
 	return true;
 }
 
-bool cs::Frustum::Intersects(const cs::Box& box)
+bool cs::Frustum::Intersects(const cs::Box3& box)
 {
 	return false;
 }
 
-bool cs::Frustum::IntersectsFuzzy(const cs::Box& box)
+bool cs::Frustum::IntersectsFuzzy(const cs::Box3& box)
 {
 	for (int i = 0; i < 6; i++)
 	{

@@ -24,12 +24,12 @@ float GetRF(float min, float max)
 	return r.Getf(min, max);
 }
 
-bool BTSelector(const cs::Box& r, void* d)
+bool BTSelector(const cs::Box3& r, void* d)
 {
 	return ((cs::Frustum*)d)->IntersectsFuzzy(r);
 }
 
-bool BCSelector(const cs::Box& r, void* d)
+bool BCSelector(const cs::Box3& r, void* d)
 {
 	return ((cs::Frustum*)d)->Contains(r);
 }

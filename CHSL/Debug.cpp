@@ -6,15 +6,13 @@
 
 
 
-
-
 // DXGI Info
 
 #include <wrl.h>
 #include <dxgidebug.h>
 #include <memory>
 
-ullong next = 0u;
+uint64 next = 0u;
 Microsoft::WRL::ComPtr<IDXGIInfoQueue> g_dxgiInfoQueue;
 
 
@@ -24,7 +22,7 @@ Microsoft::WRL::ComPtr<IDXGIInfoQueue> g_dxgiInfoQueue;
 
 
 
-void cs::dxgiInfo::init()
+void cs::initDXGI()
 {
 	static bool initialized = false;
 	if (initialized)
@@ -64,7 +62,7 @@ void cs::dxgiInfo::set()
 std::vector<std::string> cs::dxgiInfo::getMessages()
 {
 	std::vector<std::string> messages;
-	const ullong end = g_dxgiInfoQueue->GetNumStoredMessages(DXGI_DEBUG_ALL);
+	const uint64 end = g_dxgiInfoQueue->GetNumStoredMessages(DXGI_DEBUG_ALL);
 
 	for (auto i = next; i < end; ++i)
 	{

@@ -10,7 +10,7 @@ cs::NoiseWorley::NoiseWorley(unsigned int seed, unsigned int xSize)
 	savedPositions(new Vec3[savedPositionsCount]),
 	cellLocalPositions(new Vec3[cellCount]),
 	currentCenter({ -10, -10, -10 }),
-	d(dimension::First),
+	d(DimensionFirst),
 	s(seed),
 	xs(xSize), ys(1), zs(1)
 {
@@ -29,7 +29,7 @@ cs::NoiseWorley::NoiseWorley(unsigned int seed, unsigned int xSize, unsigned int
 	savedPositions(new Vec3[savedPositionsCount]),
 	cellLocalPositions(new Vec3[cellCount]),
 	currentCenter({ -10, -10, -10 }),
-	d(dimension::Second),
+	d(DimensionSecond),
 	s(seed),
 	xs(xSize), ys(ySize), zs(1)
 {
@@ -51,7 +51,7 @@ cs::NoiseWorley::NoiseWorley(unsigned int seed, unsigned int xSize, unsigned int
 	savedPositions(new Vec3[savedPositionsCount]),
 	cellLocalPositions(new Vec3[cellCount]),
 	currentCenter({ -10, -10, -10 }),
-	d(dimension::Third),
+	d(DimensionThird),
 	s(seed),
 	xs(xSize), ys(ySize), zs(zSize)
 {
@@ -99,7 +99,7 @@ float cs::NoiseWorley::Gen1D(float x)
 
 float cs::NoiseWorley::Gen2D(float x, float y)
 {
-	if (d != cs::dimension::Second)
+	if (d != DimensionSecond)
 	{
 		return Gen1D(x);
 	}
@@ -132,7 +132,7 @@ float cs::NoiseWorley::Gen2D(float x, float y)
 
 float cs::NoiseWorley::Gen3D(float x, float y, float z)
 {
-	if (d != cs::dimension::Third)
+	if (d != DimensionThird)
 	{
 		return Gen2D(x, y);
 	}
