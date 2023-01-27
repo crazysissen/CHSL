@@ -46,7 +46,7 @@ namespace cs
 		template<typename T2>
 		operator Matrix<T2, W, H>();
 
-		const T& operator()(int x, int y) const;
+		constexpr T& operator()(int x, int y) const;
 		T& operator()(int x, int y);
 
 		bool operator==(const Matrix& other) const;
@@ -89,6 +89,7 @@ namespace cs
 		_Vec2<T> operator*(const _Vec2<T>& vector) const;
 		Matrix2 operator*(const Matrix2& matrix) const;
 
+		T Trace() const;
 		T Determinant() const;
 		Matrix2 Inverse() const;
 	};
@@ -111,6 +112,7 @@ namespace cs
 		Matrix3 operator*(const Matrix3& matrix) const;
 		Matrix4<T> operator*(const Matrix4<T>& matrix) const;
 
+		T Trace() const;
 		T Determinant() const;
 		Matrix3 Inverse() const;
 	};
@@ -131,6 +133,8 @@ namespace cs
 
 		_Vec3<T> operator*(const _Vec3<T>& vector) const;
 		_Vec4<T> operator*(const _Vec4<T>& vector) const;
+
+		T Trace() const;
 	};
 
 
@@ -241,7 +245,7 @@ namespace cs
 	}
 
 	template<typename T, int W, int H>
-	inline const T& Matrix<T, W, H>::operator()(int x, int y) const
+	inline constexpr T& Matrix<T, W, H>::operator()(int x, int y) const
 	{
 		return m_data[x + y * W];
 	}
@@ -526,6 +530,12 @@ namespace cs
 	}
 
 	template<typename T>
+	inline T Matrix2<T>::Trace() const
+	{
+		return (*this)(0, 0);
+	}
+
+	template<typename T>
 	inline T Matrix2<T>::Determinant() const
 	{
 		return (*this)(0, 0) * (*this)(1, 1) - (*this)(1, 0) * (*this)(0, 1);
@@ -609,6 +619,12 @@ namespace cs
 	inline Matrix4<T> Matrix3<T>::operator*(const Matrix4<T>& matrix) const
 	{
 		return Matrix4<T>(*this) * matrix;
+	}
+
+	template<typename T>
+	inline T Matrix3<T>::Trace() const
+	{
+		return T();
 	}
 
 	template<typename T>
@@ -729,6 +745,12 @@ namespace cs
 			v.x * (*this)(0, 2) + v.y * (*this)(1, 2) + v.z * (*this)(2, 2) + v.w + (*this)(3, 2),
 			v.x * (*this)(0, 3) + v.y * (*this)(1, 3) + v.z * (*this)(2, 3) + v.w + (*this)(3, 3)
 		);
+	}
+
+	template<typename T>
+	inline T Matrix4<T>::Trace() const
+	{
+		return T();
 	}
 
 }

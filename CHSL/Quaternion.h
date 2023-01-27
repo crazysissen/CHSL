@@ -22,13 +22,37 @@ namespace cs
 	class Quaternion sealed
 	{
 	public:
-		Quaternion();
-		Quaternion(float x, float y, float z, float w);
+		Quaternion();									// Identity quaternion
+		Quaternion(Vec4 components);					// XYZ: imaginary, W: real
+		Quaternion(Vec3 imaginary, float real);			// XYZ: imaginary, W: real
+		Quaternion(float x, float y, float z, float w);	// XYZ: imaginary, W: real
 		Quaternion(const Quaternion&);
 		~Quaternion() = default;
 
-		Quaternion operator*(const Quaternion&);
-		Quaternion operator+(const Quaternion&);
+		Quaternion Conjugate();
+		Quaternion Normal();
+		Quaternion Inverse();
+		float Norm();
+		Mat4 Matrix();					// Matrix representation of the unit quaternion.
+		Mat4 MatrixUnrestricted();		// More expensive to calculate, but works for non-unit quaternions.
+
+		Quaternion& ConjugateThis();
+		Quaternion& NormalizeThis();
+		Quaternion& InvertThis();
+
+		Vec3 operator*(Vec3 vector);			// Apply unit quaternion,					A*B -> transform vector B with unit quaternion A
+		Vec4 operator*(Vec4 vector);			// Apply unit quaternion,					A*B -> transform vector B with unit quaternion A
+		Quaternion operator*(Quaternion other);	// Quaternion concatenation/multiplication,	A*B -> apply unit quaternion A then B 
+
+		Quaternion operator*(float scalar);		// Complex quaternion scaling. Does not change rotation.
+		Quaternion operator+(Quaternion other);	// Complex quaternion addition.
+
+		static Quaternion GetIdentity();
+		static Quaternion GetAxis(Vec3 axis, float radians);
+		static Quaternion GetDeconstruct(Mat3 matrix);
+
+	private:
+		Mat4 GetMatrix(float s);
 
 	private:
 		// Either:
@@ -43,7 +67,7 @@ namespace cs
 				// Imaginary components
 				union
 				{
-					cs::Vec3 m_imaginary;
+					Vec3 m_imaginary;
 
 					struct
 					{
@@ -57,9 +81,12 @@ namespace cs
 				float m_w;
 			};
 
-			cs::Vec4 m_vector;
+			Vec4 m_vector;
 		};
 	};
 
 }
 
+#ifdef CHSL_LINEAR
+using cs::Quaternion;
+#endif

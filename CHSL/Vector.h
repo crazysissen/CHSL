@@ -248,30 +248,27 @@ namespace cs
 
 	template<typename T>
 	inline _Vec2<T>::_Vec2()
+		: x(0), y(0)
 	{
-		x = 0;
-		y = 0;
 	}
 
 	template<typename T>
-	inline _Vec2<T>::_Vec2(T X, T Y)
+	inline _Vec2<T>::_Vec2(T x, T y)
+		: x(x), y(y)
 	{
-		x = X;
-		y = Y;
 	}
 
 	template<typename T>
 	inline _Vec2<T>::_Vec2(const _Vec2& copy)
+		: x(copy.x), y(copy.y)
 	{
-		x = copy.x;
-		y = copy.y;
 	}
 
 	template<typename T>
 	inline float _Vec2<T>::LengthSq()
 	{
 		return ((float)x) * x + ((float)y) * y;
-		}
+	}
 
 	template<typename T>
 	inline float _Vec2<T>::Length()
@@ -301,12 +298,8 @@ namespace cs
 		{
 			return other.y * (x / other.x) == y;
 		}
-		else if (other.y != 0)
-		{
-			return x == 0 && y != 0;
-		}
 
-		return x == 0 && y == 0;
+		return x == 0;
 	}
 
 	template<typename T>
@@ -462,11 +455,11 @@ namespace cs
 	}
 
 	template<typename T>
-	inline _Vec3<T>::_Vec3(T X, T Y, T Z)
+	inline _Vec3<T>::_Vec3(T x, T y, T z)
 		:
-		x(X),
-		y(Y),
-		z(Z)
+		x(x),
+		y(y),
+		z(z)
 	{
 	}
 
@@ -768,12 +761,12 @@ namespace cs
 	}
 
 	template<typename T>
-	inline _Vec4<T>::_Vec4(T X, T Y, T Z, T W)
+	inline _Vec4<T>::_Vec4(T x, T y, T z, T w)
 		:
-		x(X),
-		y(Y),
-		z(Z),
-		w(W)
+		x(x),
+		y(y),
+		z(z),
+		w(w)
 	{
 	}
 
