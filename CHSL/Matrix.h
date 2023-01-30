@@ -46,7 +46,7 @@ namespace cs
 		template<typename T2>
 		operator Matrix<T2, W, H>();
 
-		constexpr T& operator()(int x, int y) const;
+		const T& operator()(int x, int y) const;
 		T& operator()(int x, int y);
 
 		bool operator==(const Matrix& other) const;
@@ -245,7 +245,7 @@ namespace cs
 	}
 
 	template<typename T, int W, int H>
-	inline constexpr T& Matrix<T, W, H>::operator()(int x, int y) const
+	inline const T& Matrix<T, W, H>::operator()(int x, int y) const
 	{
 		return m_data[x + y * W];
 	}
@@ -532,7 +532,7 @@ namespace cs
 	template<typename T>
 	inline T Matrix2<T>::Trace() const
 	{
-		return (*this)(0, 0);
+		return (*this)(0, 0) + (*this)(1, 1);
 	}
 
 	template<typename T>
@@ -624,7 +624,7 @@ namespace cs
 	template<typename T>
 	inline T Matrix3<T>::Trace() const
 	{
-		return T();
+		return (*this)(0, 0) + (*this)(1, 1) + (*this)(2, 2);
 	}
 
 	template<typename T>
@@ -750,7 +750,7 @@ namespace cs
 	template<typename T>
 	inline T Matrix4<T>::Trace() const
 	{
-		return T();
+		return (*this)(0, 0) + (*this)(1, 1) + (*this)(2, 2) + (*this)(3, 3);
 	}
 
 }

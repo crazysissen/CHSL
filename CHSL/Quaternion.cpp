@@ -1,80 +1,80 @@
 #include "core.h"
 #include "Quaternion.h"
 
-inline cs::Quaternion::Quaternion()	
+cs::Quaternion::Quaternion()	
 	: m_x(0), m_y(0), m_z(0), m_w(1)
 {
 }
 
-cs::Quaternion::Quaternion(Vec4 components)
+cs::Quaternion::Quaternion(const Vec4& components)
 	: m_vector(components)
 {
 }
 
-inline cs::Quaternion::Quaternion(cs::Vec3 imaginary, float real)
+cs::Quaternion::Quaternion(const Vec3& imaginary, float real)
 	: m_imaginary(imaginary), m_w(real)
 {
 }
 
-inline cs::Quaternion::Quaternion(float x, float y, float z, float w)	
+cs::Quaternion::Quaternion(float x, float y, float z, float w)	
 	: m_x(x), m_y(y), m_z(z), m_w(w)
 {
 }
 
-inline cs::Quaternion::Quaternion(const Quaternion& other)	
+cs::Quaternion::Quaternion(const Quaternion& other)	
 	: m_x(other.m_x), m_y(other.m_y), m_z(other.m_z), m_w(other.m_w)
 {
 }
 
-inline cs::Quaternion cs::Quaternion::Conjugate()
+cs::Quaternion cs::Quaternion::Conjugate() const
 {
 	return Quaternion(-m_imaginary, m_w);
 }
 
-inline cs::Quaternion cs::Quaternion::Normal()
+cs::Quaternion cs::Quaternion::Normal() const
 {
 	float in = 1.0f / Norm();
 	return Quaternion(m_x * in, m_y * in, m_z * in, m_w * in);
 }
 
-inline cs::Quaternion cs::Quaternion::Inverse()
+cs::Quaternion cs::Quaternion::Inverse() const
 {
 	float n = Norm();
 	float isn = 1.0f / (n * n);
 	return Quaternion(m_x * -isn, m_y * -isn, m_z * -isn, m_w * isn);
 }
 
-inline float cs::Quaternion::Norm()
+float cs::Quaternion::Norm() const
 {
 	return std::sqrtf(m_x * m_x + m_y * m_y + m_z * m_z + m_w * m_w);
 }
 
-inline cs::Mat4 cs::Quaternion::Matrix()
+cs::Mat4 cs::Quaternion::Matrix() const
 {
 	return GetMatrix(2.0f);
 }
 
-inline cs::Mat4 cs::Quaternion::MatrixUnrestricted()
+cs::Mat4 cs::Quaternion::MatrixUnrestricted() const
 {
 	float n = Norm();
 	float s = 2.0f / (n * n);
 	return GetMatrix(s);
 }
 
-inline cs::Quaternion& cs::Quaternion::ConjugateThis()
+cs::Quaternion& cs::Quaternion::ConjugateThis()
 {
 	m_imaginary = -m_imaginary;
 	return *this;
 }
 
-inline cs::Quaternion& cs::Quaternion::NormalizeThis()
+cs::Quaternion& cs::Quaternion::NormalizeThis()
 {
 	float in = 1.0f / Norm();
 	m_vector *= in;
 	return *this;
 }
 
-inline cs::Quaternion& cs::Quaternion::InvertThis()
+cs::Quaternion& cs::Quaternion::InvertThis()
 {
 	float n = Norm();
 	float isn = 1.0f / (n * n);
@@ -83,25 +83,25 @@ inline cs::Quaternion& cs::Quaternion::InvertThis()
 	return *this;
 }
 
-inline cs::Vec3 cs::Quaternion::operator*(Vec3 other)
+cs::Vec3 cs::Quaternion::operator*(const Vec3& other) const
 {
 	return (*this * Quaternion(other, 1.0f) * this->Conjugate()).m_imaginary;
 }
 
-inline cs::Vec4 cs::Quaternion::operator*(Vec4 other)
+cs::Vec4 cs::Quaternion::operator*(const Vec4& other) const
 {
 	return (*this * Quaternion(other) * this->Conjugate()).m_vector;
 }
 
-inline cs::Quaternion cs::Quaternion::operator*(Quaternion other)
+cs::Quaternion cs::Quaternion::operator*(const Quaternion& other) const
 {
 	return Quaternion(
-		m_imaginary ^ other.m_imaginary + m_imaginary * other.m_w + other.m_imaginary * m_w,
+		m_imaginary % other.m_imaginary + m_imaginary * other.m_w + other.m_imaginary * m_w,
 		m_w * other.m_w - m_imaginary * other.m_imaginary
 	);
 }
 
-inline cs::Quaternion cs::Quaternion::operator*(float scalar)
+cs::Quaternion cs::Quaternion::operator*(float scalar) const
 {
 	return Quaternion(
 		m_x * scalar,
@@ -111,7 +111,7 @@ inline cs::Quaternion cs::Quaternion::operator*(float scalar)
 	);
 }
 
-inline cs::Quaternion cs::Quaternion::operator+(Quaternion other)
+cs::Quaternion cs::Quaternion::operator+(const Quaternion& other) const
 {
 	return Quaternion(
 		m_x + other.m_x,
@@ -121,23 +121,51 @@ inline cs::Quaternion cs::Quaternion::operator+(Quaternion other)
 	);
 }
 
-inline cs::Quaternion cs::Quaternion::GetIdentity()
+cs::Quaternion cs::Quaternion::GetIdentity()
 {
 	// Gives the identity
 	return Quaternion();
 }
 
-inline cs::Quaternion cs::Quaternion::GetAxis(cs::Vec3 axis, float radians)
+cs::Quaternion cs::Quaternion::GetAxis(const Vec3& axis, float radians)
 {
-	return Quaternion(axis * std::sin(radians), std::cos(radians));
+	return Quaternion(axis.Normalized() * std::sin(radians * 0.5f), std::cos(radians * 0.5f));
 }
 
-cs::Quaternion cs::Quaternion::GetDeconstruct(Mat3 matrix)
+cs::Quaternion cs::Quaternion::GetAxisNormalized(const Vec3& axis, float radians)
 {
-	return Quaternion();
+	return Quaternion(axis * std::sin(radians * 0.5f), std::cos(radians * 0.5f));
 }
 
-inline cs::Mat4 cs::Quaternion::GetMatrix(float s)
+cs::Quaternion cs::Quaternion::GetDeconstruct(const Mat3& matrix)
+{
+	return GetDeconstruct(Mat4(matrix));
+}
+
+cs::Quaternion cs::Quaternion::GetDeconstruct(const Mat4& matrix)
+{
+	float w = 0.5f * std::sqrtf(matrix.Trace()); 
+	float inv = 0.25f / w;
+
+	return Quaternion(
+		(matrix(1, 2) - matrix(2, 1)) * inv,
+		(matrix(2, 0) - matrix(0, 2)) * inv,
+		(matrix(0, 1) - matrix(1, 0)) * inv,
+		w
+	);
+}
+
+cs::Quaternion cs::Quaternion::GetSlerp(const Quaternion& from, const Quaternion& to, float lambda)
+{
+	float dot = from.m_vector * to.m_vector;
+	float theta = std::acosf(dot);
+
+	float invSine = 1.0f / std::sinf(theta);
+
+	return from * (std::sin(theta * (1 - lambda)) * invSine) + to * (std::sin(theta * lambda) * invSine);
+}
+
+cs::Mat4 cs::Quaternion::GetMatrix(float s) const
 {
 	float x2 = m_x * m_x;
 	float xy = m_x * m_y;

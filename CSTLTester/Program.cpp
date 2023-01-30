@@ -10,62 +10,19 @@
 
 
 
-int GetR(int max)
-{
-	static cs::Random r;
-
-	return r.Get(max);
-}
-
-float GetRF(float min, float max)
-{
-	static cs::Random r;
-
-	return r.Getf(min, max);
-}
-
-bool BTSelector(const cs::Box3& r, void* d)
-{
-	return ((cs::Frustum*)d)->IntersectsFuzzy(r);
-}
-
-bool BCSelector(const cs::Box3& r, void* d)
-{
-	return ((cs::Frustum*)d)->Contains(r);
-}
-
-int predicate(const int& a)
-{
-	return a;
-}
-
-__declspec(noinline) int iwrap(int val, int min, int max)
-{
-	if (val >= min && val <= max)
-	{
-		return val;
-	}
-
-	int range = max - min;
-
-	return min + (range + (val - min) % range) % range;
-}
-
 int main()
 {
-	cs::Random r;
-	int a = iwrap(r.Get(10, 20), 5, 8);
-	std::cout << a;
+	Mat4 m = Mat::rotation3Y(cs::c_pi * 0.5f);
+	Quaternion q1 = Quaternion::GetAxis({ 0, 1, 0 }, cs::c_pi * 0.5f);
+	Quaternion q2 = Quaternion::GetAxis({ 0, 1, 0 }, cs::c_pi);
+	Quaternion q3 = Quaternion::GetSlerp(q1, q2, 0.5f);
 
-	cs::List<int> l;
+	Vec3 v1(2, 0, 0); 
+	Vec3 v2(2, 0, 0);
+	Vec3 v3(2, 0, 0);
+	v1 = q1 * v1;
+	v2 = q2 * v2;
+	v3 = q3 * v3;
 
-	for (int i = 0; i < 100; i++)
-		l.Add(i * 2);
-
-	auto pred = [](const int& a) -> int
-	{
-		return a;
-	};
-
-	int i = l.SearchBinary<int>(11, pred);
+	return 0; 
 }
