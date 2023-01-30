@@ -23,6 +23,7 @@
 
 #include <stdarg.h>
 #include <initializer_list>
+#include <immintrin.h>
 
 #include "Vector.h"
 #include "Math.h"
@@ -77,7 +78,7 @@ namespace cs
 	};
 
 	template<typename T>
-	class Matrix2 : public Matrix<T, 2>
+	class alignas(sizeof(T)) Matrix2 : public Matrix<T, 2>
 	{
 	public:
 		Matrix2();
@@ -98,7 +99,7 @@ namespace cs
 	class Matrix4;
 
 	template<typename T>
-	class Matrix3 : public Matrix<T, 3>
+	class alignas(sizeof(T)) Matrix3 : public Matrix<T, 3>
 	{
 	public:
 		Matrix3();
@@ -118,7 +119,7 @@ namespace cs
 	};
 
 	template<typename T>
-	class Matrix4 : public Matrix<T, 4>
+	class alignas(sizeof(T)) Matrix4 : public Matrix<T, 4>
 	{
 	public:
 		Matrix4();
@@ -609,6 +610,34 @@ namespace cs
 		);
 	}
 
+	inline Matrix3<float> Matrix3<float>::operator*(const Matrix3& matrix) const
+	{
+		Matrix3 product;
+
+		const __m128i storeMask = _mm_set_epi32(0, 1, 1, 1);
+
+		const __m128 otherRow0 = _mm_load_ps(&(matrix.m_data[0]));
+		const __m128 otherRow1 = _mm_load_ps(&(matrix.m_data[3]));
+		const __m128 otherRow2 = _mm_load_ps(&(matrix.m_data[6]));
+
+		for (int i = 0; i < 3; i++)
+		{
+			__m128 thisCurrentRowAllX = _mm_set1_ps(m_data[i * 3 + 0]);
+			__m128 thisCurrentRowAllY = _mm_set1_ps(m_data[i * 3 + 1]);
+			__m128 thisCurrentRowAllZ = _mm_set1_ps(m_data[i * 3 + 2]);
+
+			__m128 newRowXComponents = _mm_mul_ps(thisCurrentRowAllX, otherRow0);
+			__m128 newRowYComponents = _mm_mul_ps(thisCurrentRowAllY, otherRow1);
+			__m128 newRowZComponents = _mm_mul_ps(thisCurrentRowAllZ, otherRow2);
+
+			__m128 newRow = _mm_add_ps(_mm_add_ps(newRowXComponents, newRowYComponents), newRowZComponents);
+
+			_mm_maskstore_ps(&(product.m_data[i * 4]), storeMask, newRow);
+		}
+
+		return product;
+	}
+
 	template<typename T>
 	inline Matrix3<T> Matrix3<T>::operator*(const Matrix3& matrix) const
 	{
@@ -718,6 +747,37 @@ namespace cs
 	inline Matrix4<T> Matrix4<T>::operator*(const Matrix3<T>& matrix) const
 	{
 		return *this * Matrix4(matrix);
+	}
+
+	inline Matrix4<float> Matrix4<float>::operator*(const Matrix4& matrix) const
+	{
+		Matrix4 product;
+		
+		const __m128 otherRow0 = _mm_load_ps(&(matrix.m_data[0]));
+		const __m128 otherRow1 = _mm_load_ps(&(matrix.m_data[4]));
+		const __m128 otherRow2 = _mm_load_ps(&(matrix.m_data[8]));
+		const __m128 otherRow3 = _mm_load_ps(&(matrix.m_data[12]));
+
+		for (int i = 0; i < 4; i++)
+		{
+			__m128 thisCurrentRowAllX = _mm_set1_ps(m_data[i * 4 + 0]);
+			__m128 thisCurrentRowAllY = _mm_set1_ps(m_data[i * 4 + 1]);
+			__m128 thisCurrentRowAllZ = _mm_set1_ps(m_data[i * 4 + 2]);
+			__m128 thisCurrentRowAllW = _mm_set1_ps(m_data[i * 4 + 3]);
+
+			__m128 newRowXComponents = _mm_mul_ps(thisCurrentRowAllX, otherRow0);
+			__m128 newRowYComponents = _mm_mul_ps(thisCurrentRowAllY, otherRow1);
+			__m128 newRowZComponents = _mm_mul_ps(thisCurrentRowAllZ, otherRow2);
+			__m128 newRowWComponents = _mm_mul_ps(thisCurrentRowAllW, otherRow3);
+
+			__m128 newRow = 
+				_mm_add_ps(_mm_add_ps(_mm_add_ps(
+					newRowXComponents, newRowYComponents), newRowZComponents), newRowWComponents);
+
+			_mm_store_ps(&(product.m_data[i * 4]), newRow);
+		}
+
+		return product;
 	}
 
 	template<typename T>
