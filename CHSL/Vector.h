@@ -65,7 +65,6 @@ namespace cs
 
 		_Vec2<T> operator+(const _Vec2& b) const;
 		_Vec2<T> operator-(const _Vec2& b) const;
-		_Vec2<T> operator%(const _Vec2& b) const;
 		T operator*(const _Vec2& b) const;
 
 		_Vec2<T> operator*(const T& b) const;
@@ -144,8 +143,7 @@ namespace cs
 
 		_Vec3 operator+(const _Vec3& b) const;
 		_Vec3 operator-(const _Vec3& b) const; 
-		_Vec3 operator%(const _Vec3& b) const;  // Componentwise multiplication
-		_Vec3 operator^(const _Vec3& b) const;  // Cross product
+		_Vec3 operator%(const _Vec3& b) const;  // Cross product
 		T operator*(const _Vec3& b) const;		// Dot product
 
 		_Vec3 operator*(const T& b) const; 
@@ -158,8 +156,7 @@ namespace cs
 
 		_Vec3& operator+=(const _Vec3& b);
 		_Vec3& operator-=(const _Vec3& b);
-		_Vec3& operator&=(const _Vec3& b);
-		_Vec3& operator^=(const _Vec3& b);
+		_Vec3& operator%=(const _Vec3& b);
 
 		_Vec3& operator*=(const T& b);
 		_Vec3& operator/=(const T& b);
@@ -359,11 +356,6 @@ namespace cs
 	inline _Vec2<T> _Vec2<T>::operator-(const _Vec2& b) const
 	{
 		return _Vec2(x - b.x, y - b.y);
-	}
-	template<typename T>
-	inline _Vec2<T> _Vec2<T>::operator%(const _Vec2& b) const
-	{
-		return _Vec2(x * b.x, y * b.y);
 	}
 	template<typename T>
 	inline T _Vec2<T>::operator*(const _Vec2& b) const
@@ -628,11 +620,6 @@ namespace cs
 	template<typename T>
 	inline _Vec3<T> _Vec3<T>::operator%(const _Vec3& b) const
 	{
-		return _Vec3(x * b.x, y * b.y, z * b.z);
-	}
-	template<typename T>
-	inline _Vec3<T> _Vec3<T>::operator^(const _Vec3& b) const
-	{
 		return _Vec3(
 			y * b.z - z * b.y,
 			z * b.x - x * b.z,
@@ -691,16 +678,7 @@ namespace cs
 		return *this;
 	}
 	template<typename T>
-	inline _Vec3<T>& _Vec3<T>::operator&=(const _Vec3& b)
-	{
-		x *= b.x;
-		y *= b.y;
-		z *= b.z;
-
-		return *this;
-	}
-	template<typename T>
-	inline _Vec3<T>& _Vec3<T>::operator^=(const _Vec3& b)
+	inline _Vec3<T>& _Vec3<T>::operator%=(const _Vec3& b)
 	{
 		T tempX = y * b.z - z * b.y;
 		T tempY = z * b.x - x * b.z;
