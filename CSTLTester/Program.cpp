@@ -12,17 +12,36 @@
 
 int main()
 {
-	Mat4 m = Mat::rotation3Y(cs::c_pi * 0.5f);
-	Quaternion q1 = Quaternion::GetAxis({ 0, 1, 0 }, cs::c_pi * 0.5f);
-	Quaternion q2 = Quaternion::GetAxis({ 0, 1, 0 }, cs::c_pi);
-	Quaternion q3 = Quaternion::GetSlerp(q1, q2, 0.5f);
+	Matrix3<float> m3f1 =
+	{
+		1.0f, 0.5f, -1.0f,
+		-2.0f, -1.5f, 3.0f,
+		1.5f, 2.5f, -0.5f
+	};
 
-	Vec3 v1(2, 0, 0); 
-	Vec3 v2(2, 0, 0);
-	Vec3 v3(2, 0, 0);
-	v1 = q1 * v1;
-	v2 = q2 * v2;
-	v3 = q3 * v3;
+	Matrix3<float> m3f2 =
+	{
+		2.0f, -3.0f, 1.0f,
+		0.5f, 0.5f, -1.5f,
+		-1.0f, -3.0f, 2.5f
+	};
+
+	Matrix3<double> m3d1 =
+	{
+		1.0, 0.5, -1.0,
+		-2.0, -1.5, 3.0,
+		1.5, 2.5, -0.5
+	};
+
+	Matrix3<double> m3d2 =
+	{
+		2.0, -3.0, 1.0,
+		0.5, 0.5, -1.5,
+		-1.0, -3.0, 2.5
+	};
+
+	Matrix3<float> m3f3 = m3f1 * m3f2; 
+	Matrix3<double> m3d3 = m3d1 * m3d2;
 
 	return 0; 
 }

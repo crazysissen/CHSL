@@ -614,7 +614,7 @@ namespace cs
 	{
 		Matrix3 product;
 
-		const __m128i storeMask = _mm_set_epi32(0, 1, 1, 1);
+		const __m128i storeMask = _mm_set_epi32(0, -1, -1, -1);
 
 		const __m128 otherRow0 = _mm_load_ps(&(matrix.m_data[0]));
 		const __m128 otherRow1 = _mm_load_ps(&(matrix.m_data[3]));
@@ -632,7 +632,7 @@ namespace cs
 
 			__m128 newRow = _mm_add_ps(_mm_add_ps(newRowXComponents, newRowYComponents), newRowZComponents);
 
-			_mm_maskstore_ps(&(product.m_data[i * 4]), storeMask, newRow);
+			_mm_maskstore_ps(&(product.m_data[i * 3]), storeMask, newRow);
 		}
 
 		return product;
