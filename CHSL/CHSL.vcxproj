@@ -93,9 +93,6 @@
     <Text Include="Directories.txt" />
     <Text Include="Exclude.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\CHSLTester\CSTLTester.vcxproj" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
