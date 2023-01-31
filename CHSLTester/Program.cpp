@@ -1,52 +1,63 @@
+#define CHSL_LINEAR
 #include <CHSL.h>
 
-#include <iostream>
 #include <CHSL/ShuffleMap.h>
 #include <CHSL/RBTree.h>
+#include <CHSL/List.h>
+#include <CHSL/Quadtree.h>
+#include <CHSL/Octree.h>
+#include <CHSL/Frustum.h>
 
-//class Test
-//{
-//public:
-//	Test(int& ref)
-//	{
-//		a = (T*)malloc(sizeof(T) * 10);
-//		for (int i = 0; i < 10; ++i)
-//		{
-//			a[i] = { ref };
-//		}
-//	}
-//
-//private:
-//	struct T
-//	{
-//		int r;
-//	};
-//
-//	T* a;
-//};
 
-int GetR(int max)
-{
-	static cs::Random r;
 
-	return r.Get(max);
-}
+#define TEST_COUNT 5000000
 
 int main()
 {
-	cs::ShuffleMap<float, int> map;
+	cs::Random r;
 
-	map.Add(0.5f, 1);
-	map.Add(0.6f, 2);
-	map.Add(0.4f, 3);
-	map.Add(0.45f, 4);
-	int id2 = map.Add(0.6f, 5);
-	int id = map.Add(0.6f, 6);
-	map.Add(0.7f, 7);
+	Mat4* m0 = new Mat4[TEST_COUNT];
+	Mat4* m1 = new Mat4[TEST_COUNT];
+	Mat4* m2 = new Mat4[TEST_COUNT];
 
-	map.Shuffle(0.6f, id, 0.75f);
+	for (int i = 0; i < TEST_COUNT; i++)
+	{
+		m0[i] = Mat4(
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf()
+		);
 
-	map.Delete(0.6f, id2);
+		m0[i] = Mat4(
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf()
+		);
+	}
+
+	cs::Timer timer;
+
+	for (int i = 0; i < TEST_COUNT; i++)
+	{
+		m2[i] = m0[i] * m1[i];
+	}
+
+	float time = timer.Lap();
+
+	std::cout << time << "\n";
+
+	/*Vec4 vector = Vec4(r.Getf(), r.Getf(), r.Getf(), r.Getf());
+	Mat4 matrix = Mat4(
+		r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+		r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+		r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+		r.Getf(), r.Getf(), r.Getf(), r.Getf()
+	);*/
+
+	//Vec4 result = matrix * vector;
+	//Vec4d control = (Mat4d)matrix * (Vec4d)vector;
 
 	return 0;
 }

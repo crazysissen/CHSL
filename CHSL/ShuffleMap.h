@@ -1,5 +1,22 @@
 #pragma once
 
+/* CHSL
+
+	|	ShuffleMap<Key, Value>
+	|
+	|	- Red-Black Tree based associative container.
+	|	- Optimized and built for items to change their key efficiently and quickly.
+
+*/
+
+
+
+
+
+
+
+
+
 #include <map>
 
 #include "CHSLTypedef.h"
@@ -15,10 +32,10 @@ namespace cs
 		T_val val;
 		uint identifier;
 
-		bool operator==(const ShuffleMapStruct& lVal) const { return val == lVal.val; }
-		bool operator!=(const ShuffleMapStruct& lVal) const { return key != lVal.key; }
-		bool operator>(const ShuffleMapStruct& lVal) const { return key > lVal.key; }
-		bool operator<(const ShuffleMapStruct& lVal) const { return key < lVal.key; }
+		bool operator==(const ShuffleMapStruct& lVal) const { return identifier == lVal.identifier; }
+		bool operator!=(const ShuffleMapStruct& lVal) const { return key != lVal.key || identifier != lVal.identifier; }
+		bool operator>(const ShuffleMapStruct& lVal) const { return key > lVal.key || (key == lVal.key && identifier > lVal.identifier); }
+		bool operator<(const ShuffleMapStruct& lVal) const { return key < lVal.key || (key == lVal.key && identifier < lVal.identifier); }
 	};
 
 
@@ -51,6 +68,7 @@ namespace cs
 	private:
 		RBTree<ShuffleMapStruct<T_key, T_val>, false> m_tree;
 		uint m_idCounter;
+
 
 	};
 

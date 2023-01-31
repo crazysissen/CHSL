@@ -8,10 +8,10 @@
 namespace
 {
 
-	std::uniform_real_distribution<float>* standardFloatDist, *standardRadianDist;
-	std::uniform_int_distribution<short>* standardByteDist;
-	std::uniform_int_distribution<int>* standardBoolDist;
-	std::uniform_int_distribution<unsigned int>* standardUnsignedDist;
+	std::uniform_real_distribution<float> standardFloatDist, standardRadianDist;
+	std::uniform_int_distribution<short> standardByteDist;
+	std::uniform_int_distribution<int> standardBoolDist;
+	std::uniform_int_distribution<unsigned int> standardUnsignedDist;
 
 }
 
@@ -25,6 +25,13 @@ cs::Random::Random(uint seed)
 	InitRandom(seed);
 }
 
+cs::Random::Random(byte* restoreDump)
+{
+	RestoreDump(restoreDump);
+
+	StaticInitRandom();
+}
+
 cs::Random::~Random()
 {
 	delete(engine);
@@ -32,20 +39,25 @@ cs::Random::~Random()
 
 void cs::Random::InitRandom(uint seed)
 {
-	static bool init = false;
-
 	engine = new RandomEngine();
 	engine->seed(seed);
+
+	StaticInitRandom();
+}
+
+void cs::Random::StaticInitRandom()
+{
+	static bool init = false;
 
 	if (!init)
 	{
 		init = true;
 
-		standardFloatDist = new std::uniform_real_distribution<float>(0.0f, 1.0f);
-		standardRadianDist = new std::uniform_real_distribution<float>(-(float)std::_Pi, (float)std::_Pi);
-		standardBoolDist = new std::uniform_int_distribution<int>(0, 1);
-		standardUnsignedDist = new std::uniform_int_distribution<unsigned int>(0, UINT_MAX);
-		standardByteDist = new std::uniform_int_distribution<short>(0, 255);
+		standardFloatDist = std::uniform_real_distribution<float>(0.0f, 1.0f);
+		standardRadianDist = std::uniform_real_distribution<float>(-(float)std::_Pi, (float)std::_Pi);
+		standardBoolDist = std::uniform_int_distribution<int>(0, 1);
+		standardUnsignedDist = std::uniform_int_distribution<unsigned int>(0, UINT_MAX);
+		standardByteDist = std::uniform_int_distribution<short>(0, 255);
 	}
 }
 
@@ -73,7 +85,7 @@ uint cs::Random::GetUnsigned(uint max)
 
 float cs::Random::Getf()
 {
-	return (*standardFloatDist)(*engine);
+	return (standardFloatDist)(*engine);
 }
 
 // Get float [ min - max ]
@@ -85,7 +97,7 @@ float cs::Random::Getf(float min, float max)
 
 float cs::Random::GetRadian()
 {
-	return (*standardRadianDist)(*engine);
+	return (standardRadianDist)(*engine);
 }
 
 float cs::Random::GetNormal(float mean, float diversion)
@@ -96,16 +108,33 @@ float cs::Random::GetNormal(float mean, float diversion)
 
 bool cs::Random::Getb()
 {
-	return (*standardBoolDist)(*engine) == 0;
+	return (standardBoolDist)(*engine) == 0;
 }
 
 byte* cs::Random::FillBytes(byte* target, uint ammount)
 {
 	for (uint i = 0; i < ammount; ++i)
 	{
-		target[i] = (byte)(*standardByteDist)(*engine);
+		target[i] = (byte)(standardByteDist)(*engine);
 	}
 
 	return target;
+}
+
+int cs::Random::GetDumpSize()
+{
+	return sizeof(RandomEngine);
+}
+
+void cs::Random::Dump(byte* dest)
+{
+	memcpy(dest, engine, GetDumpSize());
+}
+
+void cs::Random::RestoreDump(byte* source)
+{
+	delete engine;
+	engine = new RandomEngine();
+	memcpy(engine, source, (size_t)GetDumpSize());
 }
 

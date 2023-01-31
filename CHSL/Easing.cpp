@@ -2,7 +2,7 @@
 
 #include "Easing.h"
 
-cs::EaseFunction cs::Ease::getFunction(EaseType easeType)
+cs::EaseFunction cs::ease::getFunction(EaseType easeType)
 {
 	if (easeType < 0 || easeType >= EaseTypeCount)
 	{
@@ -40,77 +40,77 @@ cs::EaseFunction cs::Ease::getFunction(EaseType easeType)
 	return functions[easeType];
 }
 
-float cs::Ease::linear(float x)
+float cs::ease::linear(float x)
 {
 	x = cs::fclamp(x, 0.0f, 1.0f);
 
 	return x;
 }
 
-float cs::Ease::in(float x)
+float cs::ease::in(float x)
 {
 	x = cs::fclamp(x, 0.0f, 1.0f);
 
 	return x * x;
 }
 
-float cs::Ease::out(float x)
+float cs::ease::out(float x)
 {
 	x = cs::fclamp(x, 0.0f, 1.0f);
 
 	return x * (2 - x);
 }
 
-float cs::Ease::inOut(float x)
+float cs::ease::inOut(float x)
 {
 	x = cs::fclamp(x, 0.0f, 1.0f);
 
 	return 3 * x * x - 2 * x * x * x;
 }
 
-float cs::Ease::inOutResponsive(float x)
+float cs::ease::inOutResponsive(float x)
 {
 	x = 1 - inOut(x);
 
 	return 1 - x * x;
 }
 
-float cs::Ease::inSin(float x)
+float cs::ease::inSin(float x)
 {
 	x = cs::fclamp(x, 0.0f, 1.0f) - 1;
 
 	return 1 + sinf(x * c_pi * 0.5f);
 }
 
-float cs::Ease::outSin(float x)
+float cs::ease::outSin(float x)
 {
 	x = cs::fclamp(x, 0.0f, 1.0f);
 
 	return sinf(x * c_pi * 0.5f);
 }
 
-float cs::Ease::inOutSin(float x)
+float cs::ease::inOutSin(float x)
 {
 	x = cs::fclamp(x, 0.0f, 1.0f);
 
 	return 0.5f * (1 + sinf((x - 0.5f) * c_pi));
 }
 
-float cs::Ease::inCubic(float x)
+float cs::ease::inCubic(float x)
 {
 	x = cs::fclamp(x, 0.0f, 1.0f);
 
 	return x * x * x;
 }
 
-float cs::Ease::outCubic(float x)
+float cs::ease::outCubic(float x)
 {
 	x = cs::fclamp(x, 0.0f, 1.0f) - 1;
 	
 	return 1 + x * x * x;
 }
 
-float cs::Ease::inQuad(float x)
+float cs::ease::inQuad(float x)
 {
 	x = cs::fclamp(x, 0.0f, 1.0f);
 	x *= x;
@@ -118,40 +118,40 @@ float cs::Ease::inQuad(float x)
 	return x * x;
 }
 
-float cs::Ease::outQuad(float x)
+float cs::ease::outQuad(float x)
 {
 	return 1 - inQuad(1 - x);
 }
 
-float cs::Ease::inCircular(float x)
+float cs::ease::inCircular(float x)
 {
 	x = cs::fclamp(x, 0.0f, 1.0f);
 
 	return 1 - sqrtf(1 - x * x);
 }
 
-float cs::Ease::outCircular(float x)
+float cs::ease::outCircular(float x)
 {
 	x = cs::fclamp(x, 0.0f, 1.0f) - 1; // <-- note -1
 
 	return sqrtf(1 - x * x);
 }
 
-float cs::Ease::inBounce(float x)
+float cs::ease::inBounce(float x)
 {
 	x = cs::fclamp(x, 0.0f, 1.0f);
 
 	return powf(2, 6 * x - 6) * fabs(sinf(x * c_pi * 3.5f));
 }
 
-float cs::Ease::outBounce(float x)
+float cs::ease::outBounce(float x)
 {
 	x = cs::fclamp(x, 0.0f, 1.0f);
 
 	return 1 - powf(2, x * (-6)) * fabs(cosf(x * c_pi * 3.5f));
 }
 
-float cs::Ease::inElastic(float x)
+float cs::ease::inElastic(float x)
 {
 	x = cs::fclamp(x, 0.0f, 1.0f);
 	float x2 = x * x;
@@ -159,7 +159,7 @@ float cs::Ease::inElastic(float x)
 	return x2 * x2 * sinf(x * c_pi * 4.5f);
 }
 
-float cs::Ease::outElastic(float x)
+float cs::ease::outElastic(float x)
 {
 	x = cs::fclamp(x, 0.0f, 1.0f);
 	float x2 = x * x;

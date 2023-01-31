@@ -10,13 +10,13 @@ cs::NoiseWorley::NoiseWorley(unsigned int seed, unsigned int xSize)
 	savedPositions(new Vec3[savedPositionsCount]),
 	cellLocalPositions(new Vec3[cellCount]),
 	currentCenter({ -10, -10, -10 }),
-	d(dimension::First),
+	d(DimensionFirst),
 	s(seed),
 	xs(xSize), ys(1), zs(1)
 {
 	cs::Random r(seed);
 
-	for (int x = 0; x < xSize; ++x)
+	for (uint x = 0; x < xSize; ++x)
 	{
 		cellLocalPositions[x] = { x + r.Getf(), 0, 0 };
 	}
@@ -29,15 +29,15 @@ cs::NoiseWorley::NoiseWorley(unsigned int seed, unsigned int xSize, unsigned int
 	savedPositions(new Vec3[savedPositionsCount]),
 	cellLocalPositions(new Vec3[cellCount]),
 	currentCenter({ -10, -10, -10 }),
-	d(dimension::Second),
+	d(DimensionSecond),
 	s(seed),
 	xs(xSize), ys(ySize), zs(1)
 {
 	cs::Random r(seed);
 
-	for (int y = 0; y < ySize; ++y)
+	for (uint y = 0; y < ySize; ++y)
 	{
-		for (int x = 0; x < xSize; ++x)
+		for (uint x = 0; x < xSize; ++x)
 		{
 			cellLocalPositions[x + y * xSize] = { x + r.Getf(), y + r.Getf(), 0 };
 		}
@@ -51,17 +51,17 @@ cs::NoiseWorley::NoiseWorley(unsigned int seed, unsigned int xSize, unsigned int
 	savedPositions(new Vec3[savedPositionsCount]),
 	cellLocalPositions(new Vec3[cellCount]),
 	currentCenter({ -10, -10, -10 }),
-	d(dimension::Third),
+	d(DimensionThird),
 	s(seed),
 	xs(xSize), ys(ySize), zs(zSize)
 {
 	cs::Random r(seed);
 
-	for (int z = 0; z < zSize; ++z)
+	for (uint z = 0; z < zSize; ++z)
 	{
-		for (int y = 0; y < ySize; ++y)
+		for (uint y = 0; y < ySize; ++y)
 		{
-			for (int x = 0; x < xSize; ++x)
+			for (uint x = 0; x < xSize; ++x)
 			{
 				cellLocalPositions[x + y * xSize + z * xSize * ySize] = { x + r.Getf(), y + r.Getf(), z + r.Getf() };
 			}
@@ -99,7 +99,7 @@ float cs::NoiseWorley::Gen1D(float x)
 
 float cs::NoiseWorley::Gen2D(float x, float y)
 {
-	if (d != cs::dimension::Second)
+	if (d != DimensionSecond)
 	{
 		return Gen1D(x);
 	}
@@ -132,7 +132,7 @@ float cs::NoiseWorley::Gen2D(float x, float y)
 
 float cs::NoiseWorley::Gen3D(float x, float y, float z)
 {
-	if (d != cs::dimension::Third)
+	if (d != DimensionThird)
 	{
 		return Gen2D(x, y);
 	}
@@ -159,11 +159,11 @@ float cs::NoiseWorley::Gen3D(float x, float y, float z)
 					int lx = x + localX, ly = y + localY, lz = z + localZ;
 
 					savedPositions[i] = cellLocalPositions[
-						(lx < 0 || lx >= xs ?
+						(lx < 0 || lx >= (int)xs ?
 							cs::iwrap(lx, 0, xs - 1) : lx) +
-						(ly < 0 || ly >= ys ?
+						(ly < 0 || ly >= (int)ys ?
 							cs::iwrap(ly, 0, ys - 1) : ly) * xs +
-						(lz < 0 || lz >= zs ?
+						(lz < 0 || lz >= (int)zs ?
 							cs::iwrap(lz, 0, zs - 1) : lz) * xs * ys]/* +
 						(Vec3)localCoord*/;
 
@@ -183,7 +183,7 @@ float cs::NoiseWorley::GetClosestCurrentDistance(int count, float x, float y, fl
 	for (int j = 0; j < count; ++j)
 	{
 		Vec3 diff(x - savedPositions[j].x, y - savedPositions[j].y, z - savedPositions[j].z);
-		float currentDistance = diff.Length3Sq();
+		float currentDistance = diff.LengthSq();
 		if (currentDistance < closestDistance)
 		{
 			closestDistance = currentDistance;

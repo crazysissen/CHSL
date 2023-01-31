@@ -1,5 +1,19 @@
 #pragma once
 
+/* CHSL
+
+    |	Windows.h wrapper that defines many flags to clean up the mess.
+
+*/
+
+
+
+
+
+
+
+
+
 #define _WIN32_WINNT 0x0601 // Target Windows 7 or later
 #include <sdkddkver.h>
 
@@ -11,7 +25,7 @@
 //#define NORASTEROPS
 #define NOPATOM
 //#define NOCLIPBOARD
-#define NOCOLOR
+//#define NOCOLOR
 #define NODRAWTEXT
 #define NOKERNEL
 //#define NONLS
@@ -37,5 +51,7 @@
 
 #define OEMRESOURCE
 #define STRICT
+
+#undef UNICODE
 
 #include <Windows.h>

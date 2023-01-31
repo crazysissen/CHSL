@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,12 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Archive.cpp" />
+    <ClCompile Include="Box.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="CHSL.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Easing.cpp" />
+    <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="Indexer.cpp" />
+    <ClCompile Include="Line.cpp" />
+    <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="ShuffleMap.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Noise.cpp" />
@@ -38,12 +45,15 @@
     </ClCompile>
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="RBTree.cpp" />
-    <ClCompile Include="StateTimer.cpp" />
+    <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="StateTracker.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Archive.h" />
+    <ClInclude Include="Box.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="CHSL.h" />
@@ -51,10 +61,19 @@
     <ClInclude Include="CHSLTypedef.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Easing.h" />
-    <ClInclude Include="framework.h" />
+    <ClInclude Include="Frustum.h" />
     <ClInclude Include="GeneralEnums.h" />
     <ClInclude Include="Header\CHSL.h" />
     <ClInclude Include="Indexer.h" />
+    <ClInclude Include="IRaycastTarget.h" />
+    <ClInclude Include="Line.h" />
+    <ClInclude Include="List.h" />
+    <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Octree.h" />
+    <ClInclude Include="Plane.h" />
+    <ClInclude Include="Quadtree.h" />
+    <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="Queue.h" />
     <ClInclude Include="ShuffleMap.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Noise.h" />
@@ -63,9 +82,10 @@
     <ClInclude Include="core.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="RBTree.h" />
-    <ClInclude Include="StateTimer.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="StateTracker.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="WindowsExt.h" />
   </ItemGroup>
@@ -88,26 +108,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -157,10 +177,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CHSLCOMPILE;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>core.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -184,10 +205,11 @@ xcopy /y "$(OutDir)*.pdb" "$(SolutionDir)library\CHSL\lib\" </Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CHSLCOMPILE;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>core.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -210,10 +232,11 @@ xcopy /y "$(OutDir)*.lib" "$(SolutionDir)library\CHSL\lib\" </Command>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CHSLCOMPILE;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>core.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -237,10 +260,11 @@ xcopy /y "$(OutDir)*.pdb" "$(SolutionDir)library\CHSL\lib\" </Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CHSLCOMPILE;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>core.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>

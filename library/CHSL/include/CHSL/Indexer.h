@@ -1,15 +1,31 @@
 #pragma once
 
+/* CHSL
+
+	|	Indexer
+	|
+	|	- Semi-complex cyclical list type for storing and retrieving items using unique ID:s.
+	|	- Not extensively tested.
+
+*/
+
+
+
+
+
+
+
+
+
 #include <iostream>
 
 #include "CHSLTypedef.h"
 #include "Math.h"
+#include "Quadtree.h"
 
 namespace cs
 {
-	/// <summary>
-	/// Fixed-size cyclic list of members with fixed indices
-	/// </summary>
+	// Fixed-size cyclic list of members with fixed indices
 	template <typename T, size_t C, byte CBits = 16>
 	class Indexer
 	{
@@ -147,7 +163,7 @@ namespace cs
 			if (m_array[current.bIndex].used)
 			{
 				size_t pUnused;
-				for (size_t i = cs::stmod(current.bIndex - 1 + C, C); m_array[cs::stmod(i + 1, C)].used; i = cs::stmod(i - 1 + C, C))
+				for (size_t i = cs::imod(current.bIndex - 1 + C, C); m_array[cs::imod(i + 1, C)].used; i = cs::imod(i - 1 + C, C))
 				{
 					pUnused = i;
 				}
@@ -161,7 +177,7 @@ namespace cs
 				}
 				else
 				{
-					for (size_t i = index; i != pUnused; i = cs::stmod(i - 1 + C, C))
+					for (size_t i = index; i != pUnused; i = cs::imod(i - 1 + C, C))
 					{
 						m_array[i].bIndex = pUnused;
 					}
@@ -172,7 +188,7 @@ namespace cs
 				m_array[current.bIndex].fIndex = index;
 			}
 
-			for (size_t i = cs::stmod(index + 1, C); m_array[cs::stmod(i - 1 + C, C)].used; i = cs::stmod(i + 1, C))
+			for (size_t i = cs::imod(index + 1, C); m_array[cs::imod(i - 1 + C, C)].used; i = cs::imod(i + 1, C))
 			{
 				current.fIndex = i;
 				m_array[i].bIndex = index;
@@ -211,11 +227,11 @@ namespace cs
 				throw std::out_of_range("Tried to get Indexer member out of range.");
 			}
 
-			return m_array[index];
+			return m_array[index].value;
 		}
 
 		const T& operator[](int index) const
-		{ 
+		{
 			return Get(index);
 		}
 
@@ -230,7 +246,7 @@ namespace cs
 				throw std::out_of_range("Tried to get Indexer member out of range.");
 			}
 
-			return m_array[index];
+			return m_array[index].value;
 		}
 
 		T& operator[](int index)
@@ -247,11 +263,11 @@ namespace cs
 			for (size_t i = 0; i < C; ++i)
 			{
 				m_array[i].used = false;
-				m_array[i].fIndex = stmod(i + 1, C);
-				m_array[i].bIndex = stmod(i - 1 + C, C);
+				m_array[i].fIndex = imod(i + 1, C);
+				m_array[i].bIndex = imod(i - 1 + C, C);
 			}
 
-			m_count = 0; 
+			m_count = 0;
 			m_head = 0;
 			m_max = 0;
 		}
@@ -284,7 +300,7 @@ namespace cs
 				if (current.used)
 				{
 					current.bIndex = latestEmpty;
-					current.fIndex = stmod(i + 1, C);
+					current.fIndex = imod(i + 1, C);
 				}
 				else
 				{
@@ -326,8 +342,8 @@ namespace cs
 			Indexer* indexer;
 			size_t current;
 
-			Iterator& operator++() 
-			{ 
+			Iterator& operator++()
+			{
 				current++;
 
 				for (; current <= indexer->m_max; ++current)
@@ -341,19 +357,19 @@ namespace cs
 				return *this;
 			}
 
-			T& operator*() 
-			{ 
-				return indexer->m_array[current].value; 
+			T& operator*()
+			{
+				return indexer->m_array[current].value;
 			}
 
-			bool operator!=(const Iterator& lVal) 
-			{ 
-				return current != lVal.current; 
+			bool operator!=(const Iterator& lVal)
+			{
+				return current != lVal.current;
 			}
 		};
 
-		Iterator begin() 
-		{ 
+		Iterator begin()
+		{
 			if (m_count == 0)
 			{
 				return { this, m_max + 1 };
@@ -370,9 +386,9 @@ namespace cs
 			return { this, m_max + 1 };
 		}
 
-		Iterator end() 
-		{ 
-			return { this, m_max + 1 }; 
+		Iterator end()
+		{
+			return { this, m_max + 1 };
 		}
 
 
@@ -381,9 +397,9 @@ namespace cs
 		struct Member
 		{
 			T value;
-			bool used		: 1;
-			size_t fIndex	: CBits;
-			size_t bIndex	: CBits;
+			bool used : 1;
+			size_t fIndex : CBits;
+			size_t bIndex : CBits;
 		};
 
 

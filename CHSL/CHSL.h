@@ -1,34 +1,60 @@
 #pragma once
 
+/* CHSL
+
+	|	CHSL.h
+	|
+	|	- Includes all fully implemented features of CHSL.
+
+*/
+
+
+
+
+
+
+
+// Global
 #include "CHSLMacros.h"
 #include "CHSLTypedef.h"
 
-#include "Vector.h"
-#include "Random.h"
-#include "Math.h"
 #include "GeneralEnums.h"
+
+// Geometry
+#include "Vector.h"
+#include "Box.h"
+#include "Line.h"
+#include "Sphere.h"
+#include "Triangle.h"
+#include "Plane.h"
+#include "Frustum.h"
+#include "IRaycastTarget.h"
+
+// Mathematics
+#include "Matrix.h"
+#include "Math.h"
+#include "Quaternion.h"
+
+// Data structures
+#include "List.h"
+#include "Queue.h"
+#include "Indexer.h"
+#include "RBTree.h"
+#include "ShuffleMap.h"
+#include "Octree.h"
+#include "Quadtree.h"
+
+// Help classes
+#include "Random.h"
 #include "Timer.h"
 #include "Color.h"
 #include "Camera.h"
-#include "Indexer.h"
 #include "Easing.h"
 #include "StateTracker.h"
-#include "RBTree.h"
-#include "ShuffleMap.h"
 
 #include "Noise.h"
 #include "NoiseSimplex.h"
 #include "NoiseWorley.h"
 
+// Debugging
 #include "Debug.h"
-
-//
-//using cs::Point;
-//using cs::Point3;
-//using cs::Vec2;
-//using cs::Vec3;
-//using cs::Vec2d;
-//using cs::Vec3d;
-
-using std::string;
-using std::wstring;
