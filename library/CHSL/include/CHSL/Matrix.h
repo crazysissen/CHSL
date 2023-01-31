@@ -73,8 +73,8 @@ namespace cs
 		const T* Data() const;
 		T* Data();
 
-	protected:
-		T m_data[H * W];
+	public:
+		T data[H * W];
 	};
 
 	template<typename T>
@@ -199,7 +199,7 @@ namespace cs
 	template<typename T, int W, int H>
 	inline Matrix<T, W, H>::Matrix()
 		:
-		m_data()
+		data()
 	{
 	}
 
@@ -211,11 +211,11 @@ namespace cs
 		va_list l;
 		va_start(l, content);
 
-		m_data[0] = content;
+		data[0] = content;
 
 		for (int i = 1; i < W * H; i++)
 		{
-			m_data[i] = va_arg(l, T);
+			data[i] = va_arg(l, T);
 		}
 
 		va_end(l);
@@ -229,7 +229,7 @@ namespace cs
 		int i = 0;
 		for (auto iter = content.begin(); iter != content.end() && i < W * H; iter++)
 		{
-			m_data[i] = *iter;
+			data[i] = *iter;
 			i++;
 		}
 	}
@@ -241,20 +241,20 @@ namespace cs
 	{
 		for (int i = 0; i < W * H; i++)
 		{
-			m_data[i] = lVal.m_data[i];
+			data[i] = lVal.data[i];
 		}
 	}
 
 	template<typename T, int W, int H>
 	inline const T& Matrix<T, W, H>::operator()(int x, int y) const
 	{
-		return m_data[x + y * W];
+		return data[x + y * W];
 	}
 
 	template<typename T, int W, int H>
 	inline T& Matrix<T, W, H>::operator()(int x, int y)
 	{
-		return m_data[x + y * W];
+		return data[x + y * W];
 	}
 
 	template<typename T, int W, int H>
@@ -262,7 +262,7 @@ namespace cs
 	{
 		for (int i = 0; i < W * H; i++)
 		{
-			if (m_data[i] != other.m_data[i])
+			if (data[i] != other.data[i])
 			{
 				return false;
 			}
@@ -284,7 +284,7 @@ namespace cs
 
 	//	for (int i = 0; i < W * H; i++)
 	//	{
-	//		m.m_data[i] = m_data[i] * other.m_data[i];
+	//		m.data[i] = data[i] * other.data[i];
 	//	}
 
 	//	return m;
@@ -297,7 +297,7 @@ namespace cs
 
 		for (int i = 0; i < W * H; i++)
 		{
-			m.m_data[i] = m_data[i] + other.m_data[i];
+			m.data[i] = data[i] + other.data[i];
 		}
 
 		return m;
@@ -310,7 +310,7 @@ namespace cs
 
 		for (int i = 0; i < W * H; i++)
 		{
-			m.m_data[i] = m_data[i] - other.m_data[i];
+			m.data[i] = data[i] - other.data[i];
 		}
 
 		return m;
@@ -325,7 +325,7 @@ namespace cs
 		{
 			for (int y = 0; y < H; y++)
 			{
-				m.m_data[x + y * W] = m_data[x + y * W] * scalar;
+				m.data[x + y * W] = data[x + y * W] * scalar;
 			}
 		}
 
@@ -345,7 +345,7 @@ namespace cs
 		{
 			for (int y = 0; y < H; y++)
 			{
-				m_data[x + y * W] += other.m_data[x + y * W];
+				data[x + y * W] += other.data[x + y * W];
 			}
 		}
 
@@ -359,7 +359,7 @@ namespace cs
 		{
 			for (int y = 0; y < H; y++)
 			{
-				m_data[x + y * W] -= other.m_data[x + y * W];
+				data[x + y * W] -= other.data[x + y * W];
 			}
 		}
 
@@ -373,7 +373,7 @@ namespace cs
 		{
 			for (int y = 0; y < H; y++)
 			{
-				m_data[x + y * W] *= scalar;
+				data[x + y * W] *= scalar;
 			}
 		}
 
@@ -383,13 +383,13 @@ namespace cs
 	template<typename T, int W, int H>
 	inline const T& Matrix<T, W, H>::Get(int x, int y) const
 	{
-		return m_data[x + y * W];
+		return data[x + y * W];
 	}
 
 	template<typename T, int W, int H>
 	inline T& Matrix<T, W, H>::Get(int x, int y)
 	{
-		return m_data[x + y * W];
+		return data[x + y * W];
 	}
 
 	template<typename T, int W, int H>
@@ -401,7 +401,7 @@ namespace cs
 		{
 			for (int y = 0; y < H; y++)
 			{
-				m.m_data[y + x * W] = m_data[x + y * W];
+				m.data[y + x * W] = data[x + y * W];
 			}
 		}
 
@@ -411,13 +411,13 @@ namespace cs
 	template<typename T, int W, int H>
 	inline const T* Matrix<T, W, H>::Data() const
 	{
-		return m_data;
+		return data;
 	}
 
 	template<typename T, int W, int H>
 	inline T* Matrix<T, W, H>::Data()
 	{
-		return m_data;
+		return data;
 	}
 
 	template<typename T, int W, int H>
@@ -430,7 +430,7 @@ namespace cs
 		{
 			for (int y = 0; y < H; y++)
 			{
-				m.m_data[x + y * W] = (T2)(m_data[x + y * W]);
+				m.data[x + y * W] = (T2)(data[x + y * W]);
 			}
 		}
 
@@ -447,11 +447,11 @@ namespace cs
 		{
 			for (int y = 0; y < H; y++)
 			{
-				T& current = m.m_data[x + y * W2];
+				T& current = m.data[x + y * W2];
 
 				for (int i = 0; i < W; i++)
 				{
-					current += m_data[i + y * W] * other.m_data[x + i * W];
+					current += data[i + y * W] * other.data[x + i * W];
 				}
 			}
 		}
@@ -464,7 +464,7 @@ namespace cs
 	{
 		for (int i = 0; i < W * H; i++)
 		{
-			m_data[i] = other.m_data[i];
+			data[i] = other.data[i];
 		}
 
 		return *this;
@@ -610,20 +610,22 @@ namespace cs
 		);
 	}
 
+	template<>
 	inline Matrix3<float> Matrix3<float>::operator*(const Matrix3& matrix) const
 	{
 		Matrix3 product;
 
 		const __m128i storeMask = _mm_set_epi32(0, -1, -1, -1);
-		const __m128 otherRow0 = _mm_load_ps(&(matrix.m_data[0]));
-		const __m128 otherRow1 = _mm_load_ps(&(matrix.m_data[3]));
-		const __m128 otherRow2 = _mm_load_ps(&(matrix.m_data[6]));
+
+		const __m128 otherRow0 = _mm_load_ps(&(matrix.data[0]));
+		const __m128 otherRow1 = _mm_load_ps(&(matrix.data[3]));
+		const __m128 otherRow2 = _mm_load_ps(&(matrix.data[6]));
 
 		for (int i = 0; i < 3; i++)
 		{
-			__m128 thisCurrentRowAllX = _mm_set1_ps(m_data[i * 3 + 0]);
-			__m128 thisCurrentRowAllY = _mm_set1_ps(m_data[i * 3 + 1]);
-			__m128 thisCurrentRowAllZ = _mm_set1_ps(m_data[i * 3 + 2]);
+			__m128 thisCurrentRowAllX = _mm_set1_ps(data[i * 3 + 0]);
+			__m128 thisCurrentRowAllY = _mm_set1_ps(data[i * 3 + 1]);
+			__m128 thisCurrentRowAllZ = _mm_set1_ps(data[i * 3 + 2]);
 
 			__m128 newRowXComponents = _mm_mul_ps(thisCurrentRowAllX, otherRow0);
 			__m128 newRowYComponents = _mm_mul_ps(thisCurrentRowAllY, otherRow1);
@@ -631,7 +633,7 @@ namespace cs
 
 			__m128 newRow = _mm_add_ps(_mm_add_ps(newRowXComponents, newRowYComponents), newRowZComponents);
 
-			_mm_maskstore_ps(&(product.m_data[i * 3]), storeMask, newRow);
+			_mm_maskstore_ps(&(product.data[i * 3]), storeMask, newRow);
 		}
 
 		return product;
@@ -682,7 +684,7 @@ namespace cs
 				int y1 = imod(y + 1, 3);
 				int y2 = imod(y + 2, 3);
 
-				m.m_data[x + y * 3] =
+				m.data[x + y * 3] =
 					(*this)(x1, y1) * (*this)(x2, y2) -
 					(*this)(x1, y2) * (*this)(x2, y1);
 			}
@@ -748,21 +750,22 @@ namespace cs
 		return *this * Matrix4(matrix);
 	}
 
+	/*template<>
 	inline Matrix4<float> Matrix4<float>::operator*(const Matrix4& matrix) const
 	{
 		Matrix4 product;
 		
-		const __m128 otherRow0 = _mm_load_ps(&(matrix.m_data[0]));
-		const __m128 otherRow1 = _mm_load_ps(&(matrix.m_data[4]));
-		const __m128 otherRow2 = _mm_load_ps(&(matrix.m_data[8]));
-		const __m128 otherRow3 = _mm_load_ps(&(matrix.m_data[12]));
+		const __m128 otherRow0 = _mm_load_ps(&(matrix.data[0]));
+		const __m128 otherRow1 = _mm_load_ps(&(matrix.data[4]));
+		const __m128 otherRow2 = _mm_load_ps(&(matrix.data[8]));
+		const __m128 otherRow3 = _mm_load_ps(&(matrix.data[12]));
 
 		for (int i = 0; i < 4; i++)
 		{
-			__m128 thisCurrentRowAllX = _mm_set1_ps(m_data[i * 4 + 0]);
-			__m128 thisCurrentRowAllY = _mm_set1_ps(m_data[i * 4 + 1]);
-			__m128 thisCurrentRowAllZ = _mm_set1_ps(m_data[i * 4 + 2]);
-			__m128 thisCurrentRowAllW = _mm_set1_ps(m_data[i * 4 + 3]);
+			__m128 thisCurrentRowAllX = _mm_set1_ps(data[i * 4 + 0]);
+			__m128 thisCurrentRowAllY = _mm_set1_ps(data[i * 4 + 1]);
+			__m128 thisCurrentRowAllZ = _mm_set1_ps(data[i * 4 + 2]);
+			__m128 thisCurrentRowAllW = _mm_set1_ps(data[i * 4 + 3]);
 
 			__m128 newRowXComponents = _mm_mul_ps(thisCurrentRowAllX, otherRow0);
 			__m128 newRowYComponents = _mm_mul_ps(thisCurrentRowAllY, otherRow1);
@@ -773,11 +776,11 @@ namespace cs
 				_mm_add_ps(_mm_add_ps(_mm_add_ps(
 					newRowXComponents, newRowYComponents), newRowZComponents), newRowWComponents);
 
-			_mm_store_ps(&(product.m_data[i * 4]), newRow);
+			_mm_store_ps(&(product.data[i * 4]), newRow);
 		}
 
 		return product;
-	}
+	}*/
 
 	template<typename T>
 	inline Matrix4<T> Matrix4<T>::operator*(const Matrix4& matrix) const
@@ -794,6 +797,51 @@ namespace cs
 			v.x * (*this)(0, 2) + v.y * (*this)(1, 2) + v.z * (*this)(2, 2) + (*this)(3, 2)
 		);
 	}
+
+	//template<>
+	//inline _Vec4<float> Matrix4<float>::operator*(const _Vec4<float>& v) const
+	//{
+	//	//__m128 column0 = _mm_set_ps(data[0], data[4], data[8], data[12]);
+	//	//__m128 column1 = _mm_set_ps(data[1], data[5], data[9], data[13]);
+	//	//__m128 column2 = _mm_set_ps(data[2], data[6], data[10], data[14]);
+	//	//__m128 column3 = _mm_set_ps(data[3], data[7], data[11], data[15]);
+
+	//	//__m128 vx = _mm_set_ps1(v.x);
+	//	//__m128 vy = _mm_set_ps1(v.y);
+	//	//__m128 vz = _mm_set_ps1(v.z);
+	//	//__m128 vw = _mm_set_ps1(v.w);
+
+	//	//__m128 product0 = _mm_mul_ps(column0, vx);
+	//	//__m128 product1 = _mm_mul_ps(column1, vy);
+	//	//__m128 product2 = _mm_mul_ps(column2, vz);
+	//	//__m128 product3 = _mm_mul_ps(column3, vw);
+
+	//	//__m128 result = _mm_add_ps(_mm_add_ps(_mm_add_ps(product0, product1), product2), product3);
+
+	//	////Vec4 resultVector;
+	//	////_mm_store_ps((float*)&resultVector, result);
+	//	//
+	//	//return *((Vec4*)&result);
+
+	//	const __m128 row0 = _mm_load_ps(&(data[0]));
+	//	const __m128 row1 = _mm_load_ps(&(data[4]));
+	//	const __m128 row2 = _mm_load_ps(&(data[8]));
+	//	const __m128 row3 = _mm_load_ps(&(data[12]));
+
+	//	const __m128 vec = _mm_set_ps(v.w, v.y, v.z, v.x);
+
+	//	__m128 result = _mm_add_ps(_mm_add_ps(_mm_add_ps(
+	//		_mm_dp_ps(row0, vec, 0b11110001),
+	//		_mm_dp_ps(row1, vec, 0b11110010)),
+	//		_mm_dp_ps(row2, vec, 0b11110100)),
+	//		_mm_dp_ps(row3, vec, 0b11111000)
+	//	);
+
+	//	Vec4 resultVector;
+
+	//	_mm_store_ps((float*)&resultVector, result);
+	//	return resultVector;
+	//}
 
 	template<typename T>
 	inline _Vec4<T> Matrix4<T>::operator*(const _Vec4<T>& v) const

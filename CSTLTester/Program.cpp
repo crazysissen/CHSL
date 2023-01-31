@@ -10,38 +10,54 @@
 
 
 
+#define TEST_COUNT 5000000
+
 int main()
 {
-	Matrix3<float> m3f1 =
+	cs::Random r;
+
+	Mat4* m0 = new Mat4[TEST_COUNT];
+	Mat4* m1 = new Mat4[TEST_COUNT];
+	Mat4* m2 = new Mat4[TEST_COUNT];
+
+	for (int i = 0; i < TEST_COUNT; i++)
 	{
-		1.0f, 0.5f, -1.0f,
-		-2.0f, -1.5f, 3.0f,
-		1.5f, 2.5f, -0.5f
-	};
+		m0[i] = Mat4(
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf()
+		);
 
-	Matrix3<float> m3f2 =
+		m0[i] = Mat4(
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf()
+		);
+	}
+
+	cs::Timer timer;
+
+	for (int i = 0; i < TEST_COUNT; i++)
 	{
-		2.0f, -3.0f, 1.0f,
-		0.5f, 0.5f, -1.5f,
-		-1.0f, -3.0f, 2.5f
-	};
+		m2[i] = m0[i] * m1[i];
+	}
 
-	Matrix3<double> m3d1 =
-	{
-		1.0, 0.5, -1.0,
-		-2.0, -1.5, 3.0,
-		1.5, 2.5, -0.5
-	};
+	float time = timer.Lap();
 
-	Matrix3<double> m3d2 =
-	{
-		2.0, -3.0, 1.0,
-		0.5, 0.5, -1.5,
-		-1.0, -3.0, 2.5
-	};
+	std::cout << time << "\n";
 
-	Matrix3<float> m3f3 = m3f1 * m3f2; 
-	Matrix3<double> m3d3 = m3d1 * m3d2;
+	/*Vec4 vector = Vec4(r.Getf(), r.Getf(), r.Getf(), r.Getf());
+	Mat4 matrix = Mat4(
+		r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+		r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+		r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+		r.Getf(), r.Getf(), r.Getf(), r.Getf()
+	);*/
 
-	return 0; 
+	//Vec4 result = matrix * vector;
+	//Vec4d control = (Mat4d)matrix * (Vec4d)vector;
+
+	return 0;
 }
