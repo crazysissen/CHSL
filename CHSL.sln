@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30406.217
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CHSL", "CHSL\CHSL.vcxproj", "{383C6539-D4CB-4EFB-B0DA-582C809DF2F9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSTLTester", "CSTLTester\CSTLTester.vcxproj", "{769F693A-6C82-4B7A-9CB3-7B7C8C83FE85}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CHSLTester", "CHSLTester\CSTLTester.vcxproj", "{769F693A-6C82-4B7A-9CB3-7B7C8C83FE85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
