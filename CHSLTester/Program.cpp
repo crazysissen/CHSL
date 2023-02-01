@@ -10,19 +10,54 @@
 
 
 
+#define TEST_COUNT 5000000
+
 int main()
 {
-	Mat4 m = Mat::rotation3Y(cs::c_pi * 0.5f);
-	Quaternion q1 = Quaternion::GetAxis({ 0, 1, 0 }, cs::c_pi * 0.5f);
-	Quaternion q2 = Quaternion::GetAxis({ 0, 1, 0 }, cs::c_pi);
-	Quaternion q3 = Quaternion::GetSlerp(q1, q2, 0.5f);
+	cs::Random r;
 
-	Vec3 v1(2, 0, 0); 
-	Vec3 v2(2, 0, 0);
-	Vec3 v3(2, 0, 0);
-	v1 = q1 * v1;
-	v2 = q2 * v2;
-	v3 = q3 * v3;
+	Mat4* m0 = new Mat4[TEST_COUNT];
+	Mat4* m1 = new Mat4[TEST_COUNT];
+	Mat4* m2 = new Mat4[TEST_COUNT];
 
-	return 0; 
+	for (int i = 0; i < TEST_COUNT; i++)
+	{
+		m0[i] = Mat4(
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf()
+		);
+
+		m0[i] = Mat4(
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+			r.Getf(), r.Getf(), r.Getf(), r.Getf()
+		);
+	}
+
+	cs::Timer timer;
+
+	for (int i = 0; i < TEST_COUNT; i++)
+	{
+		m2[i] = m0[i] * m1[i];
+	}
+
+	float time = timer.Lap();
+
+	std::cout << time << "\n";
+
+	/*Vec4 vector = Vec4(r.Getf(), r.Getf(), r.Getf(), r.Getf());
+	Mat4 matrix = Mat4(
+		r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+		r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+		r.Getf(), r.Getf(), r.Getf(), r.Getf(),
+		r.Getf(), r.Getf(), r.Getf(), r.Getf()
+	);*/
+
+	//Vec4 result = matrix * vector;
+	//Vec4d control = (Mat4d)matrix * (Vec4d)vector;
+
+	return 0;
 }
