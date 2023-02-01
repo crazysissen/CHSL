@@ -750,7 +750,7 @@ namespace cs
 		return *this * Matrix4(matrix);
 	}
 
-	/*template<>
+	template<>
 	inline Matrix4<float> Matrix4<float>::operator*(const Matrix4& matrix) const
 	{
 		Matrix4 product;
@@ -780,7 +780,7 @@ namespace cs
 		}
 
 		return product;
-	}*/
+	}
 
 	template<typename T>
 	inline Matrix4<T> Matrix4<T>::operator*(const Matrix4& matrix) const
@@ -797,51 +797,6 @@ namespace cs
 			v.x * (*this)(0, 2) + v.y * (*this)(1, 2) + v.z * (*this)(2, 2) + (*this)(3, 2)
 		);
 	}
-
-	//template<>
-	//inline _Vec4<float> Matrix4<float>::operator*(const _Vec4<float>& v) const
-	//{
-	//	//__m128 column0 = _mm_set_ps(data[0], data[4], data[8], data[12]);
-	//	//__m128 column1 = _mm_set_ps(data[1], data[5], data[9], data[13]);
-	//	//__m128 column2 = _mm_set_ps(data[2], data[6], data[10], data[14]);
-	//	//__m128 column3 = _mm_set_ps(data[3], data[7], data[11], data[15]);
-
-	//	//__m128 vx = _mm_set_ps1(v.x);
-	//	//__m128 vy = _mm_set_ps1(v.y);
-	//	//__m128 vz = _mm_set_ps1(v.z);
-	//	//__m128 vw = _mm_set_ps1(v.w);
-
-	//	//__m128 product0 = _mm_mul_ps(column0, vx);
-	//	//__m128 product1 = _mm_mul_ps(column1, vy);
-	//	//__m128 product2 = _mm_mul_ps(column2, vz);
-	//	//__m128 product3 = _mm_mul_ps(column3, vw);
-
-	//	//__m128 result = _mm_add_ps(_mm_add_ps(_mm_add_ps(product0, product1), product2), product3);
-
-	//	////Vec4 resultVector;
-	//	////_mm_store_ps((float*)&resultVector, result);
-	//	//
-	//	//return *((Vec4*)&result);
-
-	//	const __m128 row0 = _mm_load_ps(&(data[0]));
-	//	const __m128 row1 = _mm_load_ps(&(data[4]));
-	//	const __m128 row2 = _mm_load_ps(&(data[8]));
-	//	const __m128 row3 = _mm_load_ps(&(data[12]));
-
-	//	const __m128 vec = _mm_set_ps(v.w, v.y, v.z, v.x);
-
-	//	__m128 result = _mm_add_ps(_mm_add_ps(_mm_add_ps(
-	//		_mm_dp_ps(row0, vec, 0b11110001),
-	//		_mm_dp_ps(row1, vec, 0b11110010)),
-	//		_mm_dp_ps(row2, vec, 0b11110100)),
-	//		_mm_dp_ps(row3, vec, 0b11111000)
-	//	);
-
-	//	Vec4 resultVector;
-
-	//	_mm_store_ps((float*)&resultVector, result);
-	//	return resultVector;
-	//}
 
 	template<typename T>
 	inline _Vec4<T> Matrix4<T>::operator*(const _Vec4<T>& v) const
