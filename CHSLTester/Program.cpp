@@ -14,9 +14,14 @@
 
 int main()
 {
-	Quaternion q = Quaternion::GetEuler(0.5f * cs::c_pi, 0.5f * cs::c_pi, 0.0f);
-	Vec3 v = { 0, 0, 1 };
-	Vec3 vr = q * v;
+	cs::Random r;
+
+	Vec3 a = { 0, 0, 1 };
+	Vec3 b = { -1, 0, 0 };
+
+	Quaternion q = Quaternion::GetDirection(b);
+
+	Vec3 c = q * b;
 
 	return 0;
 }

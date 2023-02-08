@@ -183,6 +183,21 @@ cs::Quaternion cs::Quaternion::GetDeconstruct(const Mat3& matrix)
 	return GetDeconstruct(Mat4(matrix));
 }
 
+cs::Quaternion cs::Quaternion::GetFromTo(const Vec3& from, const Vec3& to)
+{
+	float comp = std::sqrtf(2.0f + from * to);
+
+	return Quaternion(
+		(from % to) * (1.0f / comp),
+		comp * 0.5f
+	);
+}
+
+cs::Quaternion cs::Quaternion::GetDirection(const Vec3& direction)
+{
+	return GetFromTo({ 0, 0, 1.0f }, direction);
+}
+
 cs::Quaternion cs::Quaternion::GetDeconstruct(const Mat4& matrix)
 {
 	float w = 0.5f * std::sqrtf(matrix.Trace()); 
