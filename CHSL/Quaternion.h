@@ -51,6 +51,8 @@ namespace cs
 		static Quaternion GetAxis(const Vec3& axis, float radians);
 		static Quaternion GetAxisNormalized(const Vec3& axis, float radians);	// Use when the axis vector is normalized
 		static Quaternion GetDeconstruct(const Mat3& matrix);
+		static Quaternion GetFromTo(const Vec3& from, const Vec3& to);
+		static Quaternion GetDirection(const Vec3& direction);
 		static Quaternion GetDeconstruct(const Mat4& matrix);
 		static Quaternion GetSlerp(const Quaternion& from, const Quaternion& to, float lambda);
 
