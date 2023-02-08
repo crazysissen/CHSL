@@ -128,6 +128,11 @@ namespace cs
 		Matrix4(const Matrix<T, 4>&);
 		Matrix4(const Matrix3<T>&);
 		Matrix4(const Matrix4&);
+#ifdef CHSL_DX
+		Matrix4(DirectX::XMMATRIX xmmatrix);
+
+		DirectX::XMMATRIX XMMatrix() const;
+#endif
 
 		Matrix4 operator*(const Matrix3<T>& matrix) const;
 		Matrix4 operator*(const Matrix4& matrix) const;
@@ -560,6 +565,8 @@ namespace cs
 
 	template<typename T>
 	inline Matrix3<T>::Matrix3()
+		:
+		Matrix<T, 3>{ 1, 0, 0, 0, 1, 0, 0, 0, 1 }
 	{
 	}
 
@@ -700,6 +707,8 @@ namespace cs
 
 	template<typename T>
 	inline Matrix4<T>::Matrix4()
+		:
+		Matrix<T, 4>{ 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 }
 	{
 	}
 
@@ -740,9 +749,39 @@ namespace cs
 	template<typename T>
 	inline Matrix4<T>::Matrix4(const Matrix4& lVal)
 		:
-	Matrix<T, 4>(lVal)
+		Matrix<T, 4>(lVal)
 	{
 	}
+
+#ifdef CHSL_DX
+
+	template<>
+	inline Matrix4<float>::Matrix4(DirectX::XMMATRIX xmmatrix)
+		:
+		Matrix<float, 4>()
+	{
+		DirectX::XMStoreFloat4x4((DirectX::XMFLOAT4X4*)&data, xmmatrix);
+	}
+
+	template<typename T>
+	inline Matrix4<T>::Matrix4(DirectX::XMMATRIX xmmatrix)
+	{
+		// What?
+	}
+
+	template<>
+	inline DirectX::XMMATRIX Matrix4<float>::XMMatrix() const
+	{
+		return DirectX::XMMATRIX(data);
+	}
+
+	template<typename T>
+	inline DirectX::XMMATRIX Matrix4<T>::XMMatrix() const
+	{
+		return DirectX::XMMATRIX();
+	}
+
+#endif
 
 	template<typename T>
 	inline Matrix4<T> Matrix4<T>::operator*(const Matrix3<T>& matrix) const

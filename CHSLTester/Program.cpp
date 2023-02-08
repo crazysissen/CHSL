@@ -14,50 +14,9 @@
 
 int main()
 {
-	cs::Random r;
-
-	Mat4* m0 = new Mat4[TEST_COUNT];
-	Mat4* m1 = new Mat4[TEST_COUNT];
-	Mat4* m2 = new Mat4[TEST_COUNT];
-
-	for (int i = 0; i < TEST_COUNT; i++)
-	{
-		m0[i] = Mat4(
-			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
-			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
-			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
-			r.Getf(), r.Getf(), r.Getf(), r.Getf()
-		);
-
-		m0[i] = Mat4(
-			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
-			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
-			r.Getf(), r.Getf(), r.Getf(), r.Getf(),
-			r.Getf(), r.Getf(), r.Getf(), r.Getf()
-		);
-	}
-
-	cs::Timer timer;
-
-	for (int i = 0; i < TEST_COUNT; i++)
-	{
-		m2[i] = m0[i] * m1[i];
-	}
-
-	float time = timer.Lap();
-
-	std::cout << time << "\n";
-
-	/*Vec4 vector = Vec4(r.Getf(), r.Getf(), r.Getf(), r.Getf());
-	Mat4 matrix = Mat4(
-		r.Getf(), r.Getf(), r.Getf(), r.Getf(),
-		r.Getf(), r.Getf(), r.Getf(), r.Getf(),
-		r.Getf(), r.Getf(), r.Getf(), r.Getf(),
-		r.Getf(), r.Getf(), r.Getf(), r.Getf()
-	);*/
-
-	//Vec4 result = matrix * vector;
-	//Vec4d control = (Mat4d)matrix * (Vec4d)vector;
+	Quaternion q = Quaternion::GetEuler(0.5f * cs::c_pi, 0.5f * cs::c_pi, 0.0f);
+	Vec3 v = { 0, 0, 1 };
+	Vec3 vr = q * v;
 
 	return 0;
 }

@@ -17,6 +17,7 @@
 
 
 #include "Debug.h"
+#include <initializer_list>
 
 namespace cs
 {
@@ -44,6 +45,7 @@ namespace cs
         ~List();
         List(const List<T>& l_val);
         List(List<T>&& r_val);
+        List(std::initializer_list<T> il);
 
         List<T>& operator=(const List<T>& l_val);
         List<T>& operator=(List<T>&& r_val);
@@ -58,9 +60,9 @@ namespace cs
         T& Back() const;
 
         template<typename T_value>
-        int SearchBinary(T_value target, T_value predicate(const T&)); // Only works for sorted lists (per the predicate). Returns -1 when the target is not found.
+        int SearchBinary(T_value target, T_value predicate(const T&)) const; // Only works for sorted lists (per the predicate). Returns -1 when the target is not found.
         template<typename T_value>
-        int SearchLinear(T_value target, T_value predicate(const T&)); // Returns -1 when the target is not found.
+        int SearchLinear(T_value target, T_value predicate(const T&)) const; // Returns -1 when the target is not found.
 
         template<typename T_value>
         T* GetBinary(T_value target, T_value predicate(const T&)); // Only works for sorted lists (per the predicate). Returns nullptr when the target is not found.
@@ -130,6 +132,25 @@ namespace cs
         m_elements(nullptr)
     {
         *this = static_cast<List<T>&&>(rVal);
+    }
+
+    template<typename T>
+    inline List<T>::List(std::initializer_list<T> il)
+        :
+        m_elements(nullptr),
+        m_size((int)il.size()),
+        m_capacity(0)
+    {
+        int capacity = c_dCapacity;
+        while (capacity < m_size)
+        {
+            capacity *= 2;
+        }
+
+        m_elements = new T[capacity];
+        m_capacity = capacity;
+
+        memcpy(m_elements, il.begin(), sizeof(T) * m_size);
     }
 
 
@@ -258,7 +279,7 @@ namespace cs
 
     template<typename T>
     template<typename T_value>
-    int List<T>::SearchBinary(T_value target, T_value predicate(const T&))
+    int List<T>::SearchBinary(T_value target, T_value predicate(const T&)) const
     {
         int low = 0;
         int high = m_size - 1;
@@ -287,7 +308,7 @@ namespace cs
 
     template<typename T>
     template<typename T_value>
-    inline int List<T>::SearchLinear(T_value target, T_value predicate(const T&))
+    inline int List<T>::SearchLinear(T_value target, T_value predicate(const T&)) const
     {
         for (int i = 0; i < m_size; i++)
         {

@@ -192,17 +192,15 @@ std::string cs::ExceptionGeneral::GetString() const
 
 cs::ExceptionWindows::ExceptionWindows(cstr file, cstr func, int line, HRESULT hResult)
 	:
-	Exception(file, func, line),
-	hr(hResult),
-	info(std::vector<std::string>())
+	ExceptionGeneral(file, func, line, ""),
+	hr(hResult)
 {
 }
 
-cs::ExceptionWindows::ExceptionWindows(cstr file, cstr func, int line, HRESULT hResult, std::vector<std::string> info)
+cs::ExceptionWindows::ExceptionWindows(cstr file, cstr func, int line, HRESULT hResult, string info)
 	:
-	Exception(file, func, line),
-	hr(hResult),
-	info(info)
+	ExceptionGeneral(file, func, line, info),
+	hr(hResult)
 {
 
 }
@@ -217,10 +215,9 @@ cstr cs::ExceptionWindows::what() const
 		<< "[Error Code]: " << "0x" << std::hex << std::uppercase << GetErrorCode() << "\n\n"
 		<< "[Description]:\n" << GetErrorString();
 
-
-	if (info.size() > 0) 
+	if (GetString().size() > 0)
 	{
-		stream << "\n[Info]:" << TranslateMessageArray(info);
+		stream << "\n[Info]:" << GetString();
 	}
 
 	whatBuffer = stream.str();
@@ -264,16 +261,4 @@ std::string cs::ExceptionWindows::TranslateHRESULT(HRESULT hResult)
 	LocalFree(stringBuffer); // Free the buffer allocated by windows
 
 	return errorString;
-}
-
-std::string cs::ExceptionWindows::TranslateMessageArray(std::vector<std::string> messages)
-{
-	std::ostringstream stream;
-
-	for (std::string s : messages)
-	{
-		stream << '\n' << s;
-	}
-
-	return stream.str();
 }
