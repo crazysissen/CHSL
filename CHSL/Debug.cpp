@@ -149,11 +149,18 @@ std::string cs::Exception::GetOriginString() const
 
 // General exception ---------------------------------------------------------------------------------------------------------
 
-cs::ExceptionGeneral::ExceptionGeneral(cstr file, cstr func, int line, std::string string)
+cs::ExceptionGeneral::ExceptionGeneral(cstr file, cstr func, int line, std::string format, ...)
 	:
 	Exception(file, func, line),
-	str(string)
+	str()
 {
+	va_list args;
+	va_start(args, format);
+	uint size = vsnprintf(0, 0, format.c_str(), args);
+	str.resize(size + 1);
+	vsnprintf(&str[0], size + 1, format.c_str(), args);
+	str.resize(size);
+	va_end(args);
 }
 
 cstr cs::ExceptionGeneral::what() const
