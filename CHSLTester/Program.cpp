@@ -14,14 +14,9 @@
 
 int main()
 {
-	cs::Random r;
+	Quaternion q = Quaternion::GetDirection(Vec3(0, 0.5f, 0.5f).Normalized());
 
-	Vec3 a = { 0, 0, 1 };
-	Vec3 b = { -1, 0, 0 };
-
-	Quaternion q = Quaternion::GetDirection(b);
-
-	Vec3 c = q * b;
+	Vec3 v = q * Vec3(0, 0, 1);
 
 	return 0;
 }

@@ -193,9 +193,22 @@ cs::Quaternion cs::Quaternion::GetFromTo(const Vec3& from, const Vec3& to)
 	);
 }
 
-cs::Quaternion cs::Quaternion::GetDirection(const Vec3& direction)
+cs::Quaternion cs::Quaternion::GetDirection(const Vec3& direction, Vec3 up)
 {
-	return GetFromTo({ 0, 0, 1.0f }, direction);
+	up = (up - direction * (up * direction)).Normalize();
+
+	Vec3 right = up % direction;
+
+	Quaternion q;
+	q.w = 0.5f * std::sqrtf(1.0f + right.x + up.y + direction.z);
+
+	float rec = 0.25f / q.w;
+
+	q.x = rec * (up.z - direction.y);
+	q.y = rec * (direction.x - right.z);
+	q.z = rec * (right.y - up.x);
+
+	return q;
 }
 
 cs::Quaternion cs::Quaternion::GetDeconstruct(const Mat4& matrix)

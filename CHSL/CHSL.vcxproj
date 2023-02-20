@@ -49,6 +49,7 @@
     <ClCompile Include="StateTracker.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Triangle.cpp" />
+    <ClCompile Include="TriangleNet.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +87,7 @@
     <ClInclude Include="StateTracker.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Triangle.h" />
+    <ClInclude Include="TriangleNet.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="WindowsExt.h" />
   </ItemGroup>
