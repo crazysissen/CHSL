@@ -534,10 +534,10 @@ namespace cs
             return;
         }
 
-        if (m_size < m_capacity / 2 && m_capacity > c_dCapacity)
-        {
-            ShrinkArray();
-        }
+        //if (m_size < m_capacity / 2 && m_capacity > c_dCapacity)
+        //{
+        //    ShrinkArray();
+        //}
     }
 
     template<typename T>
