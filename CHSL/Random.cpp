@@ -63,7 +63,7 @@ void cs::Random::StaticInitRandom()
 
 int cs::Random::Get(int max)
 {
-	return Get(0, max - 1);
+	return Get(0, max);
 }
 
 int cs::Random::Get(int min, int max)
