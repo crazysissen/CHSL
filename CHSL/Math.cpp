@@ -1,6 +1,6 @@
 #include "core.h"
 
-#include "Math.h"
+#include "CSMath.h"
 
 int cs::imod(int val, int ceil)
 {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Noise.h"
-#include "CHSLTypedef.h"
+#include "CSTypedef.h"
 
 namespace cs
 {

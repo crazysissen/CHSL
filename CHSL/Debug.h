@@ -3,7 +3,7 @@
 #include <exception>
 #include <string>
 #include <vector>
-#include "CHSLTypedef.h"
+#include "CSTypedef.h"
 
 #if defined(CHSL_DX) || defined(CHSLCOMPILE)
 
@@ -39,7 +39,7 @@ namespace cs
 		Exception() = delete;
 		Exception(cstr file, cstr func, int line);
 
-		cstr what() const override;
+		cstr what() const noexcept override;
 
 		virtual cstr GetType() const;
 		const std::string& GetFile() const;
@@ -57,7 +57,7 @@ namespace cs
 		ExceptionGeneral() = delete;
 		ExceptionGeneral(cstr file, cstr func, int line, std::string string);
 
-		cstr what() const override;
+		cstr what() const noexcept override;
 
 		virtual cstr GetType() const override;
 		std::string GetString() const;
@@ -80,7 +80,7 @@ namespace cs
 		ExceptionWindows(cstr file, cstr func, int line, HRESULT hResult);
 		ExceptionWindows(cstr file, cstr func, int line, HRESULT hResult, std::vector<std::string> info);
 
-		cstr what() const override;
+		cstr what() const noexcept override;
 
 		virtual cstr GetType() const override;
 		HRESULT GetErrorCode() const;

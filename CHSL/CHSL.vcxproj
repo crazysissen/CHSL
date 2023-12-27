@@ -56,14 +56,15 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="CHSL.h" />
-    <ClInclude Include="CHSLMacros.h" />
-    <ClInclude Include="CHSLTypedef.h" />
+    <ClInclude Include="CSMacros.h" />
+    <ClInclude Include="CSTypedef.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Easing.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="GeneralEnums.h" />
     <ClInclude Include="Header\CHSL.h" />
     <ClInclude Include="Indexer.h" />
+    <ClInclude Include="InitList.h" />
     <ClInclude Include="IRaycastTarget.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="List.h" />
@@ -76,7 +77,7 @@
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="ShuffleMap.h" />
-    <ClInclude Include="Math.h" />
+    <ClInclude Include="CSMath.h" />
     <ClInclude Include="Noise.h" />
     <ClInclude Include="NoiseSimplex.h" />
     <ClInclude Include="NoiseWorley.h" />

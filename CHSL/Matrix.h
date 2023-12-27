@@ -4,7 +4,7 @@
 #include <initializer_list>
 
 #include "Vector.h"
-#include "Math.h"
+#include "CSMath.h"
 
 namespace cs
 {

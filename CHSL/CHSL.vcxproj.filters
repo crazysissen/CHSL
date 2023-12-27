@@ -101,10 +101,10 @@
     <ClInclude Include="CHSL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CHSLMacros.h">
+    <ClInclude Include="CSMacros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CHSLTypedef.h">
+    <ClInclude Include="CSTypedef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Debug.h">
@@ -113,7 +113,7 @@
     <ClInclude Include="GeneralEnums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Math.h">
+    <ClInclude Include="CSMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Noise.h">
@@ -204,6 +204,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Frustum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Predicate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InitList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

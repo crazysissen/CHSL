@@ -1,12 +1,13 @@
 #pragma once
 
-// Global
-#include "CHSLMacros.h"
-#include "CHSLTypedef.h"
+// Core
+#include "CSMacros.h"
+#include "CSMath.h"
+#include "CSTypedef.h"
 
 #include "GeneralEnums.h"
 
-// Geometry
+// Linear algebra
 #include "Vector.h"
 #include "Rectangle.h"
 #include "Box.h"
@@ -15,11 +16,8 @@
 #include "Triangle.h"
 #include "Plane.h"
 #include "Frustum.h"
-#include "IRaycastTarget.h"
-
-// Mathematics
 #include "Matrix.h"
-#include "Math.h"
+#include "IRaycastTarget.h"
 
 // Data structures
 #include "List.h"

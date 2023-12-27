@@ -257,7 +257,7 @@ namespace cs
 	template<typename T>
 	inline float _Vec2<T>::Length()
 	{
-		return std::sqrtf(LengthSq());
+		return sqrtf(LengthSq());
 	}
 
 	template<typename T>
@@ -478,7 +478,7 @@ namespace cs
 	template<typename T>
 	inline float _Vec3<T>::Length() const
 	{
-		return std::sqrtf(LengthSq());
+		return sqrtf(LengthSq());
 	}
 
 	template<typename T>
@@ -787,7 +787,7 @@ namespace cs
 	template<typename T>
 	inline float _Vec4<T>::Length() const
 	{
-		return std::sqrtf(LengthSq());
+		return sqrtf(LengthSq());
 	}
 
 	template<typename T>

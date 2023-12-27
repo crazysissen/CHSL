@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Debug.h"
+#include "InitList.h"
 
 namespace cs
 {
@@ -25,6 +26,7 @@ namespace cs
     {
     public:
         List();
+        List(InitList<T> initList);
         ~List();
         List(const List<T>& l_val);
         List(List<T>&& r_val);
@@ -92,6 +94,28 @@ namespace cs
         m_capacity(c_dCapacity)
     {
 
+    }
+
+    template<typename T>
+    inline List<T>::List(InitList<T> initList)
+        :
+        m_elements(nullptr),
+        m_size(initList.size()),
+        m_capacity(c_dCapacity)
+    {
+        while (m_capacity < initList.size())
+        {
+            m_capacity *= 2;
+        }
+
+        m_elements = new T[m_capacity];
+        int i = 0;
+
+        for (T* t = initList.begin; t != initList.end(); t++)
+        {
+            m_elements[i] = &t;
+            i++;
+        }
     }
 
     template<typename T>

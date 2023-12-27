@@ -122,7 +122,7 @@ namespace cs
     {
         if (*this == rVal)
         {
-            return;
+            return *this;
         }
 
         if (root != nilNode)
@@ -138,6 +138,8 @@ namespace cs
 
         rVal.root = nullptr;
         rVal.nilNode = nullptr;
+
+        return *this;
     }
 
     template <typename T, bool UniqueKeys>

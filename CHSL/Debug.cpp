@@ -103,7 +103,7 @@ cs::Exception::Exception(cstr file, cstr func, int line)
 {
 }
 
-cstr cs::Exception::what() const
+cstr cs::Exception::what() const noexcept
 {
 	std::ostringstream stream;
 
@@ -158,7 +158,7 @@ cs::ExceptionGeneral::ExceptionGeneral(cstr file, cstr func, int line, std::stri
 {
 }
 
-cstr cs::ExceptionGeneral::what() const
+cstr cs::ExceptionGeneral::what() const noexcept
 {
 	std::ostringstream stream;
 
@@ -202,7 +202,7 @@ cs::ExceptionWindows::ExceptionWindows(cstr file, cstr func, int line, HRESULT h
 
 }
 
-cstr cs::ExceptionWindows::what() const
+cstr cs::ExceptionWindows::what() const noexcept
 {
 	std::ostringstream stream;
 

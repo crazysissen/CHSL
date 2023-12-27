@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "CHSLTypedef.h"
-#include "Math.h"
+#include "CSTypedef.h"
+#include "CSMath.h"
 #include "Quadtree.h"
 
 namespace cs
