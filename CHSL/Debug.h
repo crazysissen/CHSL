@@ -127,6 +127,7 @@ namespace cs
 #define EXC_HRLAST()				{ HRESULT hres = GetLastError(); if (hres != 0) { throw cs::ExceptionWindows(__FILE__, __FUNCTION__, __LINE__, hres); } }
 #endif
 
+#define CHSL_SAFE
 #if defined(CHSL_DX) || defined(CHSLCOMPILE)
 #define EXC_COMCHECK(hrcall)		{ HRESULT _hres = (hrcall); if (FAILED(_hres)) { throw cs::ExceptionWindows(__FILE__, __FUNCTION__, __LINE__, _hres); } }
 #ifdef CHSL_SAFE
